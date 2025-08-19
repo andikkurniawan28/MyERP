@@ -30,6 +30,14 @@ class Role extends Model
             'akses_tambah_jurnal' => 'Akses Tambah Jurnal',
             // 'akses_edit_jurnal' => 'Akses Edit Jurnal',
             'akses_hapus_jurnal' => 'Akses Hapus Jurnal',
+            'akses_daftar_gudang' => 'Akses Daftar Gudang',
+            'akses_tambah_gudang' => 'Akses Tambah Gudang',
+            'akses_edit_gudang' => 'Akses Edit Gudang',
+            'akses_hapus_gudang' => 'Akses Hapus Gudang',
+            'akses_daftar_satuan' => 'Akses Daftar Satuan',
+            'akses_tambah_satuan' => 'Akses Tambah Satuan',
+            'akses_edit_satuan' => 'Akses Edit Satuan',
+            'akses_hapus_satuan' => 'Akses Hapus Satuan',
         ];
         return $data;
     }
@@ -52,6 +60,14 @@ class Role extends Model
             'akses_daftar_jurnal',
             'akses_tambah_jurnal',
             'akses_hapus_jurnal',
+            'akses_daftar_gudang',
+            'akses_tambah_gudang',
+            'akses_edit_gudang',
+            'akses_hapus_gudang',
+            'akses_daftar_satuan',
+            'akses_tambah_satuan',
+            'akses_edit_satuan',
+            'akses_hapus_satuan',
         ];
         return $data;
     }

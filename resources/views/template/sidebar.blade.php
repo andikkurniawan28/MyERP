@@ -10,99 +10,67 @@
 
             <li class="sidebar-item @yield('dashboard-active')">
                 <a class="sidebar-link" href="{{ route('dashboard.index') }}">
-                    <i class="align-middle" data-feather="sliders"></i> <span class="align-middle">Dashboard</span>
+                    <i class="bi bi-speedometer2 align-middle"></i>
+                    <span class="align-middle">Dashboard</span>
                 </a>
             </li>
 
-            @if(Auth()->user()->role->akses_daftar_jabatan)
-            <li class="sidebar-item @yield('roles-active')">
-                <a class="sidebar-link" href="{{ route('roles.index') }}">
-                    <i class="align-middle" data-feather="shield"></i> <span class="align-middle">Jabatan</span>
-                </a>
-            </li>
+            @if (Auth()->user()->role->akses_daftar_jabatan)
+                <li class="sidebar-item @yield('roles-active')">
+                    <a class="sidebar-link" href="{{ route('roles.index') }}">
+                        <i class="bi bi-person-badge align-middle"></i>
+                        <span class="align-middle">Jabatan</span>
+                    </a>
+                </li>
             @endif
 
-            @if(Auth()->user()->role->akses_daftar_user)
-            <li class="sidebar-item @yield('users-active')">
-                <a class="sidebar-link" href="{{ route('users.index') }}">
-                    <i class="align-middle" data-feather="users"></i> <span class="align-middle">User</span>
-                </a>
-            </li>
+            @if (Auth()->user()->role->akses_daftar_user)
+                <li class="sidebar-item @yield('users-active')">
+                    <a class="sidebar-link" href="{{ route('users.index') }}">
+                        <i class="bi bi-people align-middle"></i>
+                        <span class="align-middle">User</span>
+                    </a>
+                </li>
             @endif
 
-            {{-- <li class="sidebar-header">
-                Keuangan
-            </li> --}}
-
-            @if(Auth()->user()->role->akses_daftar_akun)
-            <li class="sidebar-item @yield('accounts-active')">
-                <a class="sidebar-link" href="{{ route('accounts.index') }}">
-                    <i class="align-middle" data-feather="database"></i> <span class="align-middle">Akun</span>
-                </a>
-            </li>
+            @if (Auth()->user()->role->akses_daftar_akun)
+                <li class="sidebar-item @yield('accounts-active')">
+                    <a class="sidebar-link" href="{{ route('accounts.index') }}">
+                        <i class="bi bi-wallet2 align-middle"></i>
+                        <span class="align-middle">Akun</span>
+                    </a>
+                </li>
             @endif
 
-            @if(Auth()->user()->role->akses_daftar_jurnal)
-            <li class="sidebar-item @yield('journals-active')">
-                <a class="sidebar-link" href="{{ route('journals.index') }}">
-                    <i class="align-middle" data-feather="edit-3"></i> <span class="align-middle">Jurnal</span>
-                </a>
-            </li>
+            @if (Auth()->user()->role->akses_daftar_jurnal)
+                <li class="sidebar-item @yield('journals-active')">
+                    <a class="sidebar-link" href="{{ route('journals.index') }}">
+                        <i class="bi bi-journal-check align-middle"></i>
+                        <span class="align-middle">Jurnal</span>
+                    </a>
+                </li>
             @endif
 
-            {{-- <li class="sidebar-header">
-                Jadwal
-            </li> --}}
+            @if (Auth()->user()->role->akses_daftar_gudang)
+                <li class="sidebar-item @yield('warehouses-active')">
+                    <a class="sidebar-link" href="{{ route('warehouses.index') }}">
+                        <i class="bi bi-box-seam align-middle"></i>
+                        <span class="align-middle">Gudang</span>
+                    </a>
+                </li>
+            @endif
 
-            {{-- <li class="sidebar-item @yield('schedules-active')">
-                <a class="sidebar-link" href="{{ route('schedules.index') }}">
-                    <i class="align-middle" data-feather="calendar"></i> <span class="align-middle">Jadwal</span>
-                </a>
-            </li> --}}
-
-            {{-- <li class="sidebar-header">
-                Pekerjaan
-            </li> --}}
-
-            {{-- <li class="sidebar-item @yield('projects-active')">
-                <a class="sidebar-link" href="{{ route('projects.index') }}">
-                    <i class="align-middle" data-feather="star"></i> <span class="align-middle">Proyek</span>
-                </a>
-            </li>
-
-            <li class="sidebar-item @yield('tasks-active')">
-                <a class="sidebar-link" href="{{ route('tasks.index') }}">
-                    <i class="align-middle" data-feather="check-circle"></i> <span class="align-middle">Tugas</span>
-                </a>
-            </li> --}}
-
-            {{-- <li class="sidebar-header">
-                Penyimpanan
-            </li> --}}
-
-            {{-- <li class="sidebar-item @yield('items-active')">
-                <a class="sidebar-link" href="{{ route('items.index') }}">
-                    <i class="align-middle" data-feather="package"></i> <span class="align-middle">Barang Penting</span>
-                </a>
-            </li> --}}
-
-            {{-- <li class="sidebar-header">
-                Kesehatan
-            </li> --}}
-
-            {{-- <li class="sidebar-item @yield('medicalRecords-active')">
-                <a class="sidebar-link" href="{{ route('medicalRecords.index') }}">
-                    <i class="align-middle" data-feather="book-open"></i> <span class="align-middle">Rekam Medis</span>
-                </a>
-            </li> --}}
-
-            {{-- <li class="sidebar-item @yield('reports-active')">
-                <a class="sidebar-link" href="">
-                    <i class="align-middle" data-feather="book-open"></i> <span class="align-middle">Reports</span>
-                </a>
-            </li> --}}
+            @if (Auth()->user()->role->akses_daftar_satuan)
+                <li class="sidebar-item @yield('units-active')">
+                    <a class="sidebar-link" href="{{ route('units.index') }}">
+                        <i class="bi bi-basket align-middle"></i>
+                        <span class="align-middle">Satuan</span>
+                    </a>
+                </li>
+            @endif
 
         </ul>
+
 
     </div>
 

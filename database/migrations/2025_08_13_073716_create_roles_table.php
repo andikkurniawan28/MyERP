@@ -31,6 +31,14 @@ return new class extends Migration
             $table->boolean('akses_tambah_jurnal')->default(1);
             // $table->boolean('akses_edit_jurnal')->default(1);
             $table->boolean('akses_hapus_jurnal')->default(1);
+            $table->boolean('akses_daftar_gudang')->default(1);
+            $table->boolean('akses_tambah_gudang')->default(1);
+            $table->boolean('akses_edit_gudang')->default(1);
+            $table->boolean('akses_hapus_gudang')->default(1);
+            $table->boolean('akses_daftar_satuan')->default(1);
+            $table->boolean('akses_tambah_satuan')->default(1);
+            $table->boolean('akses_edit_satuan')->default(1);
+            $table->boolean('akses_hapus_satuan')->default(1);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });

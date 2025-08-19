@@ -6,6 +6,7 @@ namespace Database\Seeders;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\Account;
+use App\Models\Warehouse;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -39,6 +40,11 @@ class DatabaseSeeder extends Seeder
             ['code'=>'6000','name'=>'Beban Gaji','category'=>'expense','description'=>'Pengeluaran untuk gaji karyawan','normal_balance'=>'debit'],
             ['code'=>'6100','name'=>'Beban Sewa','category'=>'expense','description'=>'Pengeluaran untuk biaya sewa','normal_balance'=>'debit'],
             ['code'=>'6200','name'=>'Beban Utilitas','category'=>'expense','description'=>'Biaya listrik, air, telepon, dan utilitas lain','normal_balance'=>'debit'],
+        ]);
+
+        Warehouse::insert([
+            ['name' => 'Gudang A', 'address' => 'Jl. Raya Maju Mundur'],
+            ['name' => 'Gudang B', 'address' => 'Jl. Raya Maju Mundur'],
         ]);
     }
 }

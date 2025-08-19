@@ -12,6 +12,8 @@ use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MedicalRecordController;
+use App\Http\Controllers\UnitController;
+use App\Http\Controllers\WarehouseController;
 
 /*
 |--------------------------------------------------------------------------
@@ -56,6 +58,8 @@ Route::resource('projects', ProjectController::class)->middleware(['auth']);
 Route::resource('tasks', TaskController::class)->middleware(['auth']);
 
 // Penyimpanan
+Route::resource('warehouses', WarehouseController::class)->middleware(['auth']);
+Route::resource('units', UnitController::class)->middleware(['auth']);
 Route::resource('items', ItemController::class)->middleware(['auth']);
 
 // Kesehatan
