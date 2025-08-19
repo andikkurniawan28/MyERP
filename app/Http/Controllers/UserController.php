@@ -6,7 +6,6 @@ use App\Models\User;
 use App\Models\Role;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
-use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -30,17 +29,22 @@ class UserController extends Controller
                         : '<span class="badge bg-danger">Nonaktif</span>';
                 })
                 ->addColumn('action', function ($row) {
-                    $editUrl = route('users.edit', $row->id);
-                    $deleteUrl = route('users.destroy', $row->id);
-                    return '
-                        <div class="btn-group" role="group">
-                            <a href="' . $editUrl . '" class="btn btn-sm btn-warning">Edit</a>
+                    $buttons = '<div class="btn-group" role="group">';
+                    if (Auth()->user()->role->akses_edit_user) {
+                        $editUrl = route('users.edit', $row->id);
+                        $buttons .= '<a href="' . $editUrl . '" class="btn btn-sm btn-warning">Edit</a>';
+                    }
+                    if (Auth()->user()->role->akses_hapus_user) {
+                        $deleteUrl = route('users.destroy', $row->id);
+                        $buttons .= '
                             <form action="' . $deleteUrl . '" method="POST" onsubmit="return confirm(\'Hapus data ini?\')" style="display:inline-block;">
                                 ' . csrf_field() . method_field('DELETE') . '
                                 <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
                             </form>
-                        </div>
-                    ';
+                        ';
+                    }
+                    $buttons .= '</div>';
+                    return $buttons;
                 })
                 ->rawColumns(['action', 'status'])
                 ->make(true);

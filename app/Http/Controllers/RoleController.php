@@ -84,13 +84,22 @@ class RoleController extends Controller
         }
 
         $request->validate([
-            'name'          => 'required|string|max:255',
+            'name' => 'required|string|max:255',
         ]);
 
-        $role->update($request->all());
+        // Siapkan data update
+        $data = $request->only(['name']);
+
+        // Loop semua akses, isi 1 kalau ada di request, kalau tidak isi 0
+        foreach (Role::semua_akses() as $field => $label) {
+            $data[$field] = $request->has($field) ? 1 : 0;
+        }
+
+        $role->update($data);
 
         return redirect()->route('roles.index')->with('success', 'Jabatan berhasil diperbarui.');
     }
+
 
     public function destroy(Role $role)
     {
