@@ -27,17 +27,22 @@ class AccountController extends Controller
                     return $saldo == 0 ? '-' : number_format($saldo, 0, ',', '.'); // format lokal
                 })
                 ->addColumn('action', function ($row) {
-                    $editUrl = route('accounts.edit', $row->id);
-                    $deleteUrl = route('accounts.destroy', $row->id);
-                    return '
-                        <div class="btn-group" role="group">
-                            <a href="' . $editUrl . '" class="btn btn-sm btn-warning">Edit</a>
-                            <form action="' . $deleteUrl . '" method="POST" onsubmit="return confirm(\'Hapus data ini?\')">
+                    $buttons = '<div class="btn-group" role="group">';
+                    if (Auth()->user()->role->akses_edit_akun) {
+                        $editUrl = route('accounts.edit', $row->id);
+                        $buttons .= '<a href="' . $editUrl . '" class="btn btn-sm btn-warning">Edit</a>';
+                    }
+                    if (Auth()->user()->role->akses_hapus_akun) {
+                        $deleteUrl = route('accounts.destroy', $row->id);
+                        $buttons .= '
+                            <form action="' . $deleteUrl . '" method="POST" onsubmit="return confirm(\'Hapus data ini?\')" style="display:inline-block;">
                                 ' . csrf_field() . method_field('DELETE') . '
                                 <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
                             </form>
-                        </div>
-                    ';
+                        ';
+                    }
+                    $buttons .= '</div>';
+                    return $buttons;
                 })
                 ->rawColumns(['action'])
                 ->make(true);

@@ -9,11 +9,13 @@
 
         <h1 class="h3 mb-3"><strong>Daftar Akun</strong></h1>
 
+        @if(Auth()->user()->role->akses_tambah_akun)
         <div class="d-flex justify-content-between align-items-center mb-3">
             <a href="{{ route('accounts.create') }}" class="btn btn-primary">
                 <i class="bi bi-plus-circle"></i> Tambah
             </a>
         </div>
+        @endif
 
         <div class="card shadow-sm">
             <div class="card-body">

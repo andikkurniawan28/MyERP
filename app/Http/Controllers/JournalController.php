@@ -39,17 +39,22 @@ class JournalController extends Controller
                     return number_format($row->credit, 0, ',', '.'); // Format lokal Indonesia
                 })
                 ->addColumn('action', function ($row) {
-                    $editUrl = route('journals.show', $row->id);
-                    $deleteUrl = route('journals.destroy', $row->id);
-                    return '
-                        <div class="btn-group" role="group">
-                            <a href="' . $editUrl . '" class="btn btn-sm btn-info">Detil</a>
-                            <form action="' . $deleteUrl . '" method="POST" onsubmit="return confirm(\'Hapus data ini?\')">
+                    $buttons = '<div class="btn-group" role="group">';
+                    if (Auth()->user()->role->akses_daftar_jurnal) {
+                        $editUrl = route('journals.show', $row->id);
+                        $buttons .= '<a href="' . $editUrl . '" class="btn btn-sm btn-info">Detail</a>';
+                    }
+                    if (Auth()->user()->role->akses_hapus_jurnal) {
+                        $deleteUrl = route('journals.destroy', $row->id);
+                        $buttons .= '
+                            <form action="' . $deleteUrl . '" method="POST" onsubmit="return confirm(\'Hapus data ini?\')" style="display:inline-block;">
                                 ' . csrf_field() . method_field('DELETE') . '
                                 <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
                             </form>
-                        </div>
-                    ';
+                        ';
+                    }
+                    $buttons .= '</div>';
+                    return $buttons;
                 })
                 ->rawColumns(['action'])
                 ->make(true);

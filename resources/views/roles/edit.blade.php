@@ -24,11 +24,18 @@
 
                     <div class="mb-3">
                         <label class="form-label d-block">Hak Akses</label>
+
+                        {{-- Check All --}}
+                        <div class="form-check mb-2">
+                            <input type="checkbox" class="form-check-input" id="checkAll">
+                            <label class="form-check-label fw-bold" for="checkAll">Pilih Semua</label>
+                        </div>
+
                         <div class="row">
-                            @foreach (\App\Models\Role::semua_akses() as $field => $label)
+                            @foreach ($role->semua_akses() as $field => $label)
                                 <div class="col-md-4">
                                     <div class="form-check">
-                                        <input type="checkbox" class="form-check-input" id="{{ $field }}"
+                                        <input type="checkbox" class="form-check-input akses-checkbox" id="{{ $field }}"
                                             name="{{ $field }}" value="1"
                                             {{ old($field, $role->$field) ? 'checked' : '' }}>
                                         <label class="form-check-label" for="{{ $field }}">
@@ -49,3 +56,13 @@
         </div>
     </div>
 @endsection
+
+@section('script')
+<script>
+    document.getElementById('checkAll').addEventListener('change', function() {
+        const checkboxes = document.querySelectorAll('.akses-checkbox');
+        checkboxes.forEach(cb => cb.checked = this.checked);
+    });
+</script>
+@endsection
+
