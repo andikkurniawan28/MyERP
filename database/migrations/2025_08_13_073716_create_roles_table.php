@@ -1,0 +1,46 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('roles', function (Blueprint $table) {
+            $table->id();
+            $table->string('name')->unique();
+            // Akses
+            $table->boolean('akses_daftar_jabatan')->default(1);
+            $table->boolean('akses_tambah_jabatan')->default(1);
+            $table->boolean('akses_edit_jabatan')->default(1);
+            $table->boolean('akses_hapus_jabatan')->default(1);
+            $table->boolean('akses_daftar_user')->default(1);
+            $table->boolean('akses_tambah_user')->default(1);
+            $table->boolean('akses_edit_user')->default(1);
+            $table->boolean('akses_hapus_user')->default(1);
+            $table->boolean('akses_daftar_akun')->default(1);
+            $table->boolean('akses_tambah_akun')->default(1);
+            $table->boolean('akses_edit_akun')->default(1);
+            $table->boolean('akses_hapus_akun')->default(1);
+            $table->boolean('akses_daftar_jurnal')->default(1);
+            $table->boolean('akses_tambah_jurnal')->default(1);
+            // $table->boolean('akses_edit_jurnal')->default(1);
+            $table->boolean('akses_hapus_jurnal')->default(1);
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('roles');
+    }
+};
