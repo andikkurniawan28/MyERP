@@ -19,6 +19,31 @@
                     @error('name')<div class="invalid-feedback">{{ $message }}</div>@enderror
                 </div>
 
+                    <div class="mb-3">
+                        <label class="form-label d-block">Hak Akses</label>
+
+                        {{-- Check All --}}
+                        <div class="form-check mb-2">
+                            <input type="checkbox" class="form-check-input" id="checkAll">
+                            <label class="form-check-label fw-bold" for="checkAll">Pilih Semua</label>
+                        </div>
+
+                        <div class="row">
+                            @foreach ($semua_akses as $field => $label)
+                                <div class="col-md-4">
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input akses-checkbox" id="{{ $field }}"
+                                            name="{{ $field }}" value="1"
+                                            {{ old($field) ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="{{ $field }}">
+                                            {{ $label }}
+                                        </label>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+
                 <div class="d-flex justify-content-between">
                     <a href="{{ route('roles.index') }}" class="btn btn-secondary">Kembali</a>
                     <button type="submit" class="btn btn-primary">Simpan</button>
@@ -27,4 +52,13 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('script')
+<script>
+    document.getElementById('checkAll').addEventListener('change', function() {
+        const checkboxes = document.querySelectorAll('.akses-checkbox');
+        checkboxes.forEach(cb => cb.checked = this.checked);
+    });
+</script>
 @endsection

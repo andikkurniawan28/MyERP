@@ -37,7 +37,7 @@
 
                 <div class="mb-3">
                     <label for="category" class="form-label">Kategori</label>
-                    <select name="category" id="category" class="form-select @error('category') is-invalid @enderror" required>
+                    <select name="category" id="category" class="form-select select2 @error('category') is-invalid @enderror" required>
                         <option value="">-- Pilih Kategori --</option>
                         <option value="asset" {{ old('category', $account->category) == 'asset' ? 'selected' : '' }}>Aset</option>
                         <option value="liability" {{ old('category', $account->category) == 'liability' ? 'selected' : '' }}>Kewajiban</option>
@@ -51,7 +51,7 @@
 
                 <div class="mb-3">
                     <label for="normal_balance" class="form-label">Saldo Normal</label>
-                    <select name="normal_balance" id="normal_balance" class="form-select @error('normal_balance') is-invalid @enderror" required>
+                    <select name="normal_balance" id="normal_balance" class="form-select select2 @error('normal_balance') is-invalid @enderror" required>
                         <option value="">-- Pilih Saldo Normal --</option>
                         <option value="debit" {{ old('normal_balance', $account->normal_balance) == 'debit' ? 'selected' : '' }}>Debit</option>
                         <option value="credit" {{ old('normal_balance', $account->normal_balance) == 'credit' ? 'selected' : '' }}>Credit</option>

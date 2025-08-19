@@ -14,7 +14,7 @@
 
                 <div class="mb-3">
                     <label for="role_id" class="form-label">Role</label>
-                    <select name="role_id" id="role_id" class="form-control" required>
+                    <select name="role_id" id="role_id" class="form-select select2" required>
                         @foreach($roles as $id => $name)
                             <option value="{{ $id }}" {{ $user->role_id == $id ? 'selected' : '' }}>
                                 {{ $name }}
@@ -47,7 +47,7 @@
 
                 <div class="mb-3">
                     <label for="is_active" class="form-label">Status</label>
-                    <select name="is_active" id="is_active" class="form-control">
+                    <select name="is_active" id="is_active" class="form-select select2">
                         <option value="1" {{ $user->is_active ? 'selected' : '' }}>Aktif</option>
                         <option value="0" {{ !$user->is_active ? 'selected' : '' }}>Nonaktif</option>
                     </select>
