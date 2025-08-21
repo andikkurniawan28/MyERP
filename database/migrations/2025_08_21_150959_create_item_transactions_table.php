@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('item_transactions', function (Blueprint $table) {
             $table->id();
             $table->date('date')->index();
+            $table->foreignId('warehouse_id')->constrained();
             $table->text('description');
             $table->foreignId('user_id')->constrained();
             $table->timestamp('created_at')->useCurrent();

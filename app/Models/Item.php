@@ -11,6 +11,18 @@ class Item extends Model
 
     protected $guarded = [];
 
+    public function itemTransactionDetails()
+    {
+        return $this->hasMany(ItemTransactionDetail::class);
+    }
+
+    public function saldo()
+    {
+        $in = $this->itemTransactionDetails()->sum('in');
+        $out = $this->itemTransactionDetails()->sum('out');
+        return $in - $out;
+    }
+
     // Relasi ke kategori barang
     public function category()
     {

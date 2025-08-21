@@ -24,6 +24,10 @@ class ItemController extends Controller
                 ->editColumn('updated_at', function ($row) {
                     return Carbon::parse($row->updated_at)->locale('id')->translatedFormat('d-m-Y H:i');
                 })
+                ->addColumn('saldo', function ($row) {
+                    $saldo = $row->saldo();
+                    return $saldo == 0 ? '-' : number_format($saldo, 0, ',', '.'); // format lokal
+                })
                 ->addColumn('action', function ($row) {
                     $editUrl = route('items.edit', $row->id);
                     $deleteUrl = route('items.destroy', $row->id);

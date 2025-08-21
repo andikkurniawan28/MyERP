@@ -47,6 +47,10 @@ return new class extends Migration
             $table->boolean('akses_tambah_barang')->default(1);
             $table->boolean('akses_edit_barang')->default(1);
             $table->boolean('akses_hapus_barang')->default(1);
+            $table->boolean('akses_daftar_transaksi_barang')->default(1);
+            $table->boolean('akses_tambah_transaksi_barang')->default(1);
+            $table->boolean('akses_edit_transaksi_barang')->default(1);
+            $table->boolean('akses_hapus_transaksi_barang')->default(1);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });

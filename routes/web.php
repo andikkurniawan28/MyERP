@@ -5,16 +5,17 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\JournalController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\ItemCategoryController;
 use App\Http\Controllers\MedicalRecordController;
-use App\Http\Controllers\UnitController;
-use App\Http\Controllers\WarehouseController;
+use App\Http\Controllers\ItemTransactionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -63,6 +64,7 @@ Route::resource('warehouses', WarehouseController::class)->middleware(['auth']);
 Route::resource('units', UnitController::class)->middleware(['auth']);
 Route::resource('item_categories', ItemCategoryController::class)->middleware(['auth']);
 Route::resource('items', ItemController::class)->middleware(['auth']);
+Route::resource('item_transactions', ItemTransactionController::class)->middleware(['auth']);
 
 // Kesehatan
 Route::resource('medicalRecords', MedicalRecordController::class)->middleware(['auth']);

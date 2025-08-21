@@ -22,6 +22,7 @@
                             <th>Barcode</th>
                             <th>Kode</th>
                             <th>Nama</th>
+                            <th>Saldo</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -45,6 +46,7 @@
                 { data: 'barcode', name: 'barcode' },
                 { data: 'code', name: 'code' },
                 { data: 'name', name: 'name' },
+                { data: 'saldo', name: 'saldo' },
                 { data: 'action', name: 'action', orderable: false, searchable: false }
             ]
         });

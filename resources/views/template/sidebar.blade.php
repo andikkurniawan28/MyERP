@@ -87,6 +87,14 @@
                 </li>
             @endif
 
+            @if (Auth()->user()->role->akses_daftar_transaksi_barang)
+                <li class="sidebar-item @yield('item_transactions-active')">
+                    <a class="sidebar-link" href="{{ route('item_transactions.index') }}">
+                        <i class="bi bi-arrow-left-right align-middle"></i>
+                        <span class="align-middle">Transaksi Barang</span>
+                    </a>
+                </li>
+            @endif
 
         </ul>
 
