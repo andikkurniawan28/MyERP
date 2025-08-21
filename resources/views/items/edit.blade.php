@@ -12,7 +12,7 @@
                     @csrf
                     @method('PUT')
 
-                    {{-- Kode Barang --}}
+                    {{-- Kode, Nama, Barcode --}}
                     <div class="mb-3">
                         <label for="code" class="form-label">Kode Barang</label>
                         <input type="text" name="code" id="code"
@@ -23,7 +23,6 @@
                         @enderror
                     </div>
 
-                    {{-- Nama Barang --}}
                     <div class="mb-3">
                         <label for="name" class="form-label">Nama Barang</label>
                         <input type="text" name="name" id="name"
@@ -34,19 +33,17 @@
                         @enderror
                     </div>
 
-
-                    {{-- Barcode Barang --}}
                     <div class="mb-3">
                         <label for="barcode" class="form-label">Barcode Barang</label>
                         <input type="text" name="barcode" id="barcode"
-                            class="form-control @error('barcode') is-invalid @enderror" value="{{ old('barcode', $item->barcode) }}"
-                            required>
+                            class="form-control @error('barcode') is-invalid @enderror"
+                            value="{{ old('barcode', $item->barcode) }}">
                         @error('barcode')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
 
-                    {{-- Kategori Barang --}}
+                    {{-- Kategori --}}
                     <div class="mb-3">
                         <label for="item_category_id" class="form-label">Kategori Barang</label>
                         <select name="item_category_id" id="item_category_id"
@@ -67,7 +64,7 @@
                     {{-- Satuan --}}
                     <div class="row mb-3">
                         <div class="col-md-6">
-                            <label for="main_unit_id" class="form-label">Satuan Utama</label>
+                            <label for="main_unit_id" class="form-label">Satuan Kecil</label>
                             <select name="main_unit_id" id="main_unit_id"
                                 class="form-select select2 @error('main_unit_id') is-invalid @enderror" required>
                                 <option value="">-- Pilih Satuan Utama --</option>
@@ -83,7 +80,7 @@
                             @enderror
                         </div>
                         <div class="col-md-6">
-                            <label for="secondary_unit_id" class="form-label">Satuan Sekunder</label>
+                            <label for="secondary_unit_id" class="form-label">Satuan Besar</label>
                             <select name="secondary_unit_id" id="secondary_unit_id"
                                 class="form-select select2 @error('secondary_unit_id') is-invalid @enderror" required>
                                 <option value="">-- Pilih Satuan Sekunder --</option>
@@ -103,54 +100,37 @@
                     {{-- Conversion Rate --}}
                     <div class="mb-3">
                         <label for="conversion_rate" class="form-label">Conversion Rate</label>
-                        <input type="number" name="conversion_rate" id="conversion_rate" step="0.01"
-                            class="form-control @error('conversion_rate') is-invalid @enderror"
-                            value="{{ old('conversion_rate', $item->conversion_rate) }}" required>
-                        @error('conversion_rate')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
+                        <input type="number" step="0.01" id="conversion_rate" name="conversion_rate"
+                            class="form-control" value="{{ old('conversion_rate', $item->conversion_rate) }}">
                     </div>
 
-                    {{-- Harga --}}
+                    {{-- Harga Beli --}}
                     <div class="row mb-3">
                         <div class="col-md-6">
-                            <label for="purchase_price_secondary" class="form-label">Harga Beli (Satuan Sekunder)</label>
-                            <input type="number" name="purchase_price_secondary" id="purchase_price_secondary"
-                                step="0.01" class="form-control @error('purchase_price_secondary') is-invalid @enderror"
-                                value="{{ old('purchase_price_secondary', $item->purchase_price_secondary) }}" required>
-                            @error('purchase_price_secondary')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
+                            <label for="purchase_price_secondary" class="form-label">Harga Beli (Satuan Besar)</label>
+                            <input type="text" id="purchase_price_secondary" name="purchase_price_secondary"
+                                class="form-control"
+                                value="{{ old('purchase_price_secondary', $item->purchase_price_secondary) }}">
                         </div>
                         <div class="col-md-6">
-                            <label for="selling_price_secondary" class="form-label">Harga Jual (Satuan Sekunder)</label>
-                            <input type="number" name="selling_price_secondary" id="selling_price_secondary" step="0.01"
-                                class="form-control @error('selling_price_secondary') is-invalid @enderror"
-                                value="{{ old('selling_price_secondary', $item->selling_price_secondary) }}">
-                            @error('selling_price_secondary')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
+                            <label for="purchase_price_main" class="form-label">Harga Beli (Satuan Kecil)</label>
+                            <input type="text" id="purchase_price_main" name="purchase_price_main" class="form-control"
+                                readonly value="{{ old('purchase_price_main', $item->purchase_price_main) }}">
                         </div>
                     </div>
 
+                    {{-- Harga Jual --}}
                     <div class="row mb-3">
                         <div class="col-md-6">
-                            <label for="purchase_price_main" class="form-label">Harga Beli (Satuan Utama)</label>
-                            <input type="number" name="purchase_price_main" id="purchase_price_main" step="0.01"
-                                class="form-control @error('purchase_price_main') is-invalid @enderror"
-                                value="{{ old('purchase_price_main', $item->purchase_price_main) }}" required>
-                            @error('purchase_price_main')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                        <div class="col-md-6">
-                            <label for="selling_price_main" class="form-label">Harga Jual (Satuan Utama)</label>
-                            <input type="number" name="selling_price_main" id="selling_price_main" step="0.01"
-                                class="form-control @error('selling_price_main') is-invalid @enderror"
+                            <label for="selling_price_main" class="form-label">Harga Jual (Satuan Kecil)</label>
+                            <input type="text" id="selling_price_main" name="selling_price_main" class="form-control"
                                 value="{{ old('selling_price_main', $item->selling_price_main) }}">
-                            @error('selling_price_main')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
+                        </div>
+                        <div class="col-md-6">
+                            <label for="selling_price_secondary" class="form-label">Harga Jual (Satuan Besar)</label>
+                            <input type="text" id="selling_price_secondary" name="selling_price_secondary"
+                                class="form-control" readonly
+                                value="{{ old('selling_price_secondary', $item->selling_price_secondary) }}">
                         </div>
                     </div>
 
@@ -166,11 +146,47 @@
 
                     <div class="d-flex justify-content-between">
                         <a href="{{ route('items.index') }}" class="btn btn-secondary">Kembali</a>
-                        <button type="submit" class="btn btn-primary">Perbarui</button>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
                     </div>
 
                 </form>
             </div>
         </div>
     </div>
+@endsection
+
+@section('script')
+    <script>
+        function updatePurchaseMain() {
+            const secInput = document.getElementById('purchase_price_secondary');
+            const mainInput = document.getElementById('purchase_price_main');
+            const conversion = parseFloat(document.getElementById('conversion_rate').value) || 1;
+
+            const sec = parseFloat(secInput.value) || 0;
+            mainInput.value = (sec / conversion).toFixed(0);
+        }
+
+        function updateSellingSecondary() {
+            const mainInput = document.getElementById('selling_price_main');
+            const secInput = document.getElementById('selling_price_secondary');
+            const conversion = parseFloat(document.getElementById('conversion_rate').value) || 1;
+
+            const main = parseFloat(mainInput.value) || 0;
+            secInput.value = (main * conversion).toFixed(0);
+        }
+
+        // Event listener
+        document.getElementById('purchase_price_secondary').addEventListener('input', updatePurchaseMain);
+        document.getElementById('selling_price_main').addEventListener('input', updateSellingSecondary);
+        document.getElementById('conversion_rate').addEventListener('input', () => {
+            updatePurchaseMain();
+            updateSellingSecondary();
+        });
+
+        // Jalankan kalkulasi awal ketika halaman load (untuk edit)
+        window.addEventListener('DOMContentLoaded', () => {
+            updatePurchaseMain();
+            updateSellingSecondary();
+        });
+    </script>
 @endsection
