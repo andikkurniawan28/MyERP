@@ -11,10 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('items', function (Blueprint $table) {
+        Schema::create('item_categories', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->text('last_location');
+            $table->string('name')->unique();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });
@@ -25,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('items');
+        Schema::dropIfExists('item_categories');
     }
 };

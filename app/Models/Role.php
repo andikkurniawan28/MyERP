@@ -38,6 +38,14 @@ class Role extends Model
             'akses_tambah_satuan' => 'Akses Tambah Satuan',
             'akses_edit_satuan' => 'Akses Edit Satuan',
             'akses_hapus_satuan' => 'Akses Hapus Satuan',
+            'akses_daftar_kategori_barang' => 'Akses Daftar Kategori Barang',
+            'akses_tambah_kategori_barang' => 'Akses Tambah Kategori Barang',
+            'akses_edit_kategori_barang' => 'Akses Edit Kategori Barang',
+            'akses_hapus_kategori_barang' => 'Akses Hapus Kategori Barang',
+            'akses_daftar_barang' => 'Akses Daftar Barang',
+            'akses_tambah_barang' => 'Akses Tambah Barang',
+            'akses_edit_barang' => 'Akses Edit Barang',
+            'akses_hapus_barang' => 'Akses Hapus Barang',
         ];
         return $data;
     }
@@ -68,6 +76,14 @@ class Role extends Model
             'akses_tambah_satuan',
             'akses_edit_satuan',
             'akses_hapus_satuan',
+            'akses_daftar_kategori_barang',
+            'akses_tambah_kategori_barang',
+            'akses_edit_kategori_barang',
+            'akses_hapus_kategori_barang',
+            'akses_daftar_barang',
+            'akses_tambah_barang',
+            'akses_edit_barang',
+            'akses_hapus_barang',
         ];
         return $data;
     }

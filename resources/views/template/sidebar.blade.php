@@ -69,6 +69,25 @@
                 </li>
             @endif
 
+            @if (Auth()->user()->role->akses_daftar_kategori_barang)
+                <li class="sidebar-item @yield('item_categories-active')">
+                    <a class="sidebar-link" href="{{ route('item_categories.index') }}">
+                        <i class="bi bi-collection align-middle"></i>
+                        <span class="align-middle">Kategori Barang</span>
+                    </a>
+                </li>
+            @endif
+
+            @if (Auth()->user()->role->akses_daftar_barang)
+                <li class="sidebar-item @yield('items-active')">
+                    <a class="sidebar-link" href="{{ route('items.index') }}">
+                        <i class="bi bi-box align-middle"></i>
+                        <span class="align-middle">Barang</span>
+                    </a>
+                </li>
+            @endif
+
+
         </ul>
 
 

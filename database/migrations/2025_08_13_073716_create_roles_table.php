@@ -39,6 +39,14 @@ return new class extends Migration
             $table->boolean('akses_tambah_satuan')->default(1);
             $table->boolean('akses_edit_satuan')->default(1);
             $table->boolean('akses_hapus_satuan')->default(1);
+            $table->boolean('akses_daftar_kategori_barang')->default(1);
+            $table->boolean('akses_tambah_kategori_barang')->default(1);
+            $table->boolean('akses_edit_kategori_barang')->default(1);
+            $table->boolean('akses_hapus_kategori_barang')->default(1);
+            $table->boolean('akses_daftar_barang')->default(1);
+            $table->boolean('akses_tambah_barang')->default(1);
+            $table->boolean('akses_edit_barang')->default(1);
+            $table->boolean('akses_hapus_barang')->default(1);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });

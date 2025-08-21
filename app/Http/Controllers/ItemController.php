@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Item;
+use App\Models\ItemCategory;
+use App\Models\Unit;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
@@ -12,14 +14,15 @@ class ItemController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = Item::query();
+            $data = Item::with(['category', 'mainUnit', 'secondaryUnit'])->latest();
 
             return DataTables::of($data)
                 ->addIndexColumn()
+                ->addColumn('category', fn($row) => $row->category->name)
+                ->addColumn('main_unit', fn($row) => $row->mainUnit->name)
+                ->addColumn('secondary_unit', fn($row) => $row->secondaryUnit->name)
                 ->editColumn('updated_at', function ($row) {
-                    $carbon = Carbon::parse($row->updated_at)->locale('id');
-                    $row->updated_at = $carbon->translatedFormat('d-m-Y H:i');
-                    return $row->updated_at;
+                    return Carbon::parse($row->updated_at)->locale('id')->translatedFormat('d-m-Y H:i');
                 })
                 ->addColumn('action', function ($row) {
                     $editUrl = route('items.edit', $row->id);
@@ -43,41 +46,65 @@ class ItemController extends Controller
 
     public function create()
     {
-        return view('items.create');
+        $categories = ItemCategory::orderBy('name')->get();
+        $units = Unit::orderBy('name')->get();
+        return view('items.create', compact('categories', 'units'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'name'          => 'required|string|max:255',
-            'last_location' => 'required|string',
+            'item_category_id'       => 'required|exists:item_categories,id',
+            'barcode'                => 'nullable|unique:items,barcode',
+            'code'                   => 'required|unique:items,code',
+            'name'                   => 'required|string|max:255',
+            'description'            => 'nullable|string',
+            'main_unit_id'           => 'required|exists:units,id',
+            'secondary_unit_id'      => 'required|exists:units,id',
+            'conversion_rate'        => 'required|numeric|min:0',
+            'purchase_price_secondary'=> 'required|numeric|min:0',
+            'selling_price_secondary' => 'nullable|numeric|min:0',
+            'purchase_price_main'    => 'required|numeric|min:0',
+            'selling_price_main'     => 'nullable|numeric|min:0',
         ]);
 
         Item::create($request->all());
 
-        return redirect()->route('items.index')->with('success', 'Barang Penting berhasil ditambahkan.');
+        return redirect()->route('items.index')->with('success', 'Barang berhasil ditambahkan.');
     }
 
     public function edit(Item $item)
     {
-        return view('items.edit', compact('item'));
+        $categories = ItemCategory::orderBy('name')->get();
+        $units = Unit::orderBy('name')->get();
+        return view('items.edit', compact('item', 'categories', 'units'));
     }
 
     public function update(Request $request, Item $item)
     {
         $request->validate([
-            'name'          => 'required|string|max:255',
-            'last_location' => 'required|string',
+            'item_category_id'       => 'required|exists:item_categories,id',
+            'barcode'                => 'nullable|unique:items,barcode,' . $item->id,
+            'code'                   => 'required|unique:items,code,' . $item->id,
+            'name'                   => 'required|string|max:255',
+            'description'            => 'nullable|string',
+            'main_unit_id'           => 'required|exists:units,id',
+            'secondary_unit_id'      => 'required|exists:units,id',
+            'conversion_rate'        => 'required|numeric|min:0',
+            'purchase_price_secondary'=> 'required|numeric|min:0',
+            'selling_price_secondary' => 'nullable|numeric|min:0',
+            'purchase_price_main'    => 'required|numeric|min:0',
+            'selling_price_main'     => 'nullable|numeric|min:0',
         ]);
 
         $item->update($request->all());
 
-        return redirect()->route('items.index')->with('success', 'Barang Penting berhasil diperbarui.');
+        return redirect()->route('items.index')->with('success', 'Barang berhasil diperbarui.');
     }
 
     public function destroy(Item $item)
     {
         $item->delete();
-        return redirect()->route('items.index')->with('success', 'Barang Penting berhasil dihapus.');
+        return redirect()->route('items.index')->with('success', 'Barang berhasil dihapus.');
     }
 }

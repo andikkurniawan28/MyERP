@@ -1,14 +1,14 @@
 @extends('template.master')
 
-@section('units-active', 'active')
+@section('item_categories-active', 'active')
 
 @section('content')
 <div class="container-fluid py-0 px-0">
-    <h1 class="h3 mb-3"><strong>Daftar Satuan</strong></h1>
+    <h1 class="h3 mb-3"><strong>Daftar Kategori Barang</strong></h1>
 
-    @if(Auth()->user()->role->akses_tambah_satuan)
+    @if(Auth()->user()->role->akses_tambah_kategori_barang)
     <div class="d-flex justify-content-between align-roles-center mb-3">
-        <a href="{{ route('units.create') }}" class="btn btn-primary">
+        <a href="{{ route('item_categories.create') }}" class="btn btn-primary">
             <i class="bi bi-plus-circle"></i> Tambah
         </a>
     </div>
@@ -38,7 +38,7 @@
         $('#roleTable').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{ route('units.index') }}",
+            ajax: "{{ route('item_categories.index') }}",
             order: [[0, 'desc']],
             columns: [
                 { data: 'id', name: 'id' },

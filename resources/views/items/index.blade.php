@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="container-fluid py-0 px-0">
-    <h1 class="h3 mb-3"><strong>Daftar Barang Penting</strong></h1>
+    <h1 class="h3 mb-3"><strong>Daftar Barang</strong></h1>
 
     <div class="d-flex justify-content-between align-items-center mb-3">
         <a href="{{ route('items.create') }}" class="btn btn-primary">
@@ -19,9 +19,9 @@
                     <thead>
                         <tr>
                             <th>ID</th>
+                            <th>Barcode</th>
+                            <th>Kode</th>
                             <th>Nama</th>
-                            <th>Lokasi Terakhir</th>
-                            <th>Updated terakhir</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -42,9 +42,9 @@
             order: [[0, 'desc']],
             columns: [
                 { data: 'id', name: 'id' },
+                { data: 'barcode', name: 'barcode' },
+                { data: 'code', name: 'code' },
                 { data: 'name', name: 'name' },
-                { data: 'last_location', name: 'last_location' },
-                { data: 'updated_at', name: 'updated_at' },
                 { data: 'action', name: 'action', orderable: false, searchable: false }
             ]
         });
