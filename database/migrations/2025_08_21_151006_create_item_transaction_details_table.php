@@ -13,7 +13,13 @@ return new class extends Migration
     {
         Schema::create('item_transaction_details', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->foreignId('warehouse_id')->constrained();
+            $table->foreignId('item_transaction_id')->constrained()->onDelete('cascade');
+            $table->foreignId('item_id')->constrained();
+            $table->double('in')->nullable()->index();
+            $table->double('out')->nullable()->index();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });
     }
 
