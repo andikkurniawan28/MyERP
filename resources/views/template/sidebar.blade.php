@@ -105,6 +105,16 @@
                 </li>
             @endif
 
+            @if(Auth::user()->role->akses_daftar_kontak)
+                <li class="sidebar-item @yield('contacts-active')">
+                    <a class="sidebar-link" href="{{ route('contacts.index') }}">
+                        <i class="bi bi-person-lines-fill align-middle"></i>
+                        <span class="align-middle">Kontak</span>
+                    </a>
+                </li>
+            @endif
+
+
         </ul>
 
 

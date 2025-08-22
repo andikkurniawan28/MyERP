@@ -8,15 +8,16 @@ use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\JournalController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\ItemCategoryController;
 use App\Http\Controllers\MedicalRecordController;
 use App\Http\Controllers\ItemTransactionController;
-use App\Http\Controllers\SettingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -72,3 +73,6 @@ Route::resource('medicalRecords', MedicalRecordController::class)->middleware(['
 
 // Setting
 Route::resource('settings', SettingController::class)->middleware(['auth']);
+
+// Kontak
+Route::resource('contacts', ContactController::class)->middleware(['auth']);
