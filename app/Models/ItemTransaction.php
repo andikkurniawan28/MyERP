@@ -23,4 +23,9 @@ class ItemTransaction extends Model
     public function user(){
         return $this->belongsTo(User::class);
     }
+
+    public static function generateCode()
+    {
+        return 'ITR-'.date('Ymd').'-'.date('His');
+    }
 }

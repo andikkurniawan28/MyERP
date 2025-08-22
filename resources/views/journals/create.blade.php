@@ -9,6 +9,10 @@
         <form action="{{ route('journals.store') }}" method="POST">
             @csrf
             <div class="mb-3">
+                <label>Kode</label>
+                <input type="code" name="code" class="form-control" value="{{ $code }}" readonly>
+            </div>
+            <div class="mb-3">
                 <label>Tanggal</label>
                 <input type="date" name="date" class="form-control" value="{{ old('date', date('Y-m-d')) }}" required>
             </div>

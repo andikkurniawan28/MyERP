@@ -19,4 +19,9 @@ class Journal extends Model
     public function user(){
         return $this->belongsTo(User::class);
     }
+
+    public static function generateCode()
+    {
+        return 'JRN-'.date('Ymd').'-'.date('His');
+    }
 }

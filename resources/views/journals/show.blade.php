@@ -8,6 +8,7 @@
 
         <div class="card mb-3">
             <div class="card-body">
+                <p><strong>Kode:</strong> {{ $journal->code }}</p>
                 <p>
                     <strong>Tanggal:</strong>
                     {{ \Carbon\Carbon::parse($journal->date)->locale('id')->translatedFormat('l, d/m/Y') }}

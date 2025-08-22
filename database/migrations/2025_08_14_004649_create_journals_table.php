@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('journals', function (Blueprint $table) {
             $table->id();
+            $table->string('code')->unique();
             $table->date('date')->index();
             $table->text('description');
             $table->double('debit');

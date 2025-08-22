@@ -68,9 +68,9 @@ class JournalController extends Controller
         if ($response = $this->checkIzin('akses_tambah_jurnal')) {
             return $response;
         }
-
+        $code = Journal::generateCode();
         $accounts = Account::all();
-        return view('journals.create', compact('accounts'));
+        return view('journals.create', compact('accounts', 'code'));
     }
 
     public function store(Request $request)
@@ -82,6 +82,7 @@ class JournalController extends Controller
         $request->validate([
             'date' => 'required|date',
             'description' => 'required',
+            'code' => 'required',
             'account_id.*' => 'required|exists:accounts,id',
             'debit.*' => 'nullable|numeric',
             'credit.*' => 'nullable|numeric',
@@ -104,6 +105,7 @@ class JournalController extends Controller
                 'debit' => $totalDebit,
                 'credit' => $totalCredit,
                 'user_id' => Auth::id(),
+                'code' => $request->code,
             ]);
 
             foreach ($request->account_id as $i => $accountId) {

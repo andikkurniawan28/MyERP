@@ -61,10 +61,10 @@ class ItemTransactionController extends Controller
         if ($response = $this->checkIzin('akses_tambah_transaksi_barang')) {
             return $response;
         }
-
+        $code = ItemTransaction::generateCode();
         $items = Item::all();
         $warehouses = Warehouse::all();
-        return view('item_transactions.create', compact('items', 'warehouses'));
+        return view('item_transactions.create', compact('items', 'warehouses', 'code'));
     }
 
     public function store(Request $request)
@@ -76,6 +76,7 @@ class ItemTransactionController extends Controller
         $request->validate([
             'date' => 'required|date',
             'description' => 'required',
+            'code' => 'required',
             'warehouse_id' => 'required|exists:warehouses,id',
             'item_id.*' => 'required|exists:items,id',
             'in.*' => 'nullable|numeric',
@@ -88,6 +89,7 @@ class ItemTransactionController extends Controller
                 'description' => $request->description,
                 'warehouse_id' => $request->warehouse_id,
                 'user_id' => Auth::id(),
+                'code' => $request->code,
             ]);
 
             foreach ($request->item_id as $i => $itemId) {

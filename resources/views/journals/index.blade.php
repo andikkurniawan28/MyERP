@@ -21,6 +21,7 @@
                     <thead>
                         <tr>
                             <th>ID</th>
+                            <th>Kode</th>
                             <th>Tanggal</th>
                             <th>Keterangan</th>
                             <th>Debit</th>
@@ -46,6 +47,7 @@ $(function() {
         order: [[0, 'desc']],
         columns: [
             { data: 'id', name: 'id' },
+            { data: 'code', name: 'code' },
             { data: 'date', name: 'date' },
             { data: 'description', name: 'description' },
             { data: 'debit', name: 'debit' },

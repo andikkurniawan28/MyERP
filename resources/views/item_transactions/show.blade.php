@@ -8,6 +8,7 @@
 
     <div class="card mb-3">
         <div class="card-body">
+            <p><strong>Kode:</strong> {{ $itemTransaction->code }}</p>
             <p><strong>Tanggal:</strong> {{ \Carbon\Carbon::parse($itemTransaction->date)->locale('id')->translatedFormat('l, d/m/Y') }}</p>
             <p><strong>Keterangan:</strong> {{ $itemTransaction->description }}</p>
             <p><strong>Gudang:</strong> {{ $itemTransaction->warehouse->name }}</p>
