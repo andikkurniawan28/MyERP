@@ -70,44 +70,6 @@ class ItemTransactionController extends Controller
         return view('item_transactions.create', compact('items', 'warehouses', 'code'));
     }
 
-    public function storeOld(Request $request)
-    {
-        if ($response = $this->checkIzin('akses_tambah_transaksi_barang')) {
-            return $response;
-        }
-
-        $request->validate([
-            'date' => 'required|date',
-            'description' => 'required',
-            'code' => 'required',
-            'warehouse_id' => 'required|exists:warehouses,id',
-            'item_id.*' => 'required|exists:items,id',
-            'in.*' => 'nullable|numeric',
-            'out.*' => 'nullable|numeric',
-        ]);
-
-        DB::transaction(function () use ($request) {
-            $transaction = ItemTransaction::create([
-                'date' => $request->date,
-                'description' => $request->description,
-                'warehouse_id' => $request->warehouse_id,
-                'user_id' => Auth::id(),
-                'code' => $request->code,
-            ]);
-
-            foreach ($request->item_id as $i => $itemId) {
-                ItemTransactionDetail::create([
-                    'item_transaction_id' => $transaction->id,
-                    'item_id' => $itemId,
-                    'in' => $request->in[$i] ?? 0,
-                    'out' => $request->out[$i] ?? 0,
-                ]);
-            }
-        });
-
-        return redirect()->route('item_transactions.index')->with('success', 'Transaksi barang berhasil dibuat.');
-    }
-
     public function show(ItemTransaction $itemTransaction)
     {
         if ($response = $this->checkIzin('akses_daftar_transaksi_barang')) {
@@ -143,7 +105,28 @@ class ItemTransactionController extends Controller
             'item_id.*' => 'required|exists:items,id',
             'in.*' => 'nullable|numeric',
             'out.*' => 'nullable|numeric',
+        ], [], [
+            'in.*' => 'Qty masuk',
+            'out.*' => 'Qty keluar',
         ]);
+
+        // Custom check: hanya boleh isi salah satu in/out per item
+        foreach ($request->item_id as $i => $itemId) {
+            $inQty = $request->in[$i] ?? null;
+            $outQty = $request->out[$i] ?? null;
+
+            if (!is_null($inQty) && !is_null($outQty) && ($inQty != 0 && $outQty != 0)) {
+                return back()
+                    ->withInput()
+                    ->withErrors(["item_id.$i" => "Hanya boleh mengisi salah satu antara 'in' atau 'out' pada item ini."]);
+            }
+
+            if ((is_null($inQty) || $inQty == 0) && (is_null($outQty) || $outQty == 0)) {
+                return back()
+                    ->withInput()
+                    ->withErrors(["item_id.$i" => "Minimal salah satu antara 'in' atau 'out' harus diisi pada item ini."]);
+            }
+        }
 
         DB::transaction(function () use ($request) {
             $transaction = $this->createTransaction($request);

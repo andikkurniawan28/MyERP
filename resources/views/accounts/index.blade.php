@@ -23,7 +23,7 @@
                     <table id="accountTable" class="table table-bordered table-hover table-striped table-sm w-100 text-center">
                         <thead>
                             <tr>
-                                <th>ID</th>
+                                {{-- <th>ID</th> --}}
                                 <th>Kode</th>
                                 <th>Nama</th>
                                 <th>Saldo</th>
@@ -48,13 +48,13 @@
                 serverSide: true,
                 ajax: "{{ route('accounts.index') }}",
                 order: [
-                    [1, 'asc']
+                    [0, 'asc']
                 ],
                 columns: [
-                    {
-                        data: 'id',
-                        name: 'id'
-                    },
+                    // {
+                    //     data: 'id',
+                    //     name: 'id'
+                    // },
                     {
                         data: 'code',
                         name: 'code'

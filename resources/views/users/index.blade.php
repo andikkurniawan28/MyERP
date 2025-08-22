@@ -20,7 +20,7 @@
                 <table id="userTable" class="table table-bordered table-hover table-striped table-sm w-100 text-center">
                     <thead>
                         <tr>
-                            <th>ID</th>
+                            {{-- <th>ID</th> --}}
                             <th>Nama</th>
                             <th>Username</th>
                             <th>Role</th>
@@ -44,7 +44,7 @@
             ajax: "{{ route('users.index') }}",
             order: [[0, 'desc']],
             columns: [
-                { data: 'id', name: 'id' },
+                // { data: 'id', name: 'id' },
                 { data: 'name', name: 'name' },
                 { data: 'username', name: 'username' },
                 { data: 'role', name: 'role.name' },

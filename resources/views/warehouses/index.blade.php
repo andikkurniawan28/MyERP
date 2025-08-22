@@ -20,7 +20,7 @@
                 <table id="roleTable" class="table table-bordered table-hover table-striped table-sm w-100 text-center">
                     <thead>
                         <tr>
-                            <th>ID</th>
+                            {{-- <th>ID</th> --}}
                             <th>Nama</th>
                             <th>Alamat</th>
                             <th>Aksi</th>
@@ -42,7 +42,7 @@
             ajax: "{{ route('warehouses.index') }}",
             order: [[0, 'desc']],
             columns: [
-                { data: 'id', name: 'id' },
+                // { data: 'id', name: 'id' },
                 { data: 'name', name: 'name' },
                 { data: 'address', name: 'address' },
                 { data: 'action', name: 'action', orderable: false, searchable: false }

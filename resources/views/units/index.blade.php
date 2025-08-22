@@ -20,7 +20,7 @@
                 <table id="roleTable" class="table table-bordered table-hover table-striped table-sm w-100 text-center">
                     <thead>
                         <tr>
-                            <th>ID</th>
+                            {{-- <th>ID</th> --}}
                             <th>Nama</th>
                             <th>Aksi</th>
                         </tr>
@@ -41,7 +41,7 @@
             ajax: "{{ route('units.index') }}",
             order: [[0, 'desc']],
             columns: [
-                { data: 'id', name: 'id' },
+                // { data: 'id', name: 'id' },
                 { data: 'name', name: 'name' },
                 { data: 'action', name: 'action', orderable: false, searchable: false }
             ]
