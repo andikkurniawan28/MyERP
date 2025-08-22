@@ -8,6 +8,7 @@ use App\Models\Role;
 use App\Models\Unit;
 use App\Models\User;
 use App\Models\Account;
+use App\Models\Setting;
 use App\Models\Warehouse;
 use App\Models\ItemCategory;
 use Illuminate\Database\Seeder;
@@ -35,14 +36,17 @@ class DatabaseSeeder extends Seeder
             ['code'=>'1000','name'=>'Kas','category'=>'asset','description'=>'Saldo kas yang tersedia','normal_balance'=>'debit'],
             ['code'=>'1010','name'=>'Bank','category'=>'asset','description'=>'Saldo rekening bank','normal_balance'=>'debit'],
             ['code'=>'1100','name'=>'Piutang Usaha','category'=>'asset','description'=>'Tagihan kepada pelanggan','normal_balance'=>'debit'],
+            ['code'=>'1200','name'=>'Persediaan Barang','category'=>'asset','description'=>'Nilai persediaan barang dagang di gudang','normal_balance'=>'debit'],
             ['code'=>'2000','name'=>'Hutang Usaha','category'=>'liability','description'=>'Kewajiban membayar kepada supplier','normal_balance'=>'credit'],
             ['code'=>'2100','name'=>'Hutang Bank','category'=>'liability','description'=>'Pinjaman dari bank','normal_balance'=>'credit'],
             ['code'=>'3000','name'=>'Modal Pemilik','category'=>'equity','description'=>'Investasi modal dari pemilik','normal_balance'=>'credit'],
             ['code'=>'4000','name'=>'Pendapatan Penjualan','category'=>'revenue','description'=>'Pendapatan dari penjualan barang atau jasa','normal_balance'=>'credit'],
+            ['code'=>'4100','name'=>'Pendapatan Selisih Persediaan','category'=>'revenue','description'=>'Pendapatan dari selisih persediaan positif','normal_balance'=>'credit'],
             ['code'=>'5000','name'=>'Harga Pokok Penjualan','category'=>'cogs','description'=>'Biaya pokok barang yang dijual','normal_balance'=>'debit'],
             ['code'=>'6000','name'=>'Beban Gaji','category'=>'expense','description'=>'Pengeluaran untuk gaji karyawan','normal_balance'=>'debit'],
             ['code'=>'6100','name'=>'Beban Sewa','category'=>'expense','description'=>'Pengeluaran untuk biaya sewa','normal_balance'=>'debit'],
             ['code'=>'6200','name'=>'Beban Utilitas','category'=>'expense','description'=>'Biaya listrik, air, telepon, dan utilitas lain','normal_balance'=>'debit'],
+            ['code'=>'6300','name'=>'Beban Selisih Persediaan','category'=>'expense','description'=>'Biaya kerugian dari selisih persediaan negatif','normal_balance'=>'debit'],
         ]);
 
         Warehouse::insert([
@@ -101,6 +105,10 @@ class DatabaseSeeder extends Seeder
                 'purchase_price_secondary' => 1000000.00, 'selling_price_secondary' => null,
                 'purchase_price_main' => 5000.00, 'selling_price_main' => null
             ],
+        ]);
+
+        Setting::insert([
+            ['inventory_account_id' => 4, 'stock_in_account_id' => 9, 'stock_out_account_id' => 14],
         ]);
     }
 }

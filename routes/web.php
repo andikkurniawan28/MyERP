@@ -16,6 +16,7 @@ use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\ItemCategoryController;
 use App\Http\Controllers\MedicalRecordController;
 use App\Http\Controllers\ItemTransactionController;
+use App\Http\Controllers\SettingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -68,3 +69,6 @@ Route::resource('item_transactions', ItemTransactionController::class)->middlewa
 
 // Kesehatan
 Route::resource('medicalRecords', MedicalRecordController::class)->middleware(['auth']);
+
+// Setting
+Route::resource('settings', SettingController::class)->middleware(['auth']);

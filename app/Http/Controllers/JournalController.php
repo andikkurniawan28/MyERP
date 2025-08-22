@@ -88,6 +88,17 @@ class JournalController extends Controller
             'credit.*' => 'nullable|numeric',
         ]);
 
+        // Validasi: setiap journal detail hanya boleh satu antara debit/credit
+        foreach ($request->debit ?? [] as $i => $debit) {
+            $credit = $request->credit[$i] ?? null;
+
+            if (($debit && $credit) || (!$debit && !$credit)) {
+                return redirect()->back()
+                    ->withInput()
+                    ->with('failed', "Baris ke-".($i+1)." harus diisi salah satu antara debit atau credit, tidak boleh keduanya!");
+            }
+        }
+
         $totalDebit  = array_sum($request->debit ?? []);
         $totalCredit = array_sum($request->credit ?? []);
 

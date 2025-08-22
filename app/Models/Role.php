@@ -50,6 +50,7 @@ class Role extends Model
             'akses_tambah_transaksi_barang' => 'Akses Tambah Transaksi Barang',
             'akses_edit_transaksi_barang' => 'Akses Edit Transaksi Barang',
             'akses_hapus_transaksi_barang' => 'Akses Hapus Transaksi Barang',
+            'akses_edit_setting' => 'Akses Edit Setting',
         ];
         return $data;
     }
@@ -92,6 +93,7 @@ class Role extends Model
             'akses_tambah_transaksi_barang',
             'akses_edit_transaksi_barang',
             'akses_hapus_transaksi_barang',
+            'akses_edit_setting',
         ];
         return $data;
     }

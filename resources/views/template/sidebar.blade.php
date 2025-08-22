@@ -15,6 +15,15 @@
                 </a>
             </li>
 
+            @if(Auth()->user()->role->akses_edit_setting)
+                <li class="sidebar-item @yield('settings-active')">
+                    <a class="sidebar-link" href="{{ route('settings.edit', 1) }}">
+                        <i class="bi bi-gear-fill align-middle"></i>
+                        <span class="align-middle">Setting</span>
+                    </a>
+                </li>
+            @endif
+
             @if (Auth()->user()->role->akses_daftar_jabatan)
                 <li class="sidebar-item @yield('roles-active')">
                     <a class="sidebar-link" href="{{ route('roles.index') }}">
