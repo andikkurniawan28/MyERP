@@ -18,7 +18,9 @@
                 <table class="table table-bordered mb-0">
                     <thead>
                         <tr class="table-primary">
-                            <th>Barang</th>
+                            <th>Kode Barang</th>
+                            <th>Nama Barang</th>
+                            <th>Satuan</th>
                             <th class="text-end">Masuk</th>
                             <th class="text-end">Keluar</th>
                         </tr>
@@ -26,7 +28,9 @@
                     <tbody>
                         @foreach ($itemTransaction->details as $detail)
                             <tr>
-                                <td>{{ $detail->item->code }} - {{ $detail->item->name }}</td>
+                                <td>{{ $detail->item->code }}</td>
+                                <td>{{ $detail->item->name }}</td>
+                                <td>{{ $detail->item->mainUnit->name }}</td>
                                 <td class="text-end">{{ $detail->in ? number_format($detail->in, 0, ',', '.') : '-' }}</td>
                                 <td class="text-end">{{ $detail->out ? number_format($detail->out, 0, ',', '.') : '-' }}</td>
                             </tr>
@@ -34,7 +38,7 @@
                     </tbody>
                     <tfoot>
                         <tr class="table-secondary">
-                            <th>Total</th>
+                            <th colspan="3">Total</th>
                             <th class="text-end">{{ number_format($itemTransaction->details->sum('in'), 0, ',', '.') }}</th>
                             <th class="text-end">{{ number_format($itemTransaction->details->sum('out'), 0, ',', '.') }}</th>
                         </tr>

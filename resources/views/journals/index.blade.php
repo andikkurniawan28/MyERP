@@ -20,7 +20,7 @@
                 <table id="journalTable" class="table table-bordered table-striped table-sm w-100 text-center">
                     <thead>
                         <tr>
-                            <th>ID</th>
+                            {{-- <th>ID</th> --}}
                             <th>Kode</th>
                             <th>Tanggal</th>
                             <th>Keterangan</th>
@@ -46,7 +46,7 @@ $(function() {
         ajax: "{{ route('journals.index') }}",
         order: [[0, 'desc']],
         columns: [
-            { data: 'id', name: 'id' },
+            // { data: 'id', name: 'id' },
             { data: 'code', name: 'code' },
             { data: 'date', name: 'date' },
             { data: 'description', name: 'description' },

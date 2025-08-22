@@ -18,10 +18,11 @@
                 <table id="itemTable" class="table table-bordered table-hover table-striped table-sm w-100 text-center">
                     <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>Barcode</th>
+                            {{-- <th>ID</th> --}}
                             <th>Kode</th>
+                            <th>Barcode</th>
                             <th>Nama</th>
+                            <th>Satuan Kecil</th>
                             <th>Saldo</th>
                             <th>Aksi</th>
                         </tr>
@@ -42,10 +43,11 @@
             ajax: "{{ route('items.index') }}",
             order: [[0, 'desc']],
             columns: [
-                { data: 'id', name: 'id' },
-                { data: 'barcode', name: 'barcode' },
+                // { data: 'id', name: 'id' },
                 { data: 'code', name: 'code' },
+                { data: 'barcode', name: 'barcode' },
                 { data: 'name', name: 'name' },
+                { data: 'main_unit', name: 'main_unit.name' },
                 { data: 'saldo', name: 'saldo' },
                 { data: 'action', name: 'action', orderable: false, searchable: false }
             ]

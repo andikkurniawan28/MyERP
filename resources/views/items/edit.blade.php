@@ -107,15 +107,15 @@
                     {{-- Harga Beli --}}
                     <div class="row mb-3">
                         <div class="col-md-6">
+                            <label for="purchase_price_main" class="form-label">Harga Beli (Satuan Kecil)</label>
+                            <input type="text" id="purchase_price_main" name="purchase_price_main" class="form-control"
+                                readonly value="{{ old('purchase_price_main', $item->purchase_price_main) }}">
+                        </div>
+                        <div class="col-md-6">
                             <label for="purchase_price_secondary" class="form-label">Harga Beli (Satuan Besar)</label>
                             <input type="text" id="purchase_price_secondary" name="purchase_price_secondary"
                                 class="form-control"
                                 value="{{ old('purchase_price_secondary', $item->purchase_price_secondary) }}">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="purchase_price_main" class="form-label">Harga Beli (Satuan Kecil)</label>
-                            <input type="text" id="purchase_price_main" name="purchase_price_main" class="form-control"
-                                readonly value="{{ old('purchase_price_main', $item->purchase_price_main) }}">
                         </div>
                     </div>
 
