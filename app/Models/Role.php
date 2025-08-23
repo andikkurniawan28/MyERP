@@ -55,6 +55,10 @@ class Role extends Model
             'akses_tambah_kontak' => 'Akses Tambah Kontak',
             'akses_edit_kontak' => 'Akses Edit Kontak',
             'akses_hapus_kontak' => 'Akses Hapus Kontak',
+            'akses_daftar_pesanan' => 'Akses Daftar Pesanan',
+            'akses_tambah_pesanan' => 'Akses Tambah Pesanan',
+            'akses_edit_pesanan' => 'Akses Edit Pesanan',
+            'akses_hapus_pesanan' => 'Akses Hapus Pesanan',
         ];
         return $data;
     }
@@ -102,6 +106,10 @@ class Role extends Model
             'akses_tambah_kontak',
             'akses_edit_kontak',
             'akses_hapus_kontak',
+            'akses_daftar_pesanan',
+            'akses_tambah_pesanan',
+            'akses_edit_pesanan',
+            'akses_hapus_pesanan',
         ];
         return $data;
     }

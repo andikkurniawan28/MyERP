@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string('code')->unique();
             $table->date('date')->index();
             $table->text('description');
-            $table->double('debit');
-            $table->double('credit');
+            $table->decimal('debit', 15, 2)->default(0);
+            $table->decimal('credit', 15, 2)->default(0);
             $table->foreignId('user_id')->constrained();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();

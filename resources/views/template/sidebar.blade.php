@@ -24,6 +24,41 @@
                 </li>
             @endif
 
+            <li class="sidebar-header">
+				Transaksi
+			</li>
+
+            @if (Auth()->user()->role->akses_daftar_jurnal)
+                <li class="sidebar-item @yield('journals-active')">
+                    <a class="sidebar-link" href="{{ route('journals.index') }}">
+                        <i class="bi bi-journal-check align-middle"></i>
+                        <span class="align-middle">Jurnal</span>
+                    </a>
+                </li>
+            @endif
+
+            @if (Auth()->user()->role->akses_daftar_transaksi_barang)
+                <li class="sidebar-item @yield('item_transactions-active')">
+                    <a class="sidebar-link" href="{{ route('item_transactions.index') }}">
+                        <i class="bi bi-arrow-left-right align-middle"></i>
+                        <span class="align-middle">Transaksi Barang</span>
+                    </a>
+                </li>
+            @endif
+
+            @if (Auth()->user()->role->akses_daftar_pesanan)
+                <li class="sidebar-item @yield('orders-active')">
+                    <a class="sidebar-link" href="{{ route('orders.index') }}">
+                        <i class="bi bi-journal-text align-middle"></i>
+                        <span class="align-middle">Pesanan</span>
+                    </a>
+                </li>
+            @endif
+
+            <li class="sidebar-header">
+				Master
+			</li>
+
             @if (Auth()->user()->role->akses_daftar_jabatan)
                 <li class="sidebar-item @yield('roles-active')">
                     <a class="sidebar-link" href="{{ route('roles.index') }}">
@@ -47,15 +82,6 @@
                     <a class="sidebar-link" href="{{ route('accounts.index') }}">
                         <i class="bi bi-wallet2 align-middle"></i>
                         <span class="align-middle">Akun</span>
-                    </a>
-                </li>
-            @endif
-
-            @if (Auth()->user()->role->akses_daftar_jurnal)
-                <li class="sidebar-item @yield('journals-active')">
-                    <a class="sidebar-link" href="{{ route('journals.index') }}">
-                        <i class="bi bi-journal-check align-middle"></i>
-                        <span class="align-middle">Jurnal</span>
                     </a>
                 </li>
             @endif
@@ -96,15 +122,6 @@
                 </li>
             @endif
 
-            @if (Auth()->user()->role->akses_daftar_transaksi_barang)
-                <li class="sidebar-item @yield('item_transactions-active')">
-                    <a class="sidebar-link" href="{{ route('item_transactions.index') }}">
-                        <i class="bi bi-arrow-left-right align-middle"></i>
-                        <span class="align-middle">Transaksi Barang</span>
-                    </a>
-                </li>
-            @endif
-
             @if(Auth::user()->role->akses_daftar_kontak)
                 <li class="sidebar-item @yield('contacts-active')">
                     <a class="sidebar-link" href="{{ route('contacts.index') }}">
@@ -113,7 +130,6 @@
                     </a>
                 </li>
             @endif
-
 
         </ul>
 

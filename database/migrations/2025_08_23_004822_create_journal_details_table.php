@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('journal_id')->constrained()->onDelete('cascade');
             $table->foreignId('account_id')->constrained();
-            $table->double('debit')->nullable()->index();
-            $table->double('credit')->nullable()->index();
+            $table->decimal('debit', 15, 2)->default(0)->index();
+            $table->decimal('credit', 15, 2)->default(0)->index();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });

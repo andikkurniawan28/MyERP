@@ -22,6 +22,7 @@
                         <tr>
                             {{-- <th>ID</th> --}}
                             <th>Nama</th>
+                            <th>Jenis</th>
                             <th>Organisasi</th>
                             <th>Aksi</th>
                         </tr>
@@ -40,10 +41,11 @@
             processing: true,
             serverSide: true,
             ajax: "{{ route('contacts.index') }}",
-            order: [[0, 'desc']],
+            order: [[0, 'asc']],
             columns: [
                 // { data: 'id', name: 'id' },
                 { data: 'name', name: 'name' },
+                { data: 'type', name: 'type' },
                 { data: 'organization_name', name: 'organization_name' },
                 { data: 'action', name: 'action', orderable: false, searchable: false }
             ]

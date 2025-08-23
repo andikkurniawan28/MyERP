@@ -18,6 +18,7 @@ use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\ItemCategoryController;
 use App\Http\Controllers\MedicalRecordController;
 use App\Http\Controllers\ItemTransactionController;
+use App\Http\Controllers\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -76,3 +77,6 @@ Route::resource('settings', SettingController::class)->middleware(['auth']);
 
 // Kontak
 Route::resource('contacts', ContactController::class)->middleware(['auth']);
+
+// Transaksi
+Route::resource('orders', OrderController::class)->middleware(['auth']);

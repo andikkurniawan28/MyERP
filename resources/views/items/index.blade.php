@@ -41,7 +41,7 @@
             processing: true,
             serverSide: true,
             ajax: "{{ route('items.index') }}",
-            order: [[0, 'desc']],
+            order: [[0, 'asc']],
             columns: [
                 // { data: 'id', name: 'id' },
                 { data: 'code', name: 'code' },
