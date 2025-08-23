@@ -62,6 +62,7 @@ class ContactController extends Controller
 
         $request->validate([
             'name'          => 'required|string|max:255',
+            'prefix'          => 'required|string|max:255',
         ]);
 
         Contact::create($request->all());
@@ -86,7 +87,7 @@ class ContactController extends Controller
 
         $request->validate([
             'name'          => 'required|string|max:255',
-            // 'address' => 'required|string',
+            'prefix'          => 'required|string|max:255',
         ]);
 
         $contact->update($request->all());

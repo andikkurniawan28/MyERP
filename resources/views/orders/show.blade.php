@@ -4,28 +4,18 @@
 
 @section('content')
 <div class="container-fluid">
-    <h1 class="h3 mb-3"><strong>Detail Pesanan</strong></h1>
+    {{-- <h1 class="h3 mb-3"><strong>Detail Pesanan</strong></h1> --}}
 
     <div class="card mb-3">
         <div class="card-body">
+            <h2><strong>{{ strtoupper(str_replace('_', ' ', $order->type)) }}</strong></h2>
+            <br>
             <p><strong>Kode:</strong> {{ $order->code }}</p>
-            <p><strong>Tipe:</strong> {{ strtoupper(str_replace('_', ' ', $order->type)) }}</p>
             <p><strong>Tanggal:</strong> {{ \Carbon\Carbon::parse($order->date)->locale('id')->translatedFormat('l, d/m/Y') }}</p>
-            <p><strong>Kontak:</strong> {{ $order->contact->name }}</p>
-            <p><strong>Status:</strong>
-                <span class="badge bg-{{ $order->status == 'approved' ? 'success' : ($order->status == 'draft' ? 'secondary' : 'warning') }}">
-                    {{ ucfirst($order->status) }}
-                </span>
-            </p>
-            <p><strong>Mata Uang:</strong> {{ $order->currency_code }}</p>
-        </div>
-    </div>
+            <p><strong>Kepada:</strong> {{ $order->contact->prefix }} {{ $order->contact->name }} ({{ $order->contact->organization_name }})</p>
+            <br>
 
-    <div class="card mb-3">
-        <div class="card-header bg-primary text-white">
-            Detail Barang
-        </div>
-        <div class="card-body table-responsive">
+        <div class="table-responsive">
             <table class="table table-bordered mb-0">
                 <thead>
                     <tr class="table-primary">

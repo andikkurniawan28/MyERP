@@ -13,6 +13,16 @@
                     @method('PUT')
 
                     <div class="mb-3">
+                        <label for="prefix" class="form-label">Sapaan</label>
+                        <input type="text" name="prefix" id="prefix"
+                            class="form-control @error('prefix') is-invalid @enderror"
+                            value="{{ old('prefix', $contact->prefix) }}" required>
+                        @error('prefix')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="mb-3">
                         <label for="name" class="form-label">Nama</label>
                         <input type="text" name="name" id="name"
                             class="form-control @error('name') is-invalid @enderror"
