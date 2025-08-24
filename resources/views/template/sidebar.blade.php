@@ -46,11 +46,20 @@
                 </li>
             @endif
 
-            @if (Auth()->user()->role->akses_daftar_pesanan)
+            {{-- @if (Auth()->user()->role->akses_daftar_pesanan)
                 <li class="sidebar-item @yield('orders-active')">
                     <a class="sidebar-link" href="{{ route('orders.index') }}">
                         <i class="bi bi-journal-text align-middle"></i>
                         <span class="align-middle">Pesanan</span>
+                    </a>
+                </li>
+            @endif --}}
+
+            @if (Auth()->user()->role->akses_daftar_pembelian)
+                <li class="sidebar-item @yield('purchases-active')">
+                    <a class="sidebar-link" href="{{ route('purchases.index') }}">
+                        <i class="bi bi-receipt align-middle"></i>
+                        <span class="align-middle">Pembelian</span>
                     </a>
                 </li>
             @endif

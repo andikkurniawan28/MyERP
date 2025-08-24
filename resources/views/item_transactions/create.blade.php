@@ -9,27 +9,52 @@
         <form action="{{ route('item_transactions.store') }}" method="POST">
             @csrf
 
-            <div class="mb-3">
-                <label>Kode</label>
-                <input type="code" name="code" class="form-control" value="{{ $code }}" readonly>
+            <div class="row mb-3">
+                <div class="col-md-3">
+                    <label for="code" class="form-label">Kode</label>
+                    <input type="text" id="code" name="code" class="form-control" value="{{ $code }}"
+                        readonly>
+                </div>
+
+                <div class="col-md-3">
+                    <label for="date" class="form-label">Tanggal</label>
+                    <input type="date" id="date" name="date" class="form-control"
+                        value="{{ old('date', date('Y-m-d')) }}" required>
+                </div>
+
+                <div class="col-md-3">
+                    <label for="purchase_id" class="form-label">Faktur Pembelian</label>
+                    <select name="purchase_id" id="purchase_id" class="form-select select2">
+                        <option value="">-- Pilih Purchase --</option>
+                        @foreach ($purchases as $purchase)
+                            <option value="{{ $purchase->id }}" {{ old('purchase_id') == $purchase->id ? 'selected' : '' }}>
+                                {{ $purchase->code }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <label for="warehouse_id" class="form-label">Gudang</label>
+                    <select name="warehouse_id" id="warehouse_id" class="form-select select2" required>
+                        <option value="">-- Pilih Gudang --</option>
+                        @foreach ($warehouses as $warehouse)
+                            <option value="{{ $warehouse->id }}"
+                                {{ old('warehouse_id') == $warehouse->id ? 'selected' : '' }}>
+                                {{ $warehouse->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
             </div>
-            <div class="mb-3">
-                <label>Tanggal</label>
-                <input type="date" name="date" class="form-control" value="{{ old('date', date('Y-m-d')) }}" required>
+
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    <label for="description" class="form-label">Keterangan</label>
+                    <textarea name="description" id="description" class="form-control" required>{{ old('description') }}</textarea>
+                </div>
             </div>
-            <div class="mb-3">
-                <label>Gudang</label>
-                <select name="warehouse_id" class="form-select select2" required>
-                    <option value="">-- Pilih Gudang --</option>
-                    @foreach ($warehouses as $warehouse)
-                        <option value="{{ $warehouse->id }}">{{ $warehouse->name }}</option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="mb-3">
-                <label>Keterangan</label>
-                <textarea name="description" class="form-control" required>{{ old('description') }}</textarea>
-            </div>
+
 
             <table class="table table-bordered">
                 <thead>
@@ -46,7 +71,8 @@
                             <select name="item_id[]" class="form-select select2" required>
                                 <option value="">-- Pilih Barang --</option>
                                 @foreach ($items as $item)
-                                    <option value="{{ $item->id }}">{{ $item->code }} - {{ $item->name }}</option>
+                                    <option value="{{ $item->id }}">{{ $item->code }} - {{ $item->name }}
+                                    </option>
                                 @endforeach
                             </select>
                         </td>

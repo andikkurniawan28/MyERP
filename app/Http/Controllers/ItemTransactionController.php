@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\Item;
 use App\Models\Journal;
 use App\Models\Setting;
+use App\Models\Purchase;
 use App\Models\Warehouse;
 use Illuminate\Http\Request;
 use App\Models\JournalDetail;
@@ -67,7 +68,8 @@ class ItemTransactionController extends Controller
         $code = ItemTransaction::generateCode();
         $items = Item::all();
         $warehouses = Warehouse::all();
-        return view('item_transactions.create', compact('items', 'warehouses', 'code'));
+        $purchases = Purchase::where('status', '!=', 'paid')->select(['id', 'code'])->get();
+        return view('item_transactions.create', compact('items', 'warehouses', 'code', 'purchases'));
     }
 
     public function show(ItemTransaction $itemTransaction)

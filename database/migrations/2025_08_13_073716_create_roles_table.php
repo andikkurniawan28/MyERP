@@ -56,10 +56,14 @@ return new class extends Migration
             $table->boolean('akses_tambah_kontak')->default(1);
             $table->boolean('akses_edit_kontak')->default(1);
             $table->boolean('akses_hapus_kontak')->default(1);
-            $table->boolean('akses_daftar_pesanan')->default(1);
-            $table->boolean('akses_tambah_pesanan')->default(1);
-            $table->boolean('akses_edit_pesanan')->default(1);
-            $table->boolean('akses_hapus_pesanan')->default(1);
+            // $table->boolean('akses_daftar_pesanan')->default(1);
+            // $table->boolean('akses_tambah_pesanan')->default(1);
+            // $table->boolean('akses_edit_pesanan')->default(1);
+            // $table->boolean('akses_hapus_pesanan')->default(1);
+            $table->boolean('akses_daftar_pembelian')->default(1);
+            $table->boolean('akses_tambah_pembelian')->default(1);
+            $table->boolean('akses_edit_pembelian')->default(1);
+            $table->boolean('akses_hapus_pembelian')->default(1);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });

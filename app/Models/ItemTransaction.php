@@ -15,6 +15,10 @@ class ItemTransaction extends Model
         return $this->belongsTo(Warehouse::class);
     }
 
+    public function purchase(){
+        return $this->belongsTo(Purchase::class);
+    }
+
     public function details()
     {
         return $this->hasMany(ItemTransactionDetail::class);
