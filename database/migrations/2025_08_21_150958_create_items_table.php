@@ -19,10 +19,10 @@ return new class extends Migration
             $table->string('name');
             $table->text('description');
             $table->foreignId('main_unit_id')->constrained('units');
-            $table->foreignId('secondary_unit_id')->constrained('units');
-            $table->double('conversion_rate');
-            $table->decimal('purchase_price_secondary', 15, 2);
-            $table->decimal('selling_price_secondary', 15, 2)->nullable();
+            // $table->foreignId('secondary_unit_id')->constrained('units');
+            // $table->double('conversion_rate');
+            // $table->decimal('purchase_price_secondary', 15, 2);
+            // $table->decimal('selling_price_secondary', 15, 2)->nullable();
             $table->decimal('purchase_price_main', 15, 2);
             $table->decimal('selling_price_main', 15, 2)->nullable();
             $table->timestamp('created_at')->useCurrent();

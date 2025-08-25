@@ -95,52 +95,40 @@ class PurchaseController extends Controller
 
     protected function createPurchase(Request $request)
     {
-        // Hitung subtotal, discount, tax, grand_total
-        $subtotal = 0;
-        $discount = 0;
-        foreach ($request->item_id as $i => $itemId) {
-            $line_total = $request->qty[$i] * $request->price[$i];
-            $line_discount = (($request->discount_percent[$i] ?? 0) / 100) * $line_total;
-            $subtotal += $line_total;
-            $discount += $line_discount;
-        }
-
-        $tax = ($request->tax_percent ?? 0) / 100 * ($subtotal - $discount);
-        $grand_total = $subtotal - $discount + $tax + ($request->freight ?? 0) + ($request->expense ?? 0);
-
-        return Purchase::create([
-            // 'type' => $request->type,
+        $subtotal = floatval($request->subtotal ?? 0);
+        $discount = floatval($request->discount_header ?? 0);
+        $discount_percent = $subtotal > 0 ? ($discount / $subtotal) * 100 : 0;
+        $purchase = Purchase::create([
             'code' => $request->code,
             'date' => $request->date,
             'warehouse_id' => $request->warehouse_id,
             'contact_id' => $request->contact_id,
             'subtotal' => $subtotal,
-            'tax' => $tax,
+            'discount' => $discount,
+            'discount_percent' => $discount_percent,
+            'tax' => $request->tax,
             'tax_percent' => $request->tax_percent ?? 0,
             'freight' => $request->freight ?? 0,
             'expense' => $request->expense ?? 0,
-            'discount_percent' => 0,
-            'discount' => $discount,
-            'grand_total' => $grand_total,
+            'grand_total' => $request->grand_total,
             'user_id' => Auth::id(),
         ]);
+        return $purchase;
     }
 
     protected function createPurchaseDetails(Purchase $purchase, Request $request)
     {
         foreach ($request->item_id as $i => $itemId) {
-            $line_total = $request->qty[$i] * $request->price[$i];
-            $line_discount = (($request->discount_percent[$i] ?? 0) / 100) * $line_total;
-
             PurchaseDetail::create([
                 'purchase_id' => $purchase->id,
                 'item_id' => $itemId,
                 'qty' => $request->qty[$i],
                 'price' => $request->price[$i],
                 'discount_percent' => $request->discount_percent[$i] ?? 0,
-                'discount' => $line_discount,
-                'total' => $line_total - $line_discount,
+                'discount' => $request->discount[$i] ?? 0,
+                'total' => $request->total[$i] ?? 0,
             ]);
         }
     }
+
 }

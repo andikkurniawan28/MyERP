@@ -63,8 +63,8 @@
 
                     {{-- Satuan --}}
                     <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label for="main_unit_id" class="form-label">Satuan Kecil</label>
+                        <div class="col-md-12">
+                            <label for="main_unit_id" class="form-label">Satuan</label>
                             <select name="main_unit_id" id="main_unit_id"
                                 class="form-select select2 @error('main_unit_id') is-invalid @enderror" required>
                                 <option value="">-- Pilih Satuan Utama --</option>
@@ -79,7 +79,7 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                        <div class="col-md-6">
+                        {{-- <div class="col-md-6">
                             <label for="secondary_unit_id" class="form-label">Satuan Besar</label>
                             <select name="secondary_unit_id" id="secondary_unit_id"
                                 class="form-select select2 @error('secondary_unit_id') is-invalid @enderror" required>
@@ -94,45 +94,49 @@
                             @error('secondary_unit_id')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
-                        </div>
+                        </div> --}}
                     </div>
 
                     {{-- Conversion Rate --}}
-                    <div class="mb-3">
+                    {{-- <div class="mb-3">
                         <label for="conversion_rate" class="form-label">Conversion Rate</label>
                         <input type="number" step="0.01" id="conversion_rate" name="conversion_rate"
                             class="form-control" value="{{ old('conversion_rate', $item->conversion_rate) }}">
-                    </div>
+                    </div> --}}
 
                     {{-- Harga Beli --}}
                     <div class="row mb-3">
                         <div class="col-md-6">
-                            <label for="purchase_price_main" class="form-label">Harga Beli (Satuan Kecil)</label>
+                            <label for="purchase_price_main" class="form-label">Harga Beli
+                                {{-- (Satuan Kecil) --}}
+                            </label>
                             <input type="text" id="purchase_price_main" name="purchase_price_main" class="form-control"
-                                readonly value="{{ old('purchase_price_main', $item->purchase_price_main) }}">
+                                value="{{ old('purchase_price_main', $item->purchase_price_main) }}" required>
                         </div>
                         <div class="col-md-6">
+                            <label for="selling_price_main" class="form-label">Harga Jual
+                                {{-- (Satuan Kecil) --}}
+                            </label>
+                            <input type="text" id="selling_price_main" name="selling_price_main" class="form-control"
+                                value="{{ old('selling_price_main', $item->selling_price_main) }}">
+                        </div>
+                        {{-- <div class="col-md-6">
                             <label for="purchase_price_secondary" class="form-label">Harga Beli (Satuan Besar)</label>
                             <input type="text" id="purchase_price_secondary" name="purchase_price_secondary"
                                 class="form-control"
                                 value="{{ old('purchase_price_secondary', $item->purchase_price_secondary) }}">
-                        </div>
+                        </div> --}}
                     </div>
 
                     {{-- Harga Jual --}}
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label for="selling_price_main" class="form-label">Harga Jual (Satuan Kecil)</label>
-                            <input type="text" id="selling_price_main" name="selling_price_main" class="form-control"
-                                value="{{ old('selling_price_main', $item->selling_price_main) }}">
-                        </div>
+                    {{-- <div class="row mb-3">
                         <div class="col-md-6">
                             <label for="selling_price_secondary" class="form-label">Harga Jual (Satuan Besar)</label>
                             <input type="text" id="selling_price_secondary" name="selling_price_secondary"
                                 class="form-control" readonly
                                 value="{{ old('selling_price_secondary', $item->selling_price_secondary) }}">
                         </div>
-                    </div>
+                    </div> --}}
 
                     {{-- Deskripsi --}}
                     <div class="mb-3">
@@ -157,36 +161,36 @@
 
 @section('script')
     <script>
-        function updatePurchaseMain() {
-            const secInput = document.getElementById('purchase_price_secondary');
-            const mainInput = document.getElementById('purchase_price_main');
-            const conversion = parseFloat(document.getElementById('conversion_rate').value) || 1;
+        // function updatePurchaseMain() {
+        //     const secInput = document.getElementById('purchase_price_secondary');
+        //     const mainInput = document.getElementById('purchase_price_main');
+        //     const conversion = parseFloat(document.getElementById('conversion_rate').value) || 1;
 
-            const sec = parseFloat(secInput.value) || 0;
-            mainInput.value = (sec / conversion).toFixed(0);
-        }
+        //     const sec = parseFloat(secInput.value) || 0;
+        //     mainInput.value = (sec / conversion).toFixed(0);
+        // }
 
-        function updateSellingSecondary() {
-            const mainInput = document.getElementById('selling_price_main');
-            const secInput = document.getElementById('selling_price_secondary');
-            const conversion = parseFloat(document.getElementById('conversion_rate').value) || 1;
+        // function updateSellingSecondary() {
+        //     const mainInput = document.getElementById('selling_price_main');
+        //     const secInput = document.getElementById('selling_price_secondary');
+        //     const conversion = parseFloat(document.getElementById('conversion_rate').value) || 1;
 
-            const main = parseFloat(mainInput.value) || 0;
-            secInput.value = (main * conversion).toFixed(0);
-        }
+        //     const main = parseFloat(mainInput.value) || 0;
+        //     secInput.value = (main * conversion).toFixed(0);
+        // }
 
-        // Event listener
-        document.getElementById('purchase_price_secondary').addEventListener('input', updatePurchaseMain);
-        document.getElementById('selling_price_main').addEventListener('input', updateSellingSecondary);
-        document.getElementById('conversion_rate').addEventListener('input', () => {
-            updatePurchaseMain();
-            updateSellingSecondary();
-        });
+        // // Event listener
+        // document.getElementById('purchase_price_secondary').addEventListener('input', updatePurchaseMain);
+        // document.getElementById('selling_price_main').addEventListener('input', updateSellingSecondary);
+        // document.getElementById('conversion_rate').addEventListener('input', () => {
+        //     updatePurchaseMain();
+        //     updateSellingSecondary();
+        // });
 
-        // Jalankan kalkulasi awal ketika halaman load (untuk edit)
-        window.addEventListener('DOMContentLoaded', () => {
-            updatePurchaseMain();
-            updateSellingSecondary();
-        });
+        // // Jalankan kalkulasi awal ketika halaman load (untuk edit)
+        // window.addEventListener('DOMContentLoaded', () => {
+        //     updatePurchaseMain();
+        //     updateSellingSecondary();
+        // });
     </script>
 @endsection

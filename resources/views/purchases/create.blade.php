@@ -16,13 +16,14 @@
                 </div>
                 <div class="col-md-3">
                     <label>Tanggal</label>
-                    <input type="date" name="date" class="form-control" value="{{ old('date', date('Y-m-d')) }}" required>
+                    <input type="date" name="date" class="form-control" value="{{ old('date', date('Y-m-d')) }}"
+                        required>
                 </div>
                 <div class="col-md-3">
                     <label>Gudang</label>
                     <select name="warehouse_id" class="form-select select2" required>
                         <option value="">-- Pilih Gudang --</option>
-                         @foreach ($warehouses as $warehouse)
+                        @foreach ($warehouses as $warehouse)
                             <option value="{{ $warehouse->id }}">{{ $warehouse->name }}</option>
                         @endforeach
                     </select>
@@ -45,7 +46,7 @@
                         <th>Qty</th>
                         <th>Harga</th>
                         <th>Diskon %</th>
-                        <th>Diskon</th>
+                        <th>Diskon (Rp)</th>
                         <th>Total</th>
                         <th></th>
                     </tr>
@@ -64,8 +65,8 @@
                         <td><input type="text" name="price[]" class="form-control form-control-sm currency-input"></td>
                         <td><input type="text" name="discount_percent[]"
                                 class="form-control form-control-sm currency-input"></td>
-                        <td><input type="text" name="discount[]" class="form-control form-control-sm currency-input" readonly>
-                        </td>
+                        <td><input type="text" name="discount[]" class="form-control form-control-sm currency-input"
+                                readonly></td>
                         <td><input type="text" name="total[]" class="form-control form-control-sm currency-input"
                                 readonly></td>
                         <td><button type="button" class="btn btn-danger btn-sm removeRow">X</button></td>
@@ -80,6 +81,11 @@
                     <td>
                         <label class="form-label">Subtotal</label>
                         <input type="text" name="subtotal" id="subtotal" class="form-control currency-input" readonly>
+                    </td>
+                    <td>
+                        <label class="form-label">Diskon Faktur</label>
+                        <input type="text" name="discount_header" id="discount_header"
+                            class="form-control currency-input">
                     </td>
                     <td>
                         <label class="form-label">Pajak (%)</label>
@@ -105,7 +111,6 @@
                 </tr>
             </table>
 
-
             <button type="submit" class="btn btn-primary">Simpan</button>
         </form>
     </div>
@@ -130,14 +135,13 @@
             let qty = parseNumber(row.querySelector('[name="qty[]"]').value);
             let price = parseNumber(row.querySelector('[name="price[]"]').value);
             let discPercent = parseNumber(row.querySelector('[name="discount_percent[]"]').value);
-            let disc = parseNumber(row.querySelector('[name="discount[]"]').value);
+            if (!discPercent || discPercent < 0) discPercent = 0;
 
             let bruto = qty * price;
             let discFromPercent = bruto * discPercent / 100;
-            let totalDisc = discFromPercent + disc;
-            let total = bruto - totalDisc;
+            let total = bruto - discFromPercent;
 
-            row.querySelector('[name="discount[]"]').value = formatter.format(totalDisc);
+            row.querySelector('[name="discount[]"]').value = formatter.format(discFromPercent);
             row.querySelector('[name="total[]"]').value = formatter.format(total);
             return total;
         }
@@ -147,11 +151,21 @@
             document.querySelectorAll('#purchaseDetails tr').forEach(row => {
                 subtotal += hitungTotalRow(row);
             });
+
+            let discountHeader = parseNumber(document.getElementById('discount_header').value);
+            if (!discountHeader || discountHeader < 0) discountHeader = 0;
+
+            let dpp = subtotal - discountHeader;
+            if (dpp < 0) dpp = 0;
+
             let taxPercent = parseNumber(document.getElementById('tax_percent').value);
+            if (!taxPercent || taxPercent < 0) taxPercent = 0;
+
+            let tax = dpp * taxPercent / 100;
             let freight = parseNumber(document.getElementById('freight').value);
             let expense = parseNumber(document.getElementById('expense').value);
-            let tax = subtotal * taxPercent / 100;
-            let grandTotal = subtotal + tax + freight + expense;
+
+            let grandTotal = dpp + tax + freight + expense;
 
             document.getElementById('subtotal').value = formatter.format(subtotal);
             document.getElementById('tax').value = formatter.format(tax);

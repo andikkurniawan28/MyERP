@@ -18,9 +18,9 @@ class ItemController extends Controller
 
             return DataTables::of($data)
                 ->addIndexColumn()
-                ->addColumn('category', fn($row) => $row->category->name)
-                ->addColumn('main_unit', fn($row) => $row->mainUnit->name)
-                ->addColumn('secondary_unit', fn($row) => $row->secondaryUnit->name)
+                ->editColumn('category', fn($row) => $row->category->name)
+                ->editColumn('main_unit', fn($row) => $row->mainUnit->name)
+                // ->addColumn('secondary_unit', fn($row) => $row->secondaryUnit->name)
                 ->editColumn('updated_at', function ($row) {
                     return Carbon::parse($row->updated_at)->locale('id')->translatedFormat('d-m-Y H:i');
                 })

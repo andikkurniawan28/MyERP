@@ -56,6 +56,13 @@
                     @error('normal_balance')<div class="invalid-feedback">{{ $message }}</div>@enderror
                 </div>
 
+                <div class="mb-3 form-check">
+                    <input type="checkbox" name="is_payment_gateway" id="is_payment_gateway"
+                        class="form-check-input" value="1" {{ old('is_payment_gateway') ? 'checked' : '' }}>
+                    <label class="form-check-label" for="is_payment_gateway">Apakah akun ini digunakan sebagai Payment Gateway?</label>
+                    @error('is_payment_gateway')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                </div>
+
                 <div class="d-flex justify-content-between">
                     <a href="{{ route('accounts.index') }}" class="btn btn-secondary">Kembali</a>
                     <button type="submit" class="btn btn-primary">Simpan</button>

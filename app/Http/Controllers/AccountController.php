@@ -81,9 +81,10 @@ class AccountController extends Controller
             'category'       => 'required|in:asset,liability,equity,revenue,expense',
             'description'    => 'required|string',
             'normal_balance' => 'required|in:debit,credit',
+            'is_payment_gateway' => 'required',
         ]);
 
-        Account::create($request->only(['code', 'name', 'category', 'description', 'normal_balance']));
+        Account::create($request->only(['code', 'name', 'category', 'description', 'normal_balance', 'is_payment_gateway']));
 
         return redirect()->route('accounts.index')->with('success', 'Akun berhasil dibuat.');
     }
@@ -118,9 +119,10 @@ class AccountController extends Controller
             'category'       => 'required|in:asset,liability,equity,revenue,expense',
             'description'    => 'required|string',
             'normal_balance' => 'required|in:debit,credit',
+            'is_payment_gateway' => 'required',
         ]);
 
-        $account->update($request->only(['code', 'name', 'category', 'description', 'normal_balance']));
+        $account->update($request->only(['code', 'name', 'category', 'description', 'normal_balance', 'is_payment_gateway']));
 
         return redirect()->route('accounts.index')->with('success', 'Akun berhasil diperbarui.');
     }

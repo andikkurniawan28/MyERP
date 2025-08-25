@@ -32,7 +32,7 @@
                         <tr>
                             <td>{{ $detail->item->code }}</td>
                             <td>{{ $detail->item->name }}</td>
-                            <td class="text-end">{{ number_format($detail->qty, 0, ',', '.') }}</td>
+                            <td class="text-end">{{ number_format($detail->qty, 0, ',', '.') }} {{ $detail->item->mainUnit->name }}</td>
                             <td class="text-end">{{ number_format($detail->price, 0, ',', '.') }}</td>
                             <td class="text-end">{{ number_format($detail->discount_percent, 0, ',', '.') }}</td>
                             <td class="text-end">{{ number_format($detail->discount, 0, ',', '.') }}</td>
@@ -46,7 +46,7 @@
                         <th class="text-end">{{ number_format($purchase->subtotal, 0, ',', '.') }}</th>
                     </tr>
                     <tr class="table-secondary">
-                        <th colspan="6" class="text-end">Diskon</th>
+                        <th colspan="6" class="text-end">Diskon ({{ number_format($purchase->discount_percent, 2, ',', '.') }}%)</th>
                         <th class="text-end">{{ number_format($purchase->discount, 0, ',', '.') }}</th>
                     </tr>
                     <tr class="table-secondary">

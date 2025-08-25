@@ -28,6 +28,7 @@ return new class extends Migration
                 'debit',
                 'credit'
             ]);
+            $table->boolean('is_payment_gateway')->default(0);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });

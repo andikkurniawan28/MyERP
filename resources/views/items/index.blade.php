@@ -22,7 +22,7 @@
                             <th>Kode</th>
                             <th>Barcode</th>
                             <th>Nama</th>
-                            <th>Satuan Kecil</th>
+                            <th>Satuan</th>
                             <th>Saldo</th>
                             <th>Aksi</th>
                         </tr>

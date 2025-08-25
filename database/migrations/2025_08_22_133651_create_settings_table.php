@@ -16,6 +16,8 @@ return new class extends Migration
             $table->foreignId('inventory_account_id')->constrained('accounts');
             $table->foreignId('stock_in_account_id')->constrained('accounts');
             $table->foreignId('stock_out_account_id')->constrained('accounts');
+            // $table->foreignId('subtotal')->constrained('accounts');
+            // $table->foreignId('stock_purchase_account_id')->constrained('accounts');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });
