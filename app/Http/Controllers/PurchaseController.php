@@ -6,9 +6,14 @@ use Carbon\Carbon;
 use App\Models\Item;
 use App\Models\Account;
 use App\Models\Contact;
+use App\Models\ItemTransaction;
+use App\Models\ItemTransactionDetail;
+use App\Models\Journal;
+use App\Models\Setting;
 use App\Models\Purchase;
 use App\Models\Warehouse;
 use Illuminate\Http\Request;
+use App\Models\JournalDetail;
 use App\Models\PurchaseDetail;
 use App\Models\PurchasePayment;
 use Yajra\DataTables\DataTables;
@@ -103,8 +108,10 @@ class PurchaseController extends Controller
 
         DB::transaction(function () use ($request) {
             $purchase = $this->createPurchase($request);
-            $this->createPurchaseDetails($purchase, $request);
-            $this->pay($purchase, $request);
+            $this->createJournal($purchase, $request);
+            $itemTransaction = $this->createItemTransaction($purchase, $request);
+            $this->createPurchaseDetails($purchase, $request, $itemTransaction);
+            $this->payPurchase($purchase, $request);
         });
 
         return redirect()->route('purchases.index')->with('success', 'Pembelian berhasil disimpan.');
@@ -160,7 +167,7 @@ class PurchaseController extends Controller
         return $purchase;
     }
 
-    protected function createPurchaseDetails(Purchase $purchase, Request $request)
+    protected function createPurchaseDetails(Purchase $purchase, Request $request, ItemTransaction $itemTransaction)
     {
         foreach ($request->item_id as $i => $itemId) {
             PurchaseDetail::create([
@@ -172,12 +179,20 @@ class PurchaseController extends Controller
                 'discount' => $request->discount[$i] ?? 0,
                 'total' => $request->total[$i] ?? 0,
             ]);
+            ItemTransactionDetail::create([
+                'item_transaction_id' => $itemTransaction->id,
+                'warehouse_id' => $purchase->warehouse_id,
+                'item_id' => $itemId,
+                'in' => $request->qty[$i],
+            ]);
             Item::whereId($itemId)->update(['purchase_price_main' => $request->price[$i]]);
         }
     }
 
-    protected function pay(Purchase $purchase, Request $request)
+    protected function payPurchase(Purchase $purchase, Request $request)
     {
+        $setting = Setting::get()->first();
+
         if ($request->payment_amount > 0) {
             $payment = PurchasePayment::create([
                 'code' => PurchasePayment::generateCode(),
@@ -209,6 +224,73 @@ class PurchaseController extends Controller
             }
 
             $purchase->save();
+
+            $journal = Journal::create([
+                'date' => $request->date,
+                'description' => "Pelunasan Hutang oleh {$purchase->contact->name}",
+                'debit' => $request->payment_amount,
+                'credit' => $request->payment_amount,
+                'user_id' => Auth::id(),
+                'code' => Journal::generateCode(),
+                'purchase_id' => $purchase->id,
+            ]);
+
+            $details = [
+                ['journal_id' => $journal->id, 'account_id' => $request->account_id, 'credit' => $request->payment_amount, 'debit' => null],
+                ['journal_id' => $journal->id, 'account_id' => $setting->purchase_grand_total_account_id, 'credit' => null, 'debit' => $request->payment_amount],
+            ];
+
+            // filter hanya yang ada debit/kredit > 0
+            // $details = array_filter($details, function ($row) {
+            //     return ($row['debit'] ?? 0) > 0 || ($row['credit'] ?? 0) > 0;
+            // });
+
+            // insert
+            JournalDetail::insert($details);
         }
+    }
+
+    protected function createJournal(Purchase $purchase, Request $request)
+    {
+        $setting = Setting::get()->first();
+
+        $journal = Journal::create([
+            'date' => $request->date,
+            'description' => "Pembelian {$purchase->code}",
+            'debit' => $request->grand_total,
+            'credit' => $request->grand_total,
+            'user_id' => Auth::id(),
+            'code' => Journal::generateCode(),
+            'purchase_id' => $purchase->id,
+        ]);
+
+        $details = [
+            ['journal_id' => $journal->id, 'account_id' => $setting->purchase_subtotal_account_id, 'debit' => $purchase->subtotal, 'credit' => 0],
+            ['journal_id' => $journal->id, 'account_id' => $setting->purchase_tax_account_id, 'debit' => $purchase->tax, 'credit' => 0],
+            ['journal_id' => $journal->id, 'account_id' => $setting->purchase_freight_account_id, 'debit' => $purchase->freight, 'credit' => 0],
+            ['journal_id' => $journal->id, 'account_id' => $setting->purchase_expenses_account_id, 'debit' => $purchase->expenses, 'credit' => 0],
+            ['journal_id' => $journal->id, 'account_id' => $setting->purchase_discount_account_id, 'debit' => 0, 'credit' => $purchase->discount],
+            ['journal_id' => $journal->id, 'account_id' => $setting->purchase_grand_total_account_id, 'debit' => 0, 'credit' => $purchase->grand_total],
+        ];
+
+        // filter hanya yang ada debit/kredit > 0
+        // $details = array_filter($details, function ($row) {
+        //     return ($row['debit'] ?? 0) > 0 || ($row['credit'] ?? 0) > 0;
+        // });
+
+        // insert
+        JournalDetail::insert($details);
+    }
+
+    protected function createItemTransaction(Purchase $purchase, Request $request)
+    {
+        $itemTransaction = ItemTransaction::create([
+            'date' => $request->date,
+            'description' => "Pembelian {$purchase->code}",
+            'warehouse_id' => $request->warehouse_id,
+            'user_id' => Auth::id(),
+            'code' => ItemTransaction::generateCode(),
+        ]);
+        return $itemTransaction;
     }
 }

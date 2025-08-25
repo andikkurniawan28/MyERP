@@ -13,11 +13,18 @@ return new class extends Migration
     {
         Schema::create('settings', function (Blueprint $table) {
             $table->id();
+
             $table->foreignId('inventory_account_id')->constrained('accounts');
             $table->foreignId('stock_in_account_id')->constrained('accounts');
             $table->foreignId('stock_out_account_id')->constrained('accounts');
-            // $table->foreignId('subtotal')->constrained('accounts');
-            // $table->foreignId('stock_purchase_account_id')->constrained('accounts');
+
+            $table->foreignId('purchase_subtotal_account_id')->constrained('accounts');
+            $table->foreignId('purchase_discount_account_id')->constrained('accounts');
+            $table->foreignId('purchase_tax_account_id')->constrained('accounts');
+            $table->foreignId('purchase_freight_account_id')->constrained('accounts');
+            $table->foreignId('purchase_expenses_account_id')->constrained('accounts');
+            $table->foreignId('purchase_grand_total_account_id')->constrained('accounts');
+
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });

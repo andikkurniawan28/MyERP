@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('journals', function (Blueprint $table) {
             $table->id();
             $table->foreignId('item_transaction_id')->nullable()->constrained()->onDelete('cascade');
+            $table->foreignId('purchase_id')->nullable()->constrained()->onDelete('cascade');
             $table->string('code')->unique();
             $table->date('date')->index();
             $table->text('description');

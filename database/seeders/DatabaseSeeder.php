@@ -48,6 +48,12 @@ class DatabaseSeeder extends Seeder
             ['code'=>'6100','name'=>'Beban Sewa','category'=>'expense','description'=>'Pengeluaran untuk biaya sewa','normal_balance'=>'debit','is_payment_gateway'=>0],
             ['code'=>'6200','name'=>'Beban Utilitas','category'=>'expense','description'=>'Biaya listrik, air, telepon, dan utilitas lain','normal_balance'=>'debit','is_payment_gateway'=>0],
             ['code'=>'6300','name'=>'Beban Selisih Persediaan','category'=>'expense','description'=>'Biaya kerugian dari selisih persediaan negatif','normal_balance'=>'debit','is_payment_gateway'=>0],
+            ['code'=>'1300','name'=>'PPn Masukan','category'=>'asset','description'=>'Pajak Pertambahan Nilai (PPN) yang dibayarkan saat pembelian barang atau jasa dan dapat dikreditkan saat pelaporan pajak.','normal_balance'=>'debit','is_payment_gateway'=>0],
+            ['code'=>'2200','name'=>'PPn Keluaran','category'=>'liability','description'=>'Pajak Pertambahan Nilai (PPN) yang dipungut dari pelanggan saat penjualan barang atau jasa, menjadi kewajiban perusahaan untuk disetor ke kantor pajak.','normal_balance'=>'credit','is_payment_gateway'=>0],
+            ['code'=>'6400','name'=>'Beban Pengiriman','category'=>'expense','description'=>'Biaya pengiriman ke supplier/customer','normal_balance'=>'debit','is_payment_gateway'=>0],
+            ['code'=>'4200','name'=>'Diskon Pembelian','category'=>'revenue','description'=>'Diskon yang didapat dari Pembelian','normal_balance'=>'credit','is_payment_gateway'=>0],
+            ['code'=>'6500','name'=>'Diskon Penjualan','category'=>'expense','description'=>'Diskon yang diberikan dari Penjualan','normal_balance'=>'debit','is_payment_gateway'=>0],
+            ['code'=>'6600','name'=>'Biaya Lain-lain','category'=>'expense','description'=>'Biaya lain dari pembelian/penjualan','normal_balance'=>'debit','is_payment_gateway'=>0],
         ]);
 
         Warehouse::insert([
@@ -114,7 +120,15 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Setting::insert([
-            ['inventory_account_id' => 4, 'stock_in_account_id' => 9, 'stock_out_account_id' => 14],
+            [
+                'inventory_account_id' => 4, 'stock_in_account_id' => 9, 'stock_out_account_id' => 14,
+                'purchase_subtotal_account_id' => 4,
+                'purchase_tax_account_id' => Account::where('code', 1300)->get()->last()->id,
+                'purchase_freight_account_id' => Account::where('code', 6400)->get()->last()->id,
+                'purchase_expenses_account_id' => Account::where('code', 6600)->get()->last()->id,
+                'purchase_discount_account_id' => Account::where('code', 4200)->get()->last()->id,
+                'purchase_grand_total_account_id' => Account::where('code', 2000)->get()->last()->id,
+            ],
         ]);
 
         Contact::insert([
