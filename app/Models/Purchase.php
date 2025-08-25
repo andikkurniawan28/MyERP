@@ -30,6 +30,11 @@ class Purchase extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function payments()
+    {
+        return $this->hasMany(PurchasePaymentDetail::class);
+    }
+
     public static function generateCode()
     {
         $prefix = "PRC";

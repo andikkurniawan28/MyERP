@@ -13,6 +13,10 @@ class ItemController extends Controller
 {
     public function index(Request $request)
     {
+        if ($response = $this->checkIzin('akses_daftar_barang')) {
+            return $response;
+        }
+
         if ($request->ajax()) {
             $data = Item::with(['category', 'mainUnit', 'secondaryUnit'])->latest();
 
@@ -29,17 +33,29 @@ class ItemController extends Controller
                     return $saldo == 0 ? '-' : number_format($saldo, 0, ',', '.'); // format lokal
                 })
                 ->addColumn('action', function ($row) {
-                    $editUrl = route('items.edit', $row->id);
-                    $deleteUrl = route('items.destroy', $row->id);
-                    return '
-                        <div class="btn-group" role="group">
-                            <a href="' . $editUrl . '" class="btn btn-sm btn-warning">Edit</a>
-                            <form action="' . $deleteUrl . '" method="POST" onsubmit="return confirm(\'Hapus data ini?\')" style="display:inline-block;">
+                    $buttons = '<div class="btn-group" role="group">';
+
+                    // Hak akses edit item
+                    if (Auth()->user()->role->akses_edit_barang) {
+                        $editUrl = route('items.edit', $row->id);
+                        $buttons .= '<a href="' . $editUrl . '" class="btn btn-sm btn-warning">Edit</a>';
+                    }
+
+                    // Hak akses hapus item
+                    if (Auth()->user()->role->akses_hapus_barang) {
+                        $deleteUrl = route('items.destroy', $row->id);
+                        $buttons .= '
+                            <form action="' . $deleteUrl . '" method="POST"
+                                onsubmit="return confirm(\'Hapus data ini?\')"
+                                style="display:inline-block;">
                                 ' . csrf_field() . method_field('DELETE') . '
                                 <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
                             </form>
-                        </div>
-                    ';
+                        ';
+                    }
+
+                    $buttons .= '</div>';
+                    return $buttons;
                 })
                 ->rawColumns(['action'])
                 ->make(true);
@@ -50,6 +66,10 @@ class ItemController extends Controller
 
     public function create()
     {
+        if ($response = $this->checkIzin('akses_tambah_barang')) {
+            return $response;
+        }
+
         $categories = ItemCategory::orderBy('name')->get();
         $units = Unit::orderBy('name')->get();
         return view('items.create', compact('categories', 'units'));
@@ -57,6 +77,10 @@ class ItemController extends Controller
 
     public function store(Request $request)
     {
+        if ($response = $this->checkIzin('akses_tambah_barang')) {
+            return $response;
+        }
+
         $request->validate([
             'item_category_id'       => 'required|exists:item_categories,id',
             'barcode'                => 'nullable|unique:items,barcode',
@@ -79,6 +103,10 @@ class ItemController extends Controller
 
     public function edit(Item $item)
     {
+        if ($response = $this->checkIzin('akses_edit_barang')) {
+            return $response;
+        }
+
         $categories = ItemCategory::orderBy('name')->get();
         $units = Unit::orderBy('name')->get();
         return view('items.edit', compact('item', 'categories', 'units'));
@@ -86,6 +114,10 @@ class ItemController extends Controller
 
     public function update(Request $request, Item $item)
     {
+        if ($response = $this->checkIzin('akses_edit_barang')) {
+            return $response;
+        }
+
         $request->validate([
             'item_category_id'       => 'required|exists:item_categories,id',
             'barcode'                => 'nullable|unique:items,barcode,' . $item->id,
@@ -108,6 +140,9 @@ class ItemController extends Controller
 
     public function destroy(Item $item)
     {
+        if ($response = $this->checkIzin('akses_hapus_barang')) {
+            return $response;
+        }
         $item->delete();
         return redirect()->route('items.index')->with('success', 'Barang berhasil dihapus.');
     }

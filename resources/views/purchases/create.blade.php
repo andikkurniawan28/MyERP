@@ -111,6 +111,26 @@
                 </tr>
             </table>
 
+            <hr>
+            <h4>Pembayaran</h4>
+            <table class="table table-borderless align-middle">
+                <tr>
+                    <td>
+                        <label class="form-label">Akun Kas/Bank</label>
+                        <select name="account_id" class="form-select select2">
+                            <option value="">-- Pilih Akun --</option>
+                            @foreach ($payment_gateways as $account)
+                                <option value="{{ $account->id }}">{{ $account->code }} - {{ $account->name }}</option>
+                            @endforeach
+                        </select>
+                    </td>
+                    <td>
+                        <label class="form-label">Jumlah Dibayar</label>
+                        <input type="text" name="payment_amount" id="payment_amount" class="form-control currency-input">
+                    </td>
+                </tr>
+            </table>
+
             <button type="submit" class="btn btn-primary">Simpan</button>
         </form>
     </div>

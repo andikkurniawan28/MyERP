@@ -57,7 +57,7 @@ class Role extends Model
             'akses_hapus_kontak' => 'Akses Hapus Kontak',
             'akses_daftar_pembelian' => 'Akses Daftar Pembelian',
             'akses_tambah_pembelian' => 'Akses Tambah Pembelian',
-            'akses_edit_pembelian' => 'Akses Edit Pembelian',
+            // 'akses_edit_pembelian' => 'Akses Edit Pembelian',
             'akses_hapus_pembelian' => 'Akses Hapus Pembelian',
         ];
         return $data;
@@ -108,7 +108,7 @@ class Role extends Model
             'akses_hapus_kontak',
             'akses_daftar_pembelian',
             'akses_tambah_pembelian',
-            'akses_edit_pembelian',
+            // 'akses_edit_pembelian',
             'akses_hapus_pembelian',
         ];
         return $data;

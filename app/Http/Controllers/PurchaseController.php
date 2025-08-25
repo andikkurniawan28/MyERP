@@ -4,19 +4,26 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Item;
+use App\Models\Account;
 use App\Models\Contact;
 use App\Models\Purchase;
 use App\Models\Warehouse;
 use Illuminate\Http\Request;
 use App\Models\PurchaseDetail;
+use App\Models\PurchasePayment;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use App\Models\PurchasePaymentDetail;
 
 class PurchaseController extends Controller
 {
     public function index(Request $request)
     {
+        if ($response = $this->checkIzin('akses_daftar_pembelian')) {
+            return $response;
+        }
+
         if ($request->ajax()) {
             $data = Purchase::query()->with('contact');
 
@@ -32,17 +39,29 @@ class PurchaseController extends Controller
                     return $carbon->translatedFormat('l, d/m/Y');
                 })
                 ->addColumn('action', function ($row) {
-                    $showUrl = route('purchases.show', $row->id);
-                    $deleteUrl = route('purchases.destroy', $row->id);
-                    return '
-                        <div class="btn-group">
-                            <a href="'.$showUrl.'" class="btn btn-sm btn-info">Detail</a>
-                            <form action="'.$deleteUrl.'" method="POST" onsubmit="return confirm(\'Hapus data ini?\')" style="display:inline-block;">
-                                '.csrf_field().method_field('DELETE').'
+                    $buttons = '<div class="btn-group" role="group">';
+
+                    // Hak akses detail purchase
+                    if (Auth()->user()->role->akses_daftar_pembelian) {
+                        $showUrl = route('purchases.show', $row->id);
+                        $buttons .= '<a href="' . $showUrl . '" class="btn btn-sm btn-info">Detail</a>';
+                    }
+
+                    // Hak akses hapus purchase
+                    if (Auth()->user()->role->akses_hapus_pembelian) {
+                        $deleteUrl = route('purchases.destroy', $row->id);
+                        $buttons .= '
+                            <form action="' . $deleteUrl . '" method="POST"
+                                onsubmit="return confirm(\'Hapus data ini?\')"
+                                style="display:inline-block;">
+                                ' . csrf_field() . method_field('DELETE') . '
                                 <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
                             </form>
-                        </div>
-                    ';
+                        ';
+                    }
+
+                    $buttons .= '</div>';
+                    return $buttons;
                 })
                 ->rawColumns(['action'])
                 ->make(true);
@@ -53,15 +72,24 @@ class PurchaseController extends Controller
 
     public function create()
     {
+        if ($response = $this->checkIzin('akses_tambah_pembelian')) {
+            return $response;
+        }
+
         $code = Purchase::generateCode();
         $warehouses = Warehouse::all();
         $contacts = Contact::where('type', 'supplier')->get();
         $items = Item::all();
-        return view('purchases.create', compact('contacts', 'items', 'warehouses', 'code'));
+        $payment_gateways = Account::where('is_payment_gateway', 1)->get();
+        return view('purchases.create', compact('contacts', 'items', 'warehouses', 'code', 'payment_gateways'));
     }
 
     public function store(Request $request)
     {
+        if ($response = $this->checkIzin('akses_tambah_pembelian')) {
+            return $response;
+        }
+
         $request->validate([
             'code' => 'required|string|unique:purchases,code',
             'date' => 'required|date',
@@ -76,6 +104,7 @@ class PurchaseController extends Controller
         DB::transaction(function () use ($request) {
             $purchase = $this->createPurchase($request);
             $this->createPurchaseDetails($purchase, $request);
+            $this->pay($purchase, $request);
         });
 
         return redirect()->route('purchases.index')->with('success', 'Pembelian berhasil disimpan.');
@@ -83,14 +112,29 @@ class PurchaseController extends Controller
 
     public function show(Purchase $purchase)
     {
-        $purchase->load(['contact', 'details.item']);
+        if ($response = $this->checkIzin('akses_daftar_pembelian')) {
+            return $response;
+        }
+        $purchase->load(['contact', 'details.item', 'payments.purchasePayment']);
         return view('purchases.show', compact('purchase'));
     }
 
     public function destroy(Purchase $purchase)
     {
+        if ($response = $this->checkIzin('akses_hapus_pembelian')) {
+            return $response;
+        }
+
+        // Cek apakah purchase punya payments
+        if ($purchase->payments()->exists()) {
+            return redirect()->route('purchases.index')
+                ->with('error', 'Pembelian tidak bisa dihapus karena sudah ada pembayaran.');
+        }
+
         $purchase->delete();
-        return redirect()->route('purchases.index')->with('success', 'Pembelian berhasil dihapus.');
+
+        return redirect()->route('purchases.index')
+            ->with('success', 'Pembelian berhasil dihapus.');
     }
 
     protected function createPurchase(Request $request)
@@ -128,7 +172,43 @@ class PurchaseController extends Controller
                 'discount' => $request->discount[$i] ?? 0,
                 'total' => $request->total[$i] ?? 0,
             ]);
+            Item::whereId($itemId)->update(['purchase_price_main' => $request->price[$i]]);
         }
     }
 
+    protected function pay(Purchase $purchase, Request $request)
+    {
+        if ($request->payment_amount > 0) {
+            $payment = PurchasePayment::create([
+                'code' => PurchasePayment::generateCode(),
+                'date' => $request->date,
+                'grand_total' => $request->payment_amount,
+                'currency' => 'IDR',
+                'contact_id' => $request->contact_id,
+                'user_id' => Auth::id(),
+            ]);
+
+            PurchasePaymentDetail::create([
+                'purchase_payment_id' => $payment->id,
+                'purchase_id' => $purchase->id,
+                'account_id' => $request->account_id,
+                'total' => $request->payment_amount,
+            ]);
+
+            // 🔹 Update kolom paid & remaining di purchase
+            $purchase->paid += $request->payment_amount;
+            $purchase->remaining = $purchase->grand_total - $purchase->paid;
+
+            // 🔹 Update status sesuai kondisi pembayaran
+            if ($purchase->paid == 0) {
+                $purchase->status = 'Belum Dibayar';
+            } elseif ($purchase->paid < $purchase->grand_total) {
+                $purchase->status = 'Belum Lunas';
+            } elseif ($purchase->paid >= $purchase->grand_total) {
+                $purchase->status = 'Lunas';
+            }
+
+            $purchase->save();
+        }
+    }
 }

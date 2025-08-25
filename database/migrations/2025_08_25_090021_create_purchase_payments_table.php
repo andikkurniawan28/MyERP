@@ -13,7 +13,15 @@ return new class extends Migration
     {
         Schema::create('purchase_payments', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->string('code')->unique();
+            $table->date('date')->index();
+            $table->decimal('grand_total', 15, 2)->default(0)->index(); // total pembayaran
+            $table->string('currency')->default('IDR');
+            // $table->enum('status', ['pending', 'paid'])->default('pending')->index();
+            $table->foreignId('contact_id')->constrained();
+            $table->foreignId('user_id')->constrained();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });
     }
 
