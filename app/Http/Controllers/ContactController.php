@@ -20,6 +20,10 @@ class ContactController extends Controller
 
             return DataTables::of($data)
                 ->addIndexColumn()
+                ->addColumn('payable', function ($row) {
+                    $payable = $row->payable();
+                    return $payable == 0 ? '-' : number_format($payable, 0, ',', '.'); // format lokal
+                })
                 ->addColumn('action', function ($row) {
                     $buttons = '<div class="btn-group" role="group">';
                     if (Auth()->user()->role->akses_edit_kontak) {

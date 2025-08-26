@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
-use App\Models\PurchasePayment;
+use App\Models\Account;
+use App\Models\Contact;
 use Illuminate\Http\Request;
+use App\Models\PurchasePayment;
 use Yajra\DataTables\DataTables;
 
 class PurchasePaymentController extends Controller
@@ -69,7 +71,14 @@ class PurchasePaymentController extends Controller
      */
     public function create()
     {
-        //
+        if ($response = $this->checkIzin('akses_tambah_pelunasan_hutang')) {
+            return $response;
+        }
+
+        $code = PurchasePayment::generateCode();
+        $contacts = Contact::where('type', 'supplier')->get();
+        $payment_gateways = Account::where('is_payment_gateway', 1)->get();
+        return view('purchasePayments.create', compact('contacts', 'code', 'payment_gateways'));
     }
 
     /**
@@ -85,7 +94,17 @@ class PurchasePaymentController extends Controller
      */
     public function show(PurchasePayment $purchasePayment)
     {
-        //
+        if ($response = $this->checkIzin('akses_daftar_pelunasan_hutang')) {
+            return $response;
+        }
+
+        $purchasePayment->load([
+            'contact',
+            'details.purchase',
+            'details.account',
+        ]);
+
+        return view('purchasePayments.show', compact('purchasePayment'));
     }
 
     /**

@@ -77,6 +77,33 @@
 				Master
 			</li>
 
+            @if(Auth::user()->role->akses_daftar_kontak)
+                <li class="sidebar-item @yield('contacts-active')">
+                    <a class="sidebar-link" href="{{ route('contacts.index') }}">
+                        <i class="bi bi-person-lines-fill align-middle"></i>
+                        <span class="align-middle">Kontak</span>
+                    </a>
+                </li>
+            @endif
+
+            @if (Auth()->user()->role->akses_daftar_barang)
+                <li class="sidebar-item @yield('items-active')">
+                    <a class="sidebar-link" href="{{ route('items.index') }}">
+                        <i class="bi bi-box align-middle"></i>
+                        <span class="align-middle">Barang</span>
+                    </a>
+                </li>
+            @endif
+
+            @if (Auth()->user()->role->akses_daftar_akun)
+                <li class="sidebar-item @yield('accounts-active')">
+                    <a class="sidebar-link" href="{{ route('accounts.index') }}">
+                        <i class="bi bi-wallet2 align-middle"></i>
+                        <span class="align-middle">Akun</span>
+                    </a>
+                </li>
+            @endif
+
             @if (Auth()->user()->role->akses_daftar_jabatan)
                 <li class="sidebar-item @yield('roles-active')">
                     <a class="sidebar-link" href="{{ route('roles.index') }}">
@@ -91,15 +118,6 @@
                     <a class="sidebar-link" href="{{ route('users.index') }}">
                         <i class="bi bi-people align-middle"></i>
                         <span class="align-middle">User</span>
-                    </a>
-                </li>
-            @endif
-
-            @if (Auth()->user()->role->akses_daftar_akun)
-                <li class="sidebar-item @yield('accounts-active')">
-                    <a class="sidebar-link" href="{{ route('accounts.index') }}">
-                        <i class="bi bi-wallet2 align-middle"></i>
-                        <span class="align-middle">Akun</span>
                     </a>
                 </li>
             @endif
@@ -127,24 +145,6 @@
                     <a class="sidebar-link" href="{{ route('item_categories.index') }}">
                         <i class="bi bi-collection align-middle"></i>
                         <span class="align-middle">Kategori Barang</span>
-                    </a>
-                </li>
-            @endif
-
-            @if (Auth()->user()->role->akses_daftar_barang)
-                <li class="sidebar-item @yield('items-active')">
-                    <a class="sidebar-link" href="{{ route('items.index') }}">
-                        <i class="bi bi-box align-middle"></i>
-                        <span class="align-middle">Barang</span>
-                    </a>
-                </li>
-            @endif
-
-            @if(Auth::user()->role->akses_daftar_kontak)
-                <li class="sidebar-item @yield('contacts-active')">
-                    <a class="sidebar-link" href="{{ route('contacts.index') }}">
-                        <i class="bi bi-person-lines-fill align-middle"></i>
-                        <span class="align-middle">Kontak</span>
                     </a>
                 </li>
             @endif

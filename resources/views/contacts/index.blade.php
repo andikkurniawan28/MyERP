@@ -24,6 +24,7 @@
                             <th>Nama</th>
                             <th>Jenis</th>
                             <th>Organisasi</th>
+                            <th>Hutang</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -47,6 +48,7 @@
                 { data: 'name', name: 'name' },
                 { data: 'type', name: 'type' },
                 { data: 'organization_name', name: 'organization_name' },
+                { data: 'payable', name: 'payable' },
                 { data: 'action', name: 'action', orderable: false, searchable: false }
             ]
         });

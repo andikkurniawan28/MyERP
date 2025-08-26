@@ -216,9 +216,9 @@ class PurchaseController extends Controller
 
             // 🔹 Update status sesuai kondisi pembayaran
             if ($purchase->paid == 0) {
-                $purchase->status = 'Belum Dibayar';
+                $purchase->status = 'Menunggu Pembayaran';
             } elseif ($purchase->paid < $purchase->grand_total) {
-                $purchase->status = 'Belum Lunas';
+                $purchase->status = 'Belum Tuntas';
             } elseif ($purchase->paid >= $purchase->grand_total) {
                 $purchase->status = 'Lunas';
             }

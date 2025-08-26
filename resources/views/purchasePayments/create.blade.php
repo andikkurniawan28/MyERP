@@ -1,10 +1,10 @@
 @extends('template.master')
 
-@section('purchases-active', 'active')
+@section('purchasePayments-active', 'active')
 
 @section('content')
     <div class="container-fluid">
-        <h1 class="h3 mb-3"><strong>Tambah Pembelian</strong></h1>
+        <h1 class="h3 mb-3"><strong>Tambah Pelunasan Hutang</strong></h1>
 
         <form action="{{ route('purchases.store') }}" method="POST">
             @csrf
@@ -19,7 +19,7 @@
                     <input type="date" name="date" class="form-control" value="{{ old('date', date('Y-m-d')) }}"
                         required>
                 </div>
-                <div class="col-md-3">
+                {{-- <div class="col-md-3">
                     <label>Gudang</label>
                     <select name="warehouse_id" class="form-select select2" required>
                         <option value="">-- Pilih Gudang --</option>
@@ -27,7 +27,7 @@
                             <option value="{{ $warehouse->id }}">{{ $warehouse->name }}</option>
                         @endforeach
                     </select>
-                </div>
+                </div> --}}
                 <div class="col-md-3">
                     <label>Supplier</label>
                     <select name="contact_id" class="form-select select2" required>
@@ -42,18 +42,18 @@
             <table class="table table-bordered">
                 <thead>
                     <tr>
-                        <th>Barang</th>
-                        <th>Qty</th>
+                        {{-- <th>Barang</th>
+                        <th>Qty</th> --}}
                         <th>Harga</th>
-                        <th>Diskon %</th>
-                        <th>Diskon (Rp)</th>
+                        {{-- <th>Diskon %</th>
+                        <th>Diskon (Rp)</th> --}}
                         <th>Total</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody id="purchaseDetails">
                     <tr>
-                        <td>
+                        {{-- <td>
                             <select name="item_id[]" class="form-select select2" required>
                                 <option value="">-- Pilih Barang --</option>
                                 @foreach ($items as $item)
@@ -61,12 +61,12 @@
                                 @endforeach
                             </select>
                         </td>
-                        <td><input type="text" name="qty[]" class="form-control form-control-sm currency-input"></td>
+                        <td><input type="text" name="qty[]" class="form-control form-control-sm currency-input"></td> --}}
                         <td><input type="text" name="price[]" class="form-control form-control-sm currency-input"></td>
-                        <td><input type="text" name="discount_percent[]"
+                        {{-- <td><input type="text" name="discount_percent[]"
                                 class="form-control form-control-sm currency-input"></td>
                         <td><input type="text" name="discount[]" class="form-control form-control-sm currency-input"
-                                readonly></td>
+                                readonly></td> --}}
                         <td><input type="text" name="total[]" class="form-control form-control-sm currency-input"
                                 readonly></td>
                         <td><button type="button" class="btn btn-danger btn-sm removeRow">X</button></td>
@@ -78,7 +78,7 @@
 
             <table class="table table-borderless align-middle">
                 <tr>
-                    <td>
+                    {{-- <td>
                         <label class="form-label">Subtotal</label>
                         <input type="text" name="subtotal" id="subtotal" class="form-control currency-input" readonly>
                     </td>
@@ -102,31 +102,11 @@
                         <label class="form-label">Diskon Faktur</label>
                         <input type="text" name="discount_header" id="discount_header"
                             class="form-control currency-input">
-                    </td>
+                    </td> --}}
                     <td>
                         <label class="form-label">Grand Total</label>
                         <input type="text" name="grand_total" id="grand_total" class="form-control currency-input"
                             readonly>
-                    </td>
-                </tr>
-            </table>
-
-            <hr>
-            <h4>Pembayaran</h4>
-            <table class="table table-borderless align-middle">
-                <tr>
-                    <td>
-                        <label class="form-label">Akun Kas/Bank</label>
-                        <select name="account_id" class="form-select select2">
-                            <option value="">-- Pilih Akun --</option>
-                            @foreach ($payment_gateways as $account)
-                                <option value="{{ $account->id }}">{{ $account->code }} - {{ $account->name }}</option>
-                            @endforeach
-                        </select>
-                    </td>
-                    <td>
-                        <label class="form-label">Jumlah Dibayar</label>
-                        <input type="text" name="payment_amount" id="payment_amount" class="form-control currency-input">
                     </td>
                 </tr>
             </table>

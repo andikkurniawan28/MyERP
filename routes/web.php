@@ -20,6 +20,7 @@ use App\Http\Controllers\ItemCategoryController;
 use App\Http\Controllers\MedicalRecordController;
 use App\Http\Controllers\ItemTransactionController;
 use App\Http\Controllers\PurchasePaymentController;
+use App\Http\Controllers\TestController;
 
 /*
 |--------------------------------------------------------------------------
@@ -82,3 +83,6 @@ Route::resource('contacts', ContactController::class)->middleware(['auth']);
 // Transaksi
 Route::resource('purchases', PurchaseController::class)->middleware(['auth']);
 Route::resource('purchasePayments', PurchasePaymentController::class)->middleware(['auth']);
+
+// Test
+Route::get('test/{id}', TestController::class)->name('test');

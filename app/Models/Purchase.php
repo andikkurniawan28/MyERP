@@ -26,7 +26,8 @@ class Purchase extends Model
         return $this->belongsTo(Contact::class);
     }
 
-    public function user(){
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
 

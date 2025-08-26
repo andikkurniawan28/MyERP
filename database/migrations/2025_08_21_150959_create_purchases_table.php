@@ -29,10 +29,10 @@ return new class extends Migration
             $table->decimal('remaining', 15, 2)->default(0)->index();
             $table->string('currency')->default('IDR');
             $table->enum('status', [
-                'Belum Dibayar',
-                'Belum Lunas',
+                'Menunggu Pembayaran',
+                'Belum Tuntas',
                 'Lunas',
-            ])->default('Belum Dibayar')->index();
+            ])->default('Menunggu Pembayaran')->index();
             $table->foreignId('user_id')->constrained();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();

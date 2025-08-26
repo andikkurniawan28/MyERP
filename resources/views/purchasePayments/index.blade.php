@@ -6,13 +6,13 @@
 <div class="container-fluid py-0 px-0">
     <h1 class="h3 mb-3"><strong>Daftar Pelunasan Hutang</strong></h1>
 
-    @if(Auth()->user()->role->akses_tambah_pelunasan_hutang ?? true)
+    {{-- @if(Auth()->user()->role->akses_tambah_pelunasan_hutang ?? true)
     <div class="d-flex justify-content-between mb-3">
         <a href="{{ route('purchasePayments.create') }}" class="btn btn-primary">
             <i class="bi bi-plus-circle"></i> Tambah
         </a>
     </div>
-    @endif
+    @endif --}}
 
     <div class="card shadow-sm">
         <div class="card-body">
