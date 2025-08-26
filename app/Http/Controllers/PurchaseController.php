@@ -196,6 +196,7 @@ class PurchaseController extends Controller
         if ($request->payment_amount > 0) {
             $payment = PurchasePayment::create([
                 'code' => PurchasePayment::generateCode(),
+                'account_id' => $request->account_id,
                 'date' => $request->date,
                 'grand_total' => $request->payment_amount,
                 'currency' => 'IDR',
@@ -206,7 +207,6 @@ class PurchaseController extends Controller
             PurchasePaymentDetail::create([
                 'purchase_payment_id' => $payment->id,
                 'purchase_id' => $purchase->id,
-                'account_id' => $request->account_id,
                 'total' => $request->payment_amount,
             ]);
 

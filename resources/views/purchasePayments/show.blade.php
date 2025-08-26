@@ -17,6 +17,7 @@
                     {{ $purchasePayment->contact->prefix }} {{ $purchasePayment->contact->name }}
                     ({{ $purchasePayment->contact->organization_name }})
                 </p>
+                <p><strong>Dibayarkan melalui:</strong> {{ $purchasePayment->account->code }} - {{ $purchasePayment->account->name }}</p>
                 <br>
 
                 <div class="table-responsive">
@@ -24,7 +25,7 @@
                         <thead>
                             <tr class="table-primary">
                                 <th>Faktur Pembelian</th>
-                                <th>Dibayarkan melalui</th>
+                                {{-- <th>Dibayarkan melalui</th> --}}
                                 <th class="text-end">Jumlah Pelunasan</th>
                             </tr>
                         </thead>
@@ -32,14 +33,14 @@
                             @foreach ($purchasePayment->details as $detail)
                                 <tr>
                                     <td>{{ $detail->purchase->code ?? '-' }}</td>
-                                    <td>{{ $detail->account->code }} - {{ $detail->account->name }}</td>
+                                    {{-- <td>{{ $detail->account->code }} - {{ $detail->account->name }}</td> --}}
                                     <td class="text-end">{{ number_format($detail->total, 0, ',', '.') }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
                         <tfoot>
                             <tr class="table-dark">
-                                <th colspan="2" class="text-end">Grand Total</th>
+                                <th colspan="1" class="text-end">Grand Total</th>
                                 <th class="text-end">{{ number_format($purchasePayment->grand_total, 0, ',', '.') }}</th>
                             </tr>
                         </tfoot>

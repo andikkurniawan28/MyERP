@@ -10,6 +10,7 @@ class PurchasePayment extends Model
     use HasFactory;
 
     protected $fillable = [
+        'account_id',
         'code',
         'date',
         'grand_total',
@@ -17,6 +18,12 @@ class PurchasePayment extends Model
         'contact_id',
         'user_id',
     ];
+
+    // Relasi ke account (account)
+    public function account()
+    {
+        return $this->belongsTo(Account::class);
+    }
 
     // Relasi ke contact (supplier)
     public function contact()

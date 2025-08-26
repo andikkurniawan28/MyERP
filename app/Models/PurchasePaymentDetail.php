@@ -12,7 +12,7 @@ class PurchasePaymentDetail extends Model
     protected $fillable = [
         'purchase_payment_id',
         'purchase_id',
-        'account_id',
+        // 'account_id',
         'total',
     ];
 

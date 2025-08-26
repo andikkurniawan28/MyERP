@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('purchase_payment_id')->constrained()->onDelete('cascade');
             $table->foreignId('purchase_id')->constrained()->onDelete('cascade');
-            $table->foreignId('account_id')->constrained()->onDelete('cascade');
             $table->decimal('total', 15, 2)->default(0);
             // $table->string('description')->nullable();
             $table->timestamp('created_at')->useCurrent();

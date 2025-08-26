@@ -26,9 +26,14 @@ class ContactController extends Controller
                 })
                 ->addColumn('action', function ($row) {
                     $buttons = '<div class="btn-group" role="group">';
+
                     if (Auth()->user()->role->akses_edit_kontak) {
                         $editUrl = route('contacts.edit', $row->id);
                         $buttons .= '<a href="' . $editUrl . '" class="btn btn-sm btn-warning">Edit</a>';
+                    }
+                    if (Auth()->user()->role->akses_tambah_pelunasan_hutang && $row->payable() > 0) {
+                        $editUrl2 = route('purchasePayments.createByUser', $row->id);
+                        $buttons .= '<a href="' . $editUrl2 . '" class="btn btn-sm btn-success">Pelunasan Hutang</a>';
                     }
                     if (Auth()->user()->role->akses_hapus_kontak) {
                         $deleteUrl = route('contacts.destroy', $row->id);

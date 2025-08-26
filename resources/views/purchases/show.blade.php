@@ -93,7 +93,7 @@
                                         <td>{{ \Carbon\Carbon::parse($paymentDetail->purchasePayment->date)->locale('id')->translatedFormat('l, d/m/Y') }}
                                         </td>
                                         <td>{{ $paymentDetail->purchasePayment->code }}</td>
-                                        <td>{{ $paymentDetail->account->code }} - {{ $paymentDetail->account->name }}</td>
+                                        <td>{{ $paymentDetail->purchasePayment->account->code }} - {{ $paymentDetail->purchasePayment->account->name }}</td>
                                         <td class="text-end">{{ number_format($paymentDetail->total, 0, ',', '.') }}</td>
                                     </tr>
                                 @endforeach

@@ -68,7 +68,7 @@ class ItemTransactionController extends Controller
         $code = ItemTransaction::generateCode();
         $items = Item::all();
         $warehouses = Warehouse::all();
-        $purchases = Purchase::where('status', '!=', 'paid')->select(['id', 'code'])->get();
+        $purchases = Purchase::where('status', '!=', 'Lunas')->select(['id', 'code'])->get();
         return view('item_transactions.create', compact('items', 'warehouses', 'code', 'purchases'));
     }
 

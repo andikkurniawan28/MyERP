@@ -18,6 +18,7 @@ return new class extends Migration
             $table->decimal('grand_total', 15, 2)->default(0)->index(); // total pembayaran
             $table->string('currency')->default('IDR');
             // $table->enum('status', ['pending', 'paid'])->default('pending')->index();
+            $table->foreignId('account_id')->constrained();
             $table->foreignId('contact_id')->constrained();
             $table->foreignId('user_id')->constrained();
             $table->timestamp('created_at')->useCurrent();
