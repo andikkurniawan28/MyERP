@@ -30,6 +30,6 @@ class ItemTransaction extends Model
 
     public static function generateCode()
     {
-        return 'ITR-'.date('Ymd').'-'.date('His');
+        return 'ITR'.date('YmdHis');
     }
 }

@@ -38,6 +38,6 @@ class Purchase extends Model
     public static function generateCode()
     {
         $prefix = "PRC";
-        return $prefix . '-' . date('Ymd') . '-' . date('His');
+        return $prefix.date('YmdHis');
     }
 }

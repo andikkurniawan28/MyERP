@@ -47,7 +47,7 @@
                 { data: 'code', name: 'code' },
                 { data: 'barcode', name: 'barcode' },
                 { data: 'name', name: 'name' },
-                { data: 'main_unit', name: 'main_unit.name' },
+                { data: 'mainUnit', name: 'mainUnit.name' },
                 { data: 'saldo', name: 'saldo' },
                 { data: 'action', name: 'action', orderable: false, searchable: false }
             ]

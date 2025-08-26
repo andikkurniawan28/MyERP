@@ -18,12 +18,12 @@ class ItemController extends Controller
         }
 
         if ($request->ajax()) {
-            $data = Item::with(['category', 'mainUnit', 'secondaryUnit'])->latest();
+            $data = Item::query()->with(['category', 'mainUnit']);
 
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->editColumn('category', fn($row) => $row->category->name)
-                ->editColumn('main_unit', fn($row) => $row->mainUnit->name)
+                ->editColumn('mainUnit', fn($row) => $row->mainUnit->name)
                 // ->addColumn('secondary_unit', fn($row) => $row->secondaryUnit->name)
                 ->editColumn('updated_at', function ($row) {
                     return Carbon::parse($row->updated_at)->locale('id')->translatedFormat('d-m-Y H:i');

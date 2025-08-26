@@ -50,6 +50,6 @@ class PurchasePayment extends Model
     public static function generateCode()
     {
         $prefix = "PRP";
-        return $prefix . '-' . date('Ymd') . '-' . date('His');
+        return $prefix.date('YmdHis');
     }
 }

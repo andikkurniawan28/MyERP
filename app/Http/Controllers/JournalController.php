@@ -20,7 +20,7 @@ class JournalController extends Controller
         }
 
         if ($request->ajax()) {
-            $data = Journal::query();
+            $data = Journal::query()->with('user');
 
             return DataTables::of($data)
                 ->addIndexColumn()

@@ -64,6 +64,15 @@
                 </li>
             @endif
 
+            @if(Auth::user()->role->akses_daftar_pelunasan_hutang)
+                <li class="sidebar-item @yield('purchasePayments-active')">
+                    <a class="sidebar-link" href="{{ route('purchasePayments.index') }}">
+                        <i class="bi bi-wallet2 align-middle"></i>
+                        <span class="align-middle">Pelunasan Hutang</span>
+                    </a>
+                </li>
+            @endif
+
             <li class="sidebar-header">
 				Master
 			</li>

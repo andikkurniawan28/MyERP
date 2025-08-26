@@ -30,7 +30,7 @@ class PurchaseController extends Controller
         }
 
         if ($request->ajax()) {
-            $data = Purchase::query()->with('contact');
+            $data = Purchase::query()->with('contact', 'user');
 
             return DataTables::of($data)
                 ->addIndexColumn()
@@ -232,7 +232,7 @@ class PurchaseController extends Controller
                 'credit' => $request->payment_amount,
                 'user_id' => Auth::id(),
                 'code' => Journal::generateCode(),
-                'purchase_id' => $purchase->id,
+                'purchase_payment_id' => $payment->id,
             ]);
 
             $details = [

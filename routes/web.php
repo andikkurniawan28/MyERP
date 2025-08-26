@@ -19,6 +19,7 @@ use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\ItemCategoryController;
 use App\Http\Controllers\MedicalRecordController;
 use App\Http\Controllers\ItemTransactionController;
+use App\Http\Controllers\PurchasePaymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -80,3 +81,4 @@ Route::resource('contacts', ContactController::class)->middleware(['auth']);
 
 // Transaksi
 Route::resource('purchases', PurchaseController::class)->middleware(['auth']);
+Route::resource('purchasePayments', PurchasePaymentController::class)->middleware(['auth']);
