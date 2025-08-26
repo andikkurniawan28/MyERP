@@ -196,6 +196,142 @@
                                     @enderror
                                 </td>
                             </tr>
+                            <tr>
+                                <td colspan="2" class="table-dark">Penjualan</td>
+                            </tr>
+                            <tr>
+                                <td>Akun Subtotal Penjualan</td>
+                                <td>
+                                    <select name="sales_subtotal_account_id" id="sales_subtotal_account_id"
+                                        class="form-select select2 @error('sales_subtotal_account_id') is-invalid @enderror"
+                                        required>
+                                        <option value="">-- Pilih Akun --</option>
+                                        @foreach ($accounts as $account)
+                                            <option value="{{ $account->id }}"
+                                                {{ old('sales_subtotal_account_id', $setting->sales_subtotal_account_id) == $account->id ? 'selected' : '' }}>
+                                                {{ $account->code }} - {{ $account->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    @error('sales_subtotal_account_id')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Akun Diskon Penjualan</td>
+                                <td>
+                                    <select name="sales_discount_account_id" id="sales_discount_account_id"
+                                        class="form-select select2 @error('sales_discount_account_id') is-invalid @enderror"
+                                        required>
+                                        <option value="">-- Pilih Akun --</option>
+                                        @foreach ($accounts as $account)
+                                            <option value="{{ $account->id }}"
+                                                {{ old('sales_discount_account_id', $setting->sales_discount_account_id) == $account->id ? 'selected' : '' }}>
+                                                {{ $account->code }} - {{ $account->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    @error('sales_discount_account_id')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Akun Pajak Penjualan</td>
+                                <td>
+                                    <select name="sales_tax_account_id" id="sales_tax_account_id"
+                                        class="form-select select2 @error('sales_tax_account_id') is-invalid @enderror"
+                                        required>
+                                        <option value="">-- Pilih Akun --</option>
+                                        @foreach ($accounts as $account)
+                                            <option value="{{ $account->id }}"
+                                                {{ old('sales_tax_account_id', $setting->sales_tax_account_id) == $account->id ? 'selected' : '' }}>
+                                                {{ $account->code }} - {{ $account->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    @error('sales_tax_account_id')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Akun Ongkir Penjualan</td>
+                                <td>
+                                    <select name="sales_freight_account_id" id="sales_freight_account_id"
+                                        class="form-select select2 @error('sales_freight_account_id') is-invalid @enderror"
+                                        required>
+                                        <option value="">-- Pilih Akun --</option>
+                                        @foreach ($accounts as $account)
+                                            <option value="{{ $account->id }}"
+                                                {{ old('sales_freight_account_id', $setting->sales_freight_account_id) == $account->id ? 'selected' : '' }}>
+                                                {{ $account->code }} - {{ $account->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    @error('sales_freight_account_id')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Akun Beban Penjualan</td>
+                                <td>
+                                    <select name="sales_expenses_account_id" id="sales_expenses_account_id"
+                                        class="form-select select2 @error('sales_expenses_account_id') is-invalid @enderror"
+                                        required>
+                                        <option value="">-- Pilih Akun --</option>
+                                        @foreach ($accounts as $account)
+                                            <option value="{{ $account->id }}"
+                                                {{ old('sales_expenses_account_id', $setting->sales_expenses_account_id) == $account->id ? 'selected' : '' }}>
+                                                {{ $account->code }} - {{ $account->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    @error('sales_expenses_account_id')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Akun Grand Total Penjualan</td>
+                                <td>
+                                    <select name="sales_grand_total_account_id" id="sales_grand_total_account_id"
+                                        class="form-select select2 @error('sales_grand_total_account_id') is-invalid @enderror"
+                                        required>
+                                        <option value="">-- Pilih Akun --</option>
+                                        @foreach ($accounts as $account)
+                                            <option value="{{ $account->id }}"
+                                                {{ old('sales_grand_total_account_id', $setting->sales_grand_total_account_id) == $account->id ? 'selected' : '' }}>
+                                                {{ $account->code }} - {{ $account->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    @error('sales_grand_total_account_id')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Akun HPP Penjualan</td>
+                                <td>
+                                    <select name="sales_cogs_account_id" id="sales_cogs_account_id"
+                                        class="form-select select2 @error('sales_cogs_account_id') is-invalid @enderror"
+                                        required>
+                                        <option value="">-- Pilih Akun --</option>
+                                        @foreach ($accounts as $account)
+                                            <option value="{{ $account->id }}"
+                                                {{ old('sales_cogs_account_id', $setting->sales_cogs_account_id) == $account->id ? 'selected' : '' }}>
+                                                {{ $account->code }} - {{ $account->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    @error('sales_cogs_account_id')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
 

@@ -54,6 +54,8 @@ class DatabaseSeeder extends Seeder
             ['code'=>'4200','name'=>'Diskon Pembelian','category'=>'revenue','description'=>'Diskon yang didapat dari Pembelian','normal_balance'=>'credit','is_payment_gateway'=>0],
             ['code'=>'6500','name'=>'Diskon Penjualan','category'=>'expense','description'=>'Diskon yang diberikan dari Penjualan','normal_balance'=>'debit','is_payment_gateway'=>0],
             ['code'=>'6600','name'=>'Biaya Lain-lain','category'=>'expense','description'=>'Biaya lain dari pembelian/penjualan','normal_balance'=>'debit','is_payment_gateway'=>0],
+            ['code'=>'4300','name'=>'Pendapatan Pengiriman','category'=>'revenue','description'=>'Pendapatan ongkir dari penjualan','normal_balance'=>'credit','is_payment_gateway'=>0],
+            ['code'=>'4400','name'=>'Pendapatan Lain-lain','category'=>'revenue','description'=>'Pendapatan lain-lain','normal_balance'=>'credit','is_payment_gateway'=>0],
         ]);
 
         Warehouse::insert([
@@ -87,7 +89,7 @@ class DatabaseSeeder extends Seeder
                 'main_unit_id' => 5,
                 // 'secondary_unit_id' => 4, 'conversion_rate' => 1000,
                 // 'purchase_price_secondary' => 12000.00, 'selling_price_secondary' => null,
-                'purchase_price_main' => 12.00, 'selling_price_main' => null
+                'purchase_price_main' => 15000, 'selling_price_main' => 18000
             ],
             [
                 'item_category_id' => 5, 'barcode' => 'BK-001', 'code' => 'ITM-002', 'name' => 'Karung Plastik 50 Kg', 'description' => 'Kemasan plastik karung untuk produk jadi 50Kg',
@@ -128,6 +130,13 @@ class DatabaseSeeder extends Seeder
                 'purchase_expenses_account_id' => Account::where('code', 6600)->get()->last()->id,
                 'purchase_discount_account_id' => Account::where('code', 4200)->get()->last()->id,
                 'purchase_grand_total_account_id' => Account::where('code', 2000)->get()->last()->id,
+                'sales_subtotal_account_id' => Account::where('code', 4000)->get()->last()->id,
+                'sales_tax_account_id' => Account::where('code', 2200)->get()->last()->id,
+                'sales_freight_account_id' => Account::where('code', 4300)->get()->last()->id,
+                'sales_expenses_account_id' => Account::where('code', 4400)->get()->last()->id,
+                'sales_discount_account_id' => Account::where('code', 6500)->get()->last()->id,
+                'sales_grand_total_account_id' => Account::where('code', 1100)->get()->last()->id,
+                'sales_cogs_account_id' => Account::where('code', 5000)->get()->last()->id,
             ],
         ]);
 

@@ -16,6 +16,8 @@ return new class extends Migration
             $table->foreignId('item_transaction_id')->nullable()->constrained()->onDelete('cascade');
             $table->foreignId('purchase_id')->nullable()->constrained()->onDelete('cascade');
             $table->foreignId('purchase_payment_id')->nullable()->constrained()->onDelete('cascade');
+            $table->foreignId('sales_id')->nullable()->constrained()->onDelete('cascade');
+            $table->foreignId('sales_payment_id')->nullable()->constrained()->onDelete('cascade');
             $table->string('code')->unique();
             $table->date('date')->index();
             $table->text('description');

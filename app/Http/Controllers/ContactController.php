@@ -24,6 +24,10 @@ class ContactController extends Controller
                     $payable = $row->payable();
                     return $payable == 0 ? '-' : number_format($payable, 0, ',', '.'); // format lokal
                 })
+                ->addColumn('receivable', function ($row) {
+                    $receivable = $row->receivable();
+                    return $receivable == 0 ? '-' : number_format($receivable, 0, ',', '.'); // format lokal
+                })
                 ->addColumn('action', function ($row) {
                     $buttons = '<div class="btn-group" role="group">';
 
@@ -34,6 +38,10 @@ class ContactController extends Controller
                     if (Auth()->user()->role->akses_tambah_pelunasan_hutang && $row->payable() > 0) {
                         $editUrl2 = route('purchasePayments.createByUser', $row->id);
                         $buttons .= '<a href="' . $editUrl2 . '" class="btn btn-sm btn-success">Pelunasan Hutang</a>';
+                    }
+                    if (Auth()->user()->role->akses_tambah_pelunasan_piutang && $row->receivable() > 0) {
+                        $editUrl3 = route('salesPayments.createByUser', $row->id);
+                        $buttons .= '<a href="' . $editUrl3 . '" class="btn btn-sm btn-primary">Pelunasan Piutang</a>';
                     }
                     if (Auth()->user()->role->akses_hapus_kontak) {
                         $deleteUrl = route('contacts.destroy', $row->id);

@@ -1,12 +1,15 @@
 <?php
 
+use App\Models\PurchasePayment;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\TestController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\SalesController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\JournalController;
@@ -17,11 +20,10 @@ use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\ItemCategoryController;
+use App\Http\Controllers\SalesPaymentController;
 use App\Http\Controllers\MedicalRecordController;
 use App\Http\Controllers\ItemTransactionController;
 use App\Http\Controllers\PurchasePaymentController;
-use App\Http\Controllers\TestController;
-use App\Models\PurchasePayment;
 
 /*
 |--------------------------------------------------------------------------
@@ -85,6 +87,9 @@ Route::resource('contacts', ContactController::class)->middleware(['auth']);
 Route::resource('purchases', PurchaseController::class)->middleware(['auth']);
 Route::resource('purchasePayments', PurchasePaymentController::class)->middleware(['auth']);
 Route::get('purchasePayments/create/{contact_id}', [PurchasePaymentController::class, 'create'])->name('purchasePayments.createByUser')->middleware(['auth']);
+Route::resource('sales', SalesController::class)->middleware(['auth']);
+Route::resource('salesPayments', SalesPaymentController::class)->middleware(['auth']);
+Route::get('salesPayments/create/{contact_id}', [SalesPaymentController::class, 'create'])->name('salesPayments.createByUser')->middleware(['auth']);
 
 // Test
 Route::get('test/{id}', TestController::class)->name('test');

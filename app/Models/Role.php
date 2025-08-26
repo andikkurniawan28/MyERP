@@ -63,6 +63,14 @@ class Role extends Model
             'akses_tambah_pelunasan_hutang' => 'Akses Tambah Pelunasan Hutang',
             // 'akses_edit_pelunasan_hutang' => 'Akses Edit Pelunasan Hutang',
             'akses_hapus_pelunasan_hutang' => 'Akses Hapus Pelunasan Hutang',
+            'akses_daftar_penjualan' => 'Akses Daftar Penjualan',
+            'akses_tambah_penjualan' => 'Akses Tambah Penjualan',
+            // 'akses_edit_penjualan' => 'Akses Edit Penjualan',
+            'akses_hapus_penjualan' => 'Akses Hapus Penjualan',
+            'akses_daftar_pelunasan_piutang' => 'Akses Daftar Pelunasan Piutang',
+            'akses_tambah_pelunasan_piutang' => 'Akses Tambah Pelunasan Piutang',
+            // 'akses_edit_pelunasan_piutang' => 'Akses Edit Pelunasan Piutang',
+            'akses_hapus_pelunasan_piutang' => 'Akses Hapus Pelunasan Piutang',
         ];
         return $data;
     }
@@ -118,6 +126,14 @@ class Role extends Model
             'akses_tambah_pelunasan_hutang',
             // 'akses_edit_pelunasan_hutang',
             'akses_hapus_pelunasan_hutang',
+            'akses_daftar_penjualan',
+            'akses_tambah_penjualan',
+            // 'akses_edit_penjualan',
+            'akses_hapus_penjualan',
+            'akses_daftar_pelunasan_piutang',
+            'akses_tambah_pelunasan_piutang',
+            // 'akses_edit_pelunasan_piutang',
+            'akses_hapus_pelunasan_piutang',
         ];
         return $data;
     }

@@ -73,6 +73,25 @@
                 </li>
             @endif
 
+
+            @if (Auth()->user()->role->akses_daftar_penjualan)
+                <li class="sidebar-item @yield('sales-active')">
+                    <a class="sidebar-link" href="{{ route('sales.index') }}">
+                        <i class="bi bi-receipt align-middle"></i>
+                        <span class="align-middle">Penjualan</span>
+                    </a>
+                </li>
+            @endif
+
+            @if(Auth::user()->role->akses_daftar_pelunasan_piutang)
+                <li class="sidebar-item @yield('salesPayments-active')">
+                    <a class="sidebar-link" href="{{ route('salesPayments.index') }}">
+                        <i class="bi bi-wallet2 align-middle"></i>
+                        <span class="align-middle">Pelunasan Piutang</span>
+                    </a>
+                </li>
+            @endif
+
             <li class="sidebar-header">
 				Master
 			</li>

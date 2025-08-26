@@ -25,6 +25,14 @@ return new class extends Migration
             $table->foreignId('purchase_expenses_account_id')->constrained('accounts');
             $table->foreignId('purchase_grand_total_account_id')->constrained('accounts');
 
+            $table->foreignId('sales_subtotal_account_id')->constrained('accounts');
+            $table->foreignId('sales_discount_account_id')->constrained('accounts');
+            $table->foreignId('sales_tax_account_id')->constrained('accounts');
+            $table->foreignId('sales_freight_account_id')->constrained('accounts');
+            $table->foreignId('sales_expenses_account_id')->constrained('accounts');
+            $table->foreignId('sales_grand_total_account_id')->constrained('accounts');
+            $table->foreignId('sales_cogs_account_id')->constrained('accounts');
+
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });

@@ -25,6 +25,7 @@
                             <th>Jenis</th>
                             <th>Organisasi</th>
                             <th>Hutang</th>
+                            <th>Piutang</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -49,6 +50,7 @@
                 { data: 'type', name: 'type' },
                 { data: 'organization_name', name: 'organization_name' },
                 { data: 'payable', name: 'payable' },
+                { data: 'receivable', name: 'receivable' },
                 { data: 'action', name: 'action', orderable: false, searchable: false }
             ]
         });
