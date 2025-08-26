@@ -217,6 +217,7 @@ class PurchaseController extends Controller
             // 🔹 Update status sesuai kondisi pembayaran
             if ($purchase->paid == 0) {
                 $purchase->status = 'Menunggu Pembayaran';
+                $purchase->remaining = $purchase->grand_total;
             } elseif ($purchase->paid < $purchase->grand_total) {
                 $purchase->status = 'Belum Tuntas';
             } elseif ($purchase->paid >= $purchase->grand_total) {
@@ -247,7 +248,11 @@ class PurchaseController extends Controller
 
             // insert
             JournalDetail::insert($details);
+        } else {
+            $purchase->remaining = $purchase->grand_total;
+            $purchase->save();
         }
+
     }
 
     protected function createJournal(Purchase $purchase, Request $request)

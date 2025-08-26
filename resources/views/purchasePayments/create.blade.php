@@ -42,8 +42,9 @@
                         <th>Kode Faktur</th>
                         {{-- <th>Tanggal</th> --}}
                         <th>Tagihan</th>
+                        <th>Terbayar</th>
                         <th>Sisa</th>
-                        <th>Bayar</th>
+                        <th>Pelunasan</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -56,6 +57,7 @@
                             </td>
                             {{-- <td>{{ $purchase->date }}</td> --}}
                             <td class="text-end">{{ number_format($purchase->grand_total, 0, ',', '.') }}</td>
+                            <td class="text-end">{{ number_format($purchase->paid, 0, ',', '.') }}</td>
                             <td class="text-end">{{ number_format($purchase->remaining, 0, ',', '.') }}</td>
                             <td>
                                 <input type="text" name="details[{{ $loop->index }}][total]" class="form-control form-control-sm currency-input"
@@ -71,7 +73,7 @@
                 </tbody>
                 <tfoot>
                     <tr class="table-secondary">
-                        <th colspan="4" class="text-end">Total Pembayaran</th>
+                        <th colspan="5" class="text-end">Total Pelunasan</th>
                         <th>
                             <input type="text" name="grand_total" id="grand_total" class="form-control currency-input"
                                 readonly>
