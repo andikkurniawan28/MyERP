@@ -54,14 +54,19 @@
                 <tbody id="purchaseDetails">
                     <tr>
                         <td>
-                            <select name="item_id[]" class="form-select select2" required>
+                            <select name="item_id[]" class="form-select select2 item-select" required>
                                 <option value="">-- Pilih Barang --</option>
                                 @foreach ($items as $item)
-                                    <option value="{{ $item->id }}">{{ $item->code }} - {{ $item->name }}</option>
+                                    <option value="{{ $item->id }}" data-satuan="{{ $item->mainUnit->name }}"
+                                        data-harga="{{ $item->purchase_price_main }}">{{ $item->code }} -
+                                        {{ $item->name }}</option>
                                 @endforeach
                             </select>
                         </td>
-                        <td><input type="text" name="qty[]" class="form-control form-control-sm currency-input"></td>
+                        <td>
+                            <input type="text" name="qty[]" class="form-control form-control-sm currency-input">
+                            <small class="text-muted unit-label text-end"></small>
+                        </td>
                         <td><input type="text" name="price[]" class="form-control form-control-sm currency-input"></td>
                         <td><input type="text" name="discount_percent[]"
                                 class="form-control form-control-sm currency-input"></td>
@@ -126,7 +131,8 @@
                     </td>
                     <td>
                         <label class="form-label">Jumlah Dibayar</label>
-                        <input type="text" name="payment_amount" id="payment_amount" class="form-control currency-input">
+                        <input type="text" name="payment_amount" id="payment_amount"
+                            class="form-control currency-input">
                     </td>
                 </tr>
             </table>
@@ -134,7 +140,9 @@
             <button type="submit" class="btn btn-primary">Simpan</button>
         </form>
     </div>
+@endsection
 
+@section('script')
     <script>
         // Formatter angka Indonesia
         const formatter = new Intl.NumberFormat('id-ID', {
@@ -143,7 +151,7 @@
         });
 
         function parseNumber(value) {
-            return parseFloat(value.replace(/\./g, '').replace(/,/g, '.')) || 0;
+            return parseFloat((value || '').toString().replace(/\./g, '').replace(/,/g, '.')) || 0;
         }
 
         function formatCurrency(input) {
@@ -172,18 +180,18 @@
                 subtotal += hitungTotalRow(row);
             });
 
-            let discountHeader = parseNumber(document.getElementById('discount_header').value);
+            let discountHeader = parseNumber(document.getElementById('discount_header')?.value);
             if (!discountHeader || discountHeader < 0) discountHeader = 0;
 
             let dpp = subtotal - discountHeader;
             if (dpp < 0) dpp = 0;
 
-            let taxPercent = parseNumber(document.getElementById('tax_percent').value);
+            let taxPercent = parseNumber(document.getElementById('tax_percent')?.value);
             if (!taxPercent || taxPercent < 0) taxPercent = 0;
 
             let tax = dpp * taxPercent / 100;
-            let freight = parseNumber(document.getElementById('freight').value);
-            let expense = parseNumber(document.getElementById('expense').value);
+            let freight = parseNumber(document.getElementById('freight')?.value);
+            let expense = parseNumber(document.getElementById('expense')?.value);
 
             let grandTotal = dpp + tax + freight + expense;
 
@@ -192,12 +200,19 @@
             document.getElementById('grand_total').value = formatter.format(grandTotal);
         }
 
+        // Add Row
         document.getElementById('addRow').addEventListener('click', function() {
             let row = document.querySelector('#purchaseDetails tr').cloneNode(true);
-            $(row).find('.select2').removeClass('select2-hidden-accessible').next(".select2").remove();
+
             row.querySelectorAll('input').forEach(input => input.value = '');
+            row.querySelectorAll('.unit-label').forEach(span => span.textContent = '');
             row.querySelector('select').selectedIndex = 0;
+            row.querySelector('select').classList.add('item-select');
+
             document.getElementById('purchaseDetails').appendChild(row);
+
+            // Reinit select2
+            $(row).find('.select2').removeClass('select2-hidden-accessible').next(".select2").remove();
             $(row).find('.select2').select2({
                 theme: 'bootstrap4',
                 placeholder: '-- Pilih --',
@@ -205,6 +220,7 @@
             });
         });
 
+        // Remove row
         document.addEventListener('click', function(e) {
             if (e.target.classList.contains('removeRow')) {
                 e.target.closest('tr').remove();
@@ -212,6 +228,7 @@
             }
         });
 
+        // Format currency & hitung total
         document.addEventListener('input', function(e) {
             if (e.target.classList.contains('currency-input')) {
                 formatCurrency(e.target);
@@ -219,12 +236,37 @@
             }
         });
 
+        // Item dipilih → harga & satuan + console log debug
+        $(document).on('change', '.item-select', function() {
+            const row = $(this).closest('tr');
+            const selected = $(this).find('option:selected');
+
+            const harga = parseFloat(selected.data('harga')) || 0;
+            const satuan = selected.data('satuan') || '';
+
+            // Set harga
+            row.find('[name="price[]"]').val(harga ? formatter.format(harga) : '');
+
+            // Set satuan
+            row.find('.unit-label').text(satuan);
+
+            // Debug output ke console
+            // console.log('Item dipilih:', selected.text());
+            // console.log('Harga:', harga);
+            // console.log('Satuan:', satuan);
+
+            hitungTotalRow(row[0]);
+            hitungGrandTotal();
+        });
+
+        // Submit → ubah semua currency input ke number
         document.querySelector('form').addEventListener('submit', function() {
             document.querySelectorAll('.currency-input').forEach(input => {
                 input.value = parseNumber(input.value);
             });
         });
 
+        // Hitung awal
         hitungGrandTotal();
     </script>
 @endsection

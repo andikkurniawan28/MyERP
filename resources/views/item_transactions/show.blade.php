@@ -4,15 +4,18 @@
 
 @section('content')
 <div class="container-fluid">
-    <h1 class="h3 mb-3"><strong>Detail Transaksi Barang</strong></h1>
+    {{-- <h1 class="h3 mb-3"><strong>Detail Transaksi Barang</strong></h1> --}}
 
     <div class="card mb-3">
         <div class="card-body">
+                <h2><strong>TRANSAKSI GUDANG</strong></h2>
+                <br>
             <p><strong>Kode:</strong> {{ $itemTransaction->code }}</p>
             <p><strong>Tanggal:</strong> {{ \Carbon\Carbon::parse($itemTransaction->date)->locale('id')->translatedFormat('l, d/m/Y') }}</p>
             <p><strong>Keterangan:</strong> {{ $itemTransaction->description }}</p>
             <p><strong>Gudang:</strong> {{ $itemTransaction->warehouse->name }}</p>
             <p><strong>User:</strong> {{ $itemTransaction->user->name }}</p>
+            <br>
 
             <div class="table-responsive">
                 <table class="table table-bordered mb-0">

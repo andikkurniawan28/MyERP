@@ -32,7 +32,7 @@
                 <li class="sidebar-item @yield('journals-active')">
                     <a class="sidebar-link" href="{{ route('journals.index') }}">
                         <i class="bi bi-journal-check align-middle"></i>
-                        <span class="align-middle">Jurnal</span>
+                        <span class="align-middle">Jurnal Akuntansi</span>
                     </a>
                 </li>
             @endif

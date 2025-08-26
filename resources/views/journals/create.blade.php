@@ -4,21 +4,24 @@
 
 @section('content')
     <div class="container-fluid">
-        <h1 class="h3 mb-3"><strong>Tambah Jurnal</strong></h1>
+        <h1 class="h3 mb-3"><strong>Tambah Jurnal Akuntansi</strong></h1>
 
         <form action="{{ route('journals.store') }}" method="POST">
             @csrf
-            <div class="mb-3">
-                <label>Kode</label>
-                <input type="code" name="code" class="form-control" value="{{ $code }}" readonly>
-            </div>
-            <div class="mb-3">
-                <label>Tanggal</label>
-                <input type="date" name="date" class="form-control" value="{{ old('date', date('Y-m-d')) }}" required>
-            </div>
-            <div class="mb-3">
-                <label>Keterangan</label>
-                <textarea name="description" class="form-control" required>{{ old('description') }}</textarea>
+            <div class="row mb-3">
+                <div class="col-md-3">
+                    <label>Kode</label>
+                    <input type="text" name="code" class="form-control" value="{{ old('code', $code) }}" readonly>
+                </div>
+                <div class="col-md-3">
+                    <label>Tanggal</label>
+                    <input type="date" name="date" class="form-control" value="{{ old('date', date('Y-m-d')) }}"
+                        required>
+                </div>
+                <div class="col-md-6">
+                    <label>Keterangan</label>
+                    <textarea name="description" class="form-control" required>{{ old('description') }}</textarea>
+                </div>
             </div>
 
             <table class="table table-bordered">

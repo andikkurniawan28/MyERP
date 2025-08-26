@@ -4,10 +4,12 @@
 
 @section('content')
     <div class="container-fluid">
-        <h1 class="h3 mb-3"><strong>Detail Jurnal</strong></h1>
+        {{-- <h1 class="h3 mb-3"><strong>Detail Jurnal</strong></h1> --}}
 
         <div class="card mb-3">
             <div class="card-body">
+                <h2><strong>JURNAL AKUNTANSI</strong></h2>
+                <br>
                 <p><strong>Kode:</strong> {{ $journal->code }}</p>
                 <p>
                     <strong>Tanggal:</strong>
@@ -15,6 +17,7 @@
                 </p>
                 <p><strong>Keterangan:</strong> {{ $journal->description }}</p>
                 <p><strong>User:</strong> {{ $journal->user->name }}</p>
+                <br>
 
                 <div class="table-responsive">
                     <table class="table table-bordered mb-0">
