@@ -7,7 +7,6 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\OrderController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\JournalController;
@@ -80,5 +79,4 @@ Route::resource('settings', SettingController::class)->middleware(['auth']);
 Route::resource('contacts', ContactController::class)->middleware(['auth']);
 
 // Transaksi
-Route::resource('orders', OrderController::class)->middleware(['auth']);
 Route::resource('purchases', PurchaseController::class)->middleware(['auth']);

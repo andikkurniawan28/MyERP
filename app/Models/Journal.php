@@ -22,6 +22,6 @@ class Journal extends Model
 
     public static function generateCode()
     {
-        return 'JRN-'.date('Ymd').'-'.date('His');
+        return 'JRN-' . date('YmdHis') . '-' . substr(uniqid(), -4);
     }
 }

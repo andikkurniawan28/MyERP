@@ -181,7 +181,7 @@ class PurchaseController extends Controller
             ]);
             ItemTransactionDetail::create([
                 'item_transaction_id' => $itemTransaction->id,
-                'warehouse_id' => $purchase->warehouse_id,
+                // 'warehouse_id' => $purchase->warehouse_id,
                 'item_id' => $itemId,
                 'in' => $request->qty[$i],
             ]);
@@ -236,14 +236,14 @@ class PurchaseController extends Controller
             ]);
 
             $details = [
-                ['journal_id' => $journal->id, 'account_id' => $request->account_id, 'credit' => $request->payment_amount, 'debit' => null],
-                ['journal_id' => $journal->id, 'account_id' => $setting->purchase_grand_total_account_id, 'credit' => null, 'debit' => $request->payment_amount],
+                ['journal_id' => $journal->id, 'account_id' => $request->account_id, 'credit' => $request->payment_amount, 'debit' => 0],
+                ['journal_id' => $journal->id, 'account_id' => $setting->purchase_grand_total_account_id, 'credit' => 0, 'debit' => $request->payment_amount],
             ];
 
             // filter hanya yang ada debit/kredit > 0
-            // $details = array_filter($details, function ($row) {
-            //     return ($row['debit'] ?? 0) > 0 || ($row['credit'] ?? 0) > 0;
-            // });
+            $details = array_filter($details, function ($row) {
+                return ($row['debit'] ?? 0) > 0 || ($row['credit'] ?? 0) > 0;
+            });
 
             // insert
             JournalDetail::insert($details);
@@ -265,18 +265,18 @@ class PurchaseController extends Controller
         ]);
 
         $details = [
-            ['journal_id' => $journal->id, 'account_id' => $setting->purchase_subtotal_account_id, 'debit' => $purchase->subtotal, 'credit' => 0],
+            ['journal_id' => $journal->id, 'account_id' => $setting->purchase_subtotal_account_id, 'debit' => $purchase->subtotal - $purchase->discount, 'credit' => 0],
             ['journal_id' => $journal->id, 'account_id' => $setting->purchase_tax_account_id, 'debit' => $purchase->tax, 'credit' => 0],
             ['journal_id' => $journal->id, 'account_id' => $setting->purchase_freight_account_id, 'debit' => $purchase->freight, 'credit' => 0],
-            ['journal_id' => $journal->id, 'account_id' => $setting->purchase_expenses_account_id, 'debit' => $purchase->expenses, 'credit' => 0],
-            ['journal_id' => $journal->id, 'account_id' => $setting->purchase_discount_account_id, 'debit' => 0, 'credit' => $purchase->discount],
+            ['journal_id' => $journal->id, 'account_id' => $setting->purchase_expenses_account_id, 'debit' => $purchase->expense, 'credit' => 0],
+            // ['journal_id' => $journal->id, 'account_id' => $setting->purchase_discount_account_id, 'debit' => 0, 'credit' => $purchase->discount],
             ['journal_id' => $journal->id, 'account_id' => $setting->purchase_grand_total_account_id, 'debit' => 0, 'credit' => $purchase->grand_total],
         ];
 
         // filter hanya yang ada debit/kredit > 0
-        // $details = array_filter($details, function ($row) {
-        //     return ($row['debit'] ?? 0) > 0 || ($row['credit'] ?? 0) > 0;
-        // });
+        $details = array_filter($details, function ($row) {
+            return ($row['debit'] ?? 0) > 0 || ($row['credit'] ?? 0) > 0;
+        });
 
         // insert
         JournalDetail::insert($details);
@@ -290,6 +290,7 @@ class PurchaseController extends Controller
             'warehouse_id' => $request->warehouse_id,
             'user_id' => Auth::id(),
             'code' => ItemTransaction::generateCode(),
+            'purchase_id' => $purchase->id,
         ]);
         return $itemTransaction;
     }

@@ -24,8 +24,8 @@
                             <th>Kode</th>
                             <th>Tanggal</th>
                             <th>Keterangan</th>
-                            <th>Debit</th>
-                            <th>Credit</th>
+                            {{-- <th>Debit</th>
+                            <th>Credit</th> --}}
                             <th>User</th>
                             <th>Aksi</th>
                         </tr>
@@ -50,8 +50,8 @@ $(function() {
             { data: 'code', name: 'code' },
             { data: 'date', name: 'date' },
             { data: 'description', name: 'description' },
-            { data: 'debit', name: 'debit' },
-            { data: 'credit', name: 'credit' },
+            // { data: 'debit', name: 'debit' },
+            // { data: 'credit', name: 'credit' },
             { data: 'user', name: 'user.name' },
             { data: 'action', name: 'action', orderable: false, searchable: false }
         ]

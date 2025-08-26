@@ -83,11 +83,6 @@
                         <input type="text" name="subtotal" id="subtotal" class="form-control currency-input" readonly>
                     </td>
                     <td>
-                        <label class="form-label">Diskon Faktur</label>
-                        <input type="text" name="discount_header" id="discount_header"
-                            class="form-control currency-input">
-                    </td>
-                    <td>
                         <label class="form-label">Pajak (%)</label>
                         <input type="text" name="tax_percent" id="tax_percent" class="form-control currency-input">
                     </td>
@@ -102,6 +97,11 @@
                     <td>
                         <label class="form-label">Biaya Lain</label>
                         <input type="text" name="expense" id="expense" class="form-control currency-input">
+                    </td>
+                    <td style="display: none;">
+                        <label class="form-label">Diskon Faktur</label>
+                        <input type="text" name="discount_header" id="discount_header"
+                            class="form-control currency-input">
                     </td>
                     <td>
                         <label class="form-label">Grand Total</label>
