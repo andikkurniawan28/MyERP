@@ -112,8 +112,8 @@
                 </div>
                 <div class="card-body py-3">
                     <div class="table-responsive">
-                        <table class="table table-striped mb-0">
-                            <thead>
+                        <table class="table table-striped table-sm mb-0">
+                            <thead class="table-primary">
                                 <tr>
                                     <th>Produk</th>
                                     <th class="text-end">Jumlah</th>

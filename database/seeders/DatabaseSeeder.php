@@ -28,9 +28,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         User::insert([
-            ['username' => 'direktur', 'password' => bcrypt('direktur'), 'name' => ucwords('Andik Kurniawan'), 'role_id' => 1],
-            ['username' => 'manajer', 'password' => bcrypt('manajer'), 'name' => ucwords('Novia Celvi Aprilia'), 'role_id' => 2],
-            ['username' => 'admin', 'password' => bcrypt('admin'), 'name' => ucwords('Adhyaksa Raga Dananta'), 'role_id' => 3],
+            ['username' => 'demo', 'password' => bcrypt('demo'), 'name' => ucwords('Andik Kurniawan'), 'role_id' => 1],
         ]);
 
         Account::insert([
