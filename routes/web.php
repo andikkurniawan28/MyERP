@@ -10,6 +10,7 @@ use App\Http\Controllers\TestController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SalesController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\JournalController;
@@ -90,6 +91,10 @@ Route::get('purchasePayments/create/{contact_id}', [PurchasePaymentController::c
 Route::resource('sales', SalesController::class)->middleware(['auth']);
 Route::resource('salesPayments', SalesPaymentController::class)->middleware(['auth']);
 Route::get('salesPayments/create/{contact_id}', [SalesPaymentController::class, 'create'])->name('salesPayments.createByUser')->middleware(['auth']);
+
+// Report
+Route::get('report/purchaseReport', [ReportController::class, 'purchaseReport'])->name('report.purchaseReport.index')->middleware(['auth']);
+Route::get('report/salesReport', [ReportController::class, 'salesReport'])->name('report.salesReport.index')->middleware(['auth']);
 
 // Test
 Route::get('test/{id}', TestController::class)->name('test');

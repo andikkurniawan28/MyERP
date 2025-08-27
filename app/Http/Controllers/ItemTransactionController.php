@@ -90,7 +90,7 @@ class ItemTransactionController extends Controller
         }
 
         $itemTransaction->delete();
-        return redirect()->route('item_transactions.index')->with('success', 'Transaksi barang berhasil dihapus.');
+        return redirect()->route('item_transactions.index')->with('success', 'Mutasi barang berhasil dihapus.');
     }
 
     public function store(Request $request)
@@ -140,7 +140,7 @@ class ItemTransactionController extends Controller
             }
         });
 
-        return redirect()->route('item_transactions.index')->with('success', 'Transaksi barang dan jurnal berhasil dibuat.');
+        return redirect()->route('item_transactions.index')->with('success', 'Mutasi barang dan jurnal berhasil dibuat.');
     }
 
     /**

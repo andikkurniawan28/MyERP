@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="container-fluid">
-        <h1 class="h3 mb-3"><strong>Tambah Transaksi Barang</strong></h1>
+        <h1 class="h3 mb-3"><strong>Tambah Mutasi Barang</strong></h1>
 
         <form action="{{ route('item_transactions.store') }}" method="POST">
             @csrf

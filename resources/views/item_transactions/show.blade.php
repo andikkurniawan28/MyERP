@@ -8,7 +8,7 @@
 
     <div class="card mb-3">
         <div class="card-body">
-                <h2><strong>TRANSAKSI GUDANG</strong></h2>
+                <h2><strong>MUTASI BARANG</strong></h2>
                 <br>
             <p><strong>Kode:</strong> {{ $itemTransaction->code }}</p>
             <p><strong>Tanggal:</strong> {{ \Carbon\Carbon::parse($itemTransaction->date)->locale('id')->translatedFormat('l, d/m/Y') }}</p>

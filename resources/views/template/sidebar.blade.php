@@ -41,19 +41,10 @@
                 <li class="sidebar-item @yield('item_transactions-active')">
                     <a class="sidebar-link" href="{{ route('item_transactions.index') }}">
                         <i class="bi bi-arrow-left-right align-middle"></i>
-                        <span class="align-middle">Transaksi Barang</span>
+                        <span class="align-middle">Mutasi Barang</span>
                     </a>
                 </li>
             @endif
-
-            {{-- @if (Auth()->user()->role->akses_daftar_pesanan)
-                <li class="sidebar-item @yield('orders-active')">
-                    <a class="sidebar-link" href="{{ route('orders.index') }}">
-                        <i class="bi bi-journal-text align-middle"></i>
-                        <span class="align-middle">Pesanan</span>
-                    </a>
-                </li>
-            @endif --}}
 
             @if (Auth()->user()->role->akses_daftar_pembelian)
                 <li class="sidebar-item @yield('purchases-active')">
@@ -73,7 +64,6 @@
                 </li>
             @endif
 
-
             @if (Auth()->user()->role->akses_daftar_penjualan)
                 <li class="sidebar-item @yield('sales-active')">
                     <a class="sidebar-link" href="{{ route('sales.index') }}">
@@ -91,6 +81,24 @@
                     </a>
                 </li>
             @endif
+
+            <li class="sidebar-header">
+				Laporan
+			</li>
+
+                <li class="sidebar-item @yield('purchaseReport-active')">
+                    <a class="sidebar-link" href="{{ route('report.purchaseReport.index') }}">
+                        <i class="bi bi-wallet2 align-middle"></i>
+                        <span class="align-middle">Laporan Pembelian</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item @yield('salesReport-active')">
+                    <a class="sidebar-link" href="{{ route('report.salesReport.index') }}">
+                        <i class="bi bi-wallet2 align-middle"></i>
+                        <span class="align-middle">Laporan Penjualan</span>
+                    </a>
+                </li>
 
             <li class="sidebar-header">
 				Master
