@@ -15,7 +15,7 @@
                 </a>
             </li>
 
-            @if(Auth()->user()->role->akses_edit_setting)
+            @if (Auth()->user()->role->akses_edit_setting)
                 <li class="sidebar-item @yield('settings-active')">
                     <a class="sidebar-link" href="{{ route('settings.edit', 1) }}">
                         <i class="bi bi-gear-fill align-middle"></i>
@@ -25,8 +25,8 @@
             @endif
 
             <li class="sidebar-header">
-				Transaksi
-			</li>
+                Transaksi
+            </li>
 
             @if (Auth()->user()->role->akses_daftar_jurnal)
                 <li class="sidebar-item @yield('journals-active')">
@@ -55,7 +55,7 @@
                 </li>
             @endif
 
-            @if(Auth::user()->role->akses_daftar_pelunasan_hutang)
+            @if (Auth::user()->role->akses_daftar_pelunasan_hutang)
                 <li class="sidebar-item @yield('purchasePayments-active')">
                     <a class="sidebar-link" href="{{ route('purchasePayments.index') }}">
                         <i class="bi bi-wallet2 align-middle"></i>
@@ -73,7 +73,7 @@
                 </li>
             @endif
 
-            @if(Auth::user()->role->akses_daftar_pelunasan_piutang)
+            @if (Auth::user()->role->akses_daftar_pelunasan_piutang)
                 <li class="sidebar-item @yield('salesPayments-active')">
                     <a class="sidebar-link" href="{{ route('salesPayments.index') }}">
                         <i class="bi bi-wallet2 align-middle"></i>
@@ -83,28 +83,50 @@
             @endif
 
             <li class="sidebar-header">
-				Laporan
-			</li>
+                Laporan
+            </li>
 
+            @if (Auth::user()->role->akses_laporan_pembelian)
                 <li class="sidebar-item @yield('purchaseReport-active')">
                     <a class="sidebar-link" href="{{ route('report.purchaseReport.index') }}">
-                        <i class="bi bi-wallet2 align-middle"></i>
+                        <i class="bi bi-bag-check align-middle"></i>
                         <span class="align-middle">Laporan Pembelian</span>
                     </a>
                 </li>
+            @endif
 
+            @if (Auth::user()->role->akses_laporan_penjualan)
                 <li class="sidebar-item @yield('salesReport-active')">
                     <a class="sidebar-link" href="{{ route('report.salesReport.index') }}">
-                        <i class="bi bi-wallet2 align-middle"></i>
+                        <i class="bi bi-cash-stack align-middle"></i>
                         <span class="align-middle">Laporan Penjualan</span>
                     </a>
                 </li>
+            @endif
+
+            @if (Auth::user()->role->akses_laporan_mutasi_barang)
+                <li class="sidebar-item @yield('itemTransactionReport-active')">
+                    <a class="sidebar-link" href="{{ route('report.itemTransactionReport.index') }}">
+                        <i class="bi bi-arrow-left-right align-middle"></i>
+                        <span class="align-middle">Laporan Mutasi Barang</span>
+                    </a>
+                </li>
+            @endif
+
+            @if (Auth::user()->role->akses_buku_besar)
+                <li class="sidebar-item @yield('generalLedger-active')">
+                    <a class="sidebar-link" href="{{ route('report.generalLedger.index') }}">
+                        <i class="bi bi-journal-bookmark align-middle"></i>
+                        <span class="align-middle">Buku Besar</span>
+                    </a>
+                </li>
+            @endif
 
             <li class="sidebar-header">
-				Master
-			</li>
+                Master
+            </li>
 
-            @if(Auth::user()->role->akses_daftar_kontak)
+            @if (Auth::user()->role->akses_daftar_kontak)
                 <li class="sidebar-item @yield('contacts-active')">
                     <a class="sidebar-link" href="{{ route('contacts.index') }}">
                         <i class="bi bi-person-lines-fill align-middle"></i>

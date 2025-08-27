@@ -25,3 +25,7 @@ Route::post('report/purchaseReportData', [ReportController::class, 'purchaseRepo
     ->name('report.purchaseReportData.data');
 Route::post('report/salesReportData', [ReportController::class, 'salesReportData'])
     ->name('report.salesReportData.data');
+Route::post('report/itemTransactionReportData', [ReportController::class, 'itemTransactionReportData'])
+    ->name('report.itemTransactionReportData.data');
+Route::post('report/generalLedgerData', [ReportController::class, 'generalLedgerData'])
+    ->name('report.generalLedgerData.data');

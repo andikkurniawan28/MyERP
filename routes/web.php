@@ -95,6 +95,8 @@ Route::get('salesPayments/create/{contact_id}', [SalesPaymentController::class, 
 // Report
 Route::get('report/purchaseReport', [ReportController::class, 'purchaseReport'])->name('report.purchaseReport.index')->middleware(['auth']);
 Route::get('report/salesReport', [ReportController::class, 'salesReport'])->name('report.salesReport.index')->middleware(['auth']);
+Route::get('report/itemTransactionReport', [ReportController::class, 'itemTransactionReport'])->name('report.itemTransactionReport.index')->middleware(['auth']);
+Route::get('report/generalLedger', [ReportController::class, 'generalLedger'])->name('report.generalLedger.index')->middleware(['auth']);
 
 // Test
 Route::get('test/{id}', TestController::class)->name('test');

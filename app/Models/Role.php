@@ -71,6 +71,10 @@ class Role extends Model
             'akses_tambah_pelunasan_piutang' => 'Akses Tambah Pelunasan Piutang',
             // 'akses_edit_pelunasan_piutang' => 'Akses Edit Pelunasan Piutang',
             'akses_hapus_pelunasan_piutang' => 'Akses Hapus Pelunasan Piutang',
+            'akses_laporan_pembelian' => 'Akses Laporan Pembelian',
+            'akses_laporan_penjualan' => 'Akses Laporan Penjualan',
+            'akses_laporan_mutasi_barang' => 'Akses Laporan Mutasi Barang',
+            'akses_buku_besar' => 'Akses Buku Besar',
         ];
         return $data;
     }
@@ -134,6 +138,10 @@ class Role extends Model
             'akses_tambah_pelunasan_piutang',
             // 'akses_edit_pelunasan_piutang',
             'akses_hapus_pelunasan_piutang',
+            'akses_laporan_pembelian',
+            'akses_laporan_penjualan',
+            'akses_laporan_mutasi_barang',
+            'akses_buku_besar',
         ];
         return $data;
     }

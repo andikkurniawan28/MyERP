@@ -72,7 +72,10 @@ return new class extends Migration
             $table->boolean('akses_daftar_pelunasan_piutang')->default(1);
             $table->boolean('akses_tambah_pelunasan_piutang')->default(1);
             $table->boolean('akses_hapus_pelunasan_piutang')->default(1);
-            // $table->boolean('akses_laporan_pembelian')->default(1);
+            $table->boolean('akses_laporan_pembelian')->default(1);
+            $table->boolean('akses_laporan_penjualan')->default(1);
+            $table->boolean('akses_laporan_mutasi_barang')->default(1);
+            $table->boolean('akses_buku_besar')->default(1);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });

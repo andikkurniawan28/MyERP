@@ -10,7 +10,8 @@
         <form id="filterForm" class="row g-3 mb-3">
             <div class="col-md-2">
                 <label>Bulan</label>
-                <input type="month" class="form-control" name="month">
+                <input type="month" class="form-control" name="month"
+                    value="{{ \Carbon\Carbon::now()->format('Y-m') }}">
             </div>
             <div class="col-md-2">
                 <label>Status</label>
