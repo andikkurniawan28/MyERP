@@ -61,7 +61,7 @@
                     <table id="purchaseReportTable" class="table table-bordered table-hover table-striped table-sm">
                         <thead>
                             <tr>
-                                <th>Kode</th>
+                                <th>Faktur</th>
                                 <th>Tanggal</th>
                                 <th>Supplier</th>
                                 <th>Tagihan</th>

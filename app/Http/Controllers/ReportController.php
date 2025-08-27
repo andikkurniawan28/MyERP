@@ -136,7 +136,11 @@ class ReportController extends Controller
 
     public function itemTransactionReportData(Request $request)
     {
-        $query = ItemTransaction::with(['user', 'warehouse', 'details.item']);
+        $query = ItemTransaction::with([
+            'user',
+            'warehouse',
+            'details.item.mainUnit'
+        ]);
 
         // --- Hitung saldo awal ---
         $saldoAwalQuery = ItemTransaction::with('details');

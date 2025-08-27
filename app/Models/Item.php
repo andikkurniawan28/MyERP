@@ -40,4 +40,14 @@ class Item extends Model
     {
         return $this->belongsTo(Unit::class, 'secondary_unit_id');
     }
+
+    public function sales()
+    {
+        return $this->hasMany(SalesDetail::class);
+    }
+
+    public function purchase()
+    {
+        return $this->hasMany(PurchaseDetail::class);
+    }
 }

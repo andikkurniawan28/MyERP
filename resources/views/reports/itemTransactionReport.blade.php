@@ -61,11 +61,12 @@
                     <table id="itemTransactionTable" class="table table-bordered table-hover table-striped table-sm">
                         <thead>
                             <tr>
-                                <th>Kode</th>
+                                <th>Faktur</th>
                                 <th>Tanggal</th>
                                 <th>Gudang</th>
                                 <th>Admin</th>
                                 <th>Barang</th>
+                                <th>Satuan</th>
                                 <th>Masuk</th>
                                 <th>Keluar</th>
                                 <th>Saldo</th>
@@ -74,7 +75,7 @@
                         <tbody id="itemTransactionBody"></tbody>
                         <tfoot class="table-dark">
                             <tr>
-                                <th colspan="5" class="text-end">TOTAL</th>
+                                <th colspan="6" class="text-end">TOTAL</th>
                                 <th id="inSum" class="text-end">0</th>
                                 <th id="outSum" class="text-end">0</th>
                                 <th id="saldoSum" class="text-end">0</th>
@@ -107,13 +108,13 @@
                         // Baris saldo awal
                         rows += `
                             <tr class="table-warning fw-bold">
-                                <td colspan="7" class="text-end">SALDO AWAL</td>
+                                <td colspan="8" class="text-end">SALDO AWAL</td>
                                 <td class="text-end">${new Intl.NumberFormat('id-ID').format(response.totals.saldo_awal)}</td>
                             </tr>`;
 
                         if (response.data.length === 0) {
                             rows +=
-                                `<tr><td colspan="8" class="text-center">Tidak ada data</td></tr>`;
+                                `<tr><td colspan="9" class="text-center">Tidak ada data</td></tr>`;
                         } else {
                             response.data.forEach(function(tx) {
                                 tx.details.forEach(function(detail) {
@@ -124,6 +125,7 @@
                                             <td>${tx.warehouse ? tx.warehouse.name : '-'}</td>
                                             <td>${tx.user ? tx.user.name : '-'}</td>
                                             <td>${detail.item ? detail.item.name : '-'}</td>
+                                            <td>${detail.item && detail.item.main_unit ? detail.item.main_unit.name : '-'}</td>
                                             <td class="text-end">${detail.in ? new Intl.NumberFormat('id-ID').format(detail.in) : '-'}</td>
                                             <td class="text-end">${detail.out ? new Intl.NumberFormat('id-ID').format(detail.out) : '-'}</td>
                                             <td class="text-end">${new Intl.NumberFormat('id-ID').format(detail.saldo)}</td>

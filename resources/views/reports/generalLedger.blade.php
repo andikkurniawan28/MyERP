@@ -41,8 +41,8 @@
                     <table id="ledgerTable" class="table table-bordered table-hover table-sm">
                         <thead>
                             <tr>
+                                <th>Faktur</th>
                                 <th>Tanggal</th>
-                                <th>Kode</th>
                                 <th>Deskripsi</th>
                                 <th class="text-end">Debit</th>
                                 <th class="text-end">Credit</th>
@@ -109,8 +109,8 @@
                                 if (trx.description === 'Saldo Awal') return;
 
                                 rows += `<tr>
-                            <td>${trx.date ?? '-'}</td>
                             <td>${trx.code ?? '-'}</td>
+                            <td>${trx.date ?? '-'}</td>
                             <td>${trx.description ?? '-'}</td>
                             <td class="text-end">${trx.debit > 0 ? new Intl.NumberFormat('id-ID').format(trx.debit) : '-'}</td>
                             <td class="text-end">${trx.credit > 0 ? new Intl.NumberFormat('id-ID').format(trx.credit) : '-'}</td>
