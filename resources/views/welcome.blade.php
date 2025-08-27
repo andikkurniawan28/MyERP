@@ -11,31 +11,31 @@
         <div class="row mb-4">
             <div class="col-md-3 col-6">
                 <a href="{{ route('journals.create') }}" class="btn btn-primary w-100 shadow-sm mb-2">
-                    <i class="bi bi-journal-text"></i> Catat Jurnal
+                    <i class="bi bi-journal-text"></i> Catat Jurnal Akuntansi
                 </a>
             </div>
             <div class="col-md-3 col-6">
-                <a href="{{ route('schedules.create') }}" class="btn btn-danger w-100 shadow-sm mb-2">
-                    <i class="bi bi-calendar"></i> Catat Jadwal
+                <a href="{{ route('item_transactions.create') }}" class="btn btn-danger w-100 shadow-sm mb-2">
+                    <i class="bi bi-arrow-left-right"></i> Catat Mutasi Barang
                 </a>
             </div>
             <div class="col-md-3 col-6">
-                <a href="{{ route('projects.create') }}" class="btn btn-success w-100 shadow-sm mb-2">
-                    <i class="bi bi-kanban"></i> Buat Proyek
+                <a href="{{ route('purchases.create') }}" class="btn btn-success w-100 shadow-sm mb-2">
+                    <i class="bi bi-receipt"></i> Catat Pembelian
                 </a>
             </div>
             <div class="col-md-3 col-6">
-                <a href="{{ route('tasks.create') }}" class="btn btn-dark w-100 shadow-sm mb-2">
-                    <i class="bi bi-list-task"></i> Buat Tugas
+                <a href="{{ route('sales.create') }}" class="btn btn-dark w-100 shadow-sm mb-2">
+                    <i class="bi bi-receipt"></i> Catat Penjualan
                 </a>
             </div>
         </div>
 
-        <!-- Jadwal, Proyek & Tugas -->
+        {{-- <!-- Jadwal, Proyek & Tugas -->
         <h4 class="mt-4"><strong>To Do List</strong></h4>
         <div class="row">
             <div class="col-md-4">
-                <div class="card shadow-sm mb-3">
+                <div class="card shadow-sm">
                     <div class="card-header bg-info text-white py-2">Jadwal Mendatang</div>
                     <div class="card-body p-3" id="jadwal-menunggu">
                         <p class="text-muted">Memuat jadwal...</p>
@@ -43,7 +43,7 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="card shadow-sm mb-3">
+                <div class="card shadow-sm">
                     <div class="card-header bg-warning text-white py-2">Proyek Belum Selesai</div>
                     <div class="card-body p-3" id="proyek-belum-dimulai">
                         <p class="text-muted">Memuat proyek...</p>
@@ -51,14 +51,14 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="card shadow-sm mb-3">
+                <div class="card shadow-sm">
                     <div class="card-header bg-secondary text-white py-2">Tugas Belum Selesai</div>
                     <div class="card-body p-3" id="tugas-belum-selesai">
                         <p class="text-muted">Memuat tugas...</p>
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
         <!-- Keuangan Per Bulan -->
         <h4 class="mt-4"><strong>Keuangan Per Bulan</strong></h4>
@@ -88,7 +88,7 @@
             // ==== Fungsi render neraca ====
             function renderNeraca(bl, bi, cardsId, breakdownId) {
                 document.getElementById(cardsId).innerHTML = `
-                    <div class="col-md-4 mb-3">
+                    <div class="col-md-4">
                         <div class="card shadow-sm">
                             <div class="card-header bg-primary text-white py-2">Aset</div>
                             <div class="card-body p-3">
@@ -101,7 +101,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4 mb-3">
+                    <div class="col-md-4">
                         <div class="card shadow-sm">
                             <div class="card-header bg-success text-white py-2">Kewajiban + Modal Terkoreksi</div>
                             <div class="card-body p-3">
@@ -114,7 +114,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4 mb-3">
+                    <div class="col-md-4">
                         <div class="card shadow-sm">
                             <div class="card-header bg-warning text-white py-2">Ketidakseimbangan Neraca</div>
                             <div class="card-body p-3">
@@ -133,7 +133,7 @@
                 `;
 
                 document.getElementById(breakdownId).innerHTML = `
-                    <div class="col-md-12 mb-3">
+                    <div class="col-md-12">
                         <div class="card shadow-sm">
                             <div class="card-header bg-secondary text-white py-2">Saldo Akun dari Kategori</div>
                             <div class="card-body p-3">
@@ -161,94 +161,94 @@
                 `;
             }
 
-            // ==== Fetch Jadwal Menunggu ====
-            fetch('{{ route('dashboard.jadwalMenunggu') }}')
-                .then(res => res.json())
-                .then(data => {
-                    const container = document.getElementById('jadwal-menunggu');
-                    if (data.length === 0) {
-                        container.innerHTML = '<p>Tidak ada jadwal menunggu.</p>';
-                        return;
-                    }
+            // // ==== Fetch Jadwal Menunggu ====
+            // fetch('{{ route('dashboard.jadwalMenunggu') }}')
+            //     .then(res => res.json())
+            //     .then(data => {
+            //         const container = document.getElementById('jadwal-menunggu');
+            //         if (data.length === 0) {
+            //             container.innerHTML = '<p>Tidak ada jadwal menunggu.</p>';
+            //             return;
+            //         }
 
-                    // Sort by date ascending
-                    data.sort((a, b) => new Date(a.date) - new Date(b.date));
+            //         // Sort by date ascending
+            //         data.sort((a, b) => new Date(a.date) - new Date(b.date));
 
-                    container.innerHTML = `
-                        <ul class="timeline list-unstyled mb-0">
-                            ${data.map(j => `
-                                <li class="mb-3 position-relative ps-4">
-                                    <span class="position-absolute top-0 start-0 translate-middle rounded-circle bg-info"
-                                        style="width: 10px; height: 10px;"></span>
-                                    <div class="fw-bold">${j.title}</div>
-                                    <div class="text-muted">${j.date}</div>
-                                    <div class="small text-secondary">
-                                        ${j.start_time && j.finish_time
-                                            ? `${j.start_time} - ${j.finish_time}`
-                                            : j.start_time
-                                                ? j.start_time
-                                                : j.finish_time
-                                                    ? j.finish_time
-                                                    : '-'}
-                                    </div>
-                                </li>
-                            `).join('')}
-                        </ul>`;
+            //         container.innerHTML = `
+            //             <ul class="timeline list-unstyled mb-0">
+            //                 ${data.map(j => `
+            //                     <li class="mb-3 position-relative ps-4">
+            //                         <span class="position-absolute top-0 start-0 translate-middle rounded-circle bg-info"
+            //                             style="width: 10px; height: 10px;"></span>
+            //                         <div class="fw-bold">${j.title}</div>
+            //                         <div class="text-muted">${j.date}</div>
+            //                         <div class="small text-secondary">
+            //                             ${j.start_time && j.finish_time
+            //                                 ? `${j.start_time} - ${j.finish_time}`
+            //                                 : j.start_time
+            //                                     ? j.start_time
+            //                                     : j.finish_time
+            //                                         ? j.finish_time
+            //                                         : '-'}
+            //                         </div>
+            //                     </li>
+            //                 `).join('')}
+            //             </ul>`;
 
-            });
+            // });
 
-            // ==== Fetch Proyek Belum Dimulai ====
-            fetch('{{ route('dashboard.proyekBelumDimulai') }}')
-                .then(res => res.json())
-                .then(data => {
-                    const container = document.getElementById('proyek-belum-dimulai');
-                    if (data.length === 0) {
-                        container.innerHTML = '<p>Tidak ada proyek belum dimulai.</p>';
-                        return;
-                    }
+            // // ==== Fetch Proyek Belum Dimulai ====
+            // fetch('{{ route('dashboard.proyekBelumDimulai') }}')
+            //     .then(res => res.json())
+            //     .then(data => {
+            //         const container = document.getElementById('proyek-belum-dimulai');
+            //         if (data.length === 0) {
+            //             container.innerHTML = '<p>Tidak ada proyek belum dimulai.</p>';
+            //             return;
+            //         }
 
-                    container.innerHTML = `
-                    <ul class="list-group list-group-flush">
-                        ${data.map(p => `
-                                        <li class="list-group-item">
-                                            <div class="fw-bold">${p.title}</div>
-                                            <div><strong>Deadline:</strong> ${p.deadline}</div>
-                                            <div><strong>Deskripsi:</strong> ${p.description}</div>
-                                        </li>
-                                    `).join('')}
-                    </ul>
-                `;
-            });
+            //         container.innerHTML = `
+            //         <ul class="list-group list-group-flush">
+            //             ${data.map(p => `
+            //                             <li class="list-group-item">
+            //                                 <div class="fw-bold">${p.title}</div>
+            //                                 <div><strong>Deadline:</strong> ${p.deadline}</div>
+            //                                 <div><strong>Deskripsi:</strong> ${p.description}</div>
+            //                             </li>
+            //                         `).join('')}
+            //         </ul>
+            //     `;
+            // });
 
-            // ==== Fetch Tugas Belum Selesai ====
-            fetch('{{ route('dashboard.tugasBelumSelesai') }}')
-                .then(res => res.json())
-                .then(data => {
-                    const container = document.getElementById('tugas-belum-selesai');
-                    if (data.length === 0) {
-                        container.innerHTML = '<p>Tidak ada tugas belum selesai.</p>';
-                        return;
-                    }
-                    container.innerHTML = `
-                        <ul class="list-group list-group-flush">
-                            ${data.map(t => `
-                                <li class="list-group-item d-flex align-items-center">
-                                    <form method="POST" action="{{ route('dashboard.selesaikanTugas') }}">
-                                        @csrf
-                                        <input type="hidden" name="id" value="${t.id}">
-                                        <input type="hidden" name="selesai" value="1">
-                                        <input type="checkbox" class="form-check-input me-2"
-                                            onchange="this.form.submit()" />
-                                    </form>
-                                    <div>
-                                        <div class="fw-bold">${t.title}</div>
-                                        <div>${t.description ?? '-'}</div>
-                                    </div>
-                                </li>
-                            `).join('')}
-                        </ul>
-                    `;
-            });
+            // // ==== Fetch Tugas Belum Selesai ====
+            // fetch('{{ route('dashboard.tugasBelumSelesai') }}')
+            //     .then(res => res.json())
+            //     .then(data => {
+            //         const container = document.getElementById('tugas-belum-selesai');
+            //         if (data.length === 0) {
+            //             container.innerHTML = '<p>Tidak ada tugas belum selesai.</p>';
+            //             return;
+            //         }
+            //         container.innerHTML = `
+            //             <ul class="list-group list-group-flush">
+            //                 ${data.map(t => `
+            //                     <li class="list-group-item d-flex align-items-center">
+            //                         <form method="POST" action="{{ route('dashboard.selesaikanTugas') }}">
+            //                             @csrf
+            //                             <input type="hidden" name="id" value="${t.id}">
+            //                             <input type="hidden" name="selesai" value="1">
+            //                             <input type="checkbox" class="form-check-input me-2"
+            //                                 onchange="this.form.submit()" />
+            //                         </form>
+            //                         <div>
+            //                             <div class="fw-bold">${t.title}</div>
+            //                             <div>${t.description ?? '-'}</div>
+            //                         </div>
+            //                     </li>
+            //                 `).join('')}
+            //             </ul>
+            //         `;
+            // });
 
             // ==== Fetch Neraca Bulan Ini ====
             fetch('{{ route('dashboard.neracaBulanLaluDanBulanIni') }}')
@@ -273,14 +273,14 @@
 
                     // Fungsi untuk render top 5 akun
                     const renderTop = (items) => {
-                        return `<ol class="ps-3 mb-0">
+                        return `<ol class="ps-3">
                             ${items.map(i => `<li>${i.account}: ${formatID(i.saldo)}</li>`).join('')}
                         </ol>`;
                     };
 
                     container.innerHTML = `
                         <!-- Total Pendapatan -->
-                        <div class="col-md-4 mb-3">
+                        <div class="col-md-4">
                             <div class="card shadow-sm">
                                 <div class="card-header bg-info text-white py-2">Total Pendapatan Bulan Ini</div>
                                 <div class="card-body p-3">
@@ -292,7 +292,7 @@
                         </div>
 
                         <!-- Total Beban -->
-                        <div class="col-md-4 mb-3">
+                        <div class="col-md-4">
                             <div class="card shadow-sm">
                                 <div class="card-header bg-danger text-white py-2">Total Beban Bulan Ini</div>
                                 <div class="card-body p-3">
@@ -304,7 +304,7 @@
                         </div>
 
                         <!-- Keuntungan / Kerugian -->
-                        <div class="col-md-4 mb-3">
+                        <div class="col-md-4">
                             <div class="card shadow-sm">
                                 <div class="card-header ${data.total_pendapatan - data.total_beban >= 0 ? 'bg-success' : 'bg-warning'} text-white py-2">
                                     ${data.total_pendapatan - data.total_beban >= 0 ? 'Keuntungan Bulan Ini' : 'Kerugian Bulan Ini'}
