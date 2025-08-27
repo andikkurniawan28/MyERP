@@ -39,103 +39,113 @@
                 </div>
             </div>
 
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>Barang</th>
-                        <th>Qty</th>
-                        <th>Harga</th>
-                        <th>Diskon %</th>
-                        <th>Diskon (Rp)</th>
-                        <th>Total</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody id="purchaseDetails">
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Barang</th>
+                            <th>Qty</th>
+                            <th>Harga</th>
+                            <th>Diskon %</th>
+                            <th>Diskon (Rp)</th>
+                            <th>Total</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="purchaseDetails">
+                        <tr>
+                            <td>
+                                <select name="item_id[]" class="form-select select2 item-select" required>
+                                    <option value="">-- Pilih Barang --</option>
+                                    @foreach ($items as $item)
+                                        <option value="{{ $item->id }}" data-satuan="{{ $item->mainUnit->name }}"
+                                            data-harga="{{ $item->purchase_price_main }}">{{ $item->code }} -
+                                            {{ $item->name }}</option>
+                                    @endforeach
+                                </select>
+                            </td>
+                            <td>
+                                <input type="text" name="qty[]" class="form-control form-control-sm currency-input">
+                                <small class="text-muted unit-label text-end"></small>
+                            </td>
+                            <td><input type="text" name="price[]" class="form-control form-control-sm currency-input">
+                            </td>
+                            <td><input type="text" name="discount_percent[]"
+                                    class="form-control form-control-sm currency-input"></td>
+                            <td><input type="text" name="discount[]" class="form-control form-control-sm currency-input"
+                                    readonly></td>
+                            <td><input type="text" name="total[]" class="form-control form-control-sm currency-input"
+                                    readonly></td>
+                            <td><button type="button" class="btn btn-danger btn-sm removeRow">X</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <button type="button" id="addRow" class="btn btn-secondary btn-sm">Tambah Baris</button>
+            <hr>
+
+            <div class="table-responsive">
+                <table class="table table-borderless align-middle">
                     <tr>
                         <td>
-                            <select name="item_id[]" class="form-select select2 item-select" required>
-                                <option value="">-- Pilih Barang --</option>
-                                @foreach ($items as $item)
-                                    <option value="{{ $item->id }}" data-satuan="{{ $item->mainUnit->name }}"
-                                        data-harga="{{ $item->purchase_price_main }}">{{ $item->code }} -
-                                        {{ $item->name }}</option>
+                            <label class="form-label">Subtotal</label>
+                            <input type="text" name="subtotal" id="subtotal" class="form-control currency-input"
+                                readonly>
+                        </td>
+                        <td>
+                            <label class="form-label">Pajak (%)</label>
+                            <input type="text" name="tax_percent" id="tax_percent" class="form-control currency-input">
+                        </td>
+                        <td>
+                            <label class="form-label">Pajak (Rp)</label>
+                            <input type="text" name="tax" id="tax" class="form-control currency-input"
+                                readonly>
+                        </td>
+                        <td>
+                            <label class="form-label">Ongkir</label>
+                            <input type="text" name="freight" id="freight" class="form-control currency-input">
+                        </td>
+                        <td>
+                            <label class="form-label">Biaya Lain</label>
+                            <input type="text" name="expense" id="expense" class="form-control currency-input">
+                        </td>
+                        <td style="display: none;">
+                            <label class="form-label">Diskon Faktur</label>
+                            <input type="text" name="discount_header" id="discount_header"
+                                class="form-control currency-input">
+                        </td>
+                        <td>
+                            <label class="form-label">Grand Total</label>
+                            <input type="text" name="grand_total" id="grand_total" class="form-control currency-input"
+                                readonly>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <hr>
+            <h4>Pembayaran</h4>
+            <div class="table-responsive">
+                <table class="table table-borderless align-middle">
+                    <tr>
+                        <td>
+                            <label class="form-label">Akun Kas/Bank</label>
+                            <select name="account_id" class="form-select select2">
+                                <option value="">-- Pilih Akun --</option>
+                                @foreach ($payment_gateways as $account)
+                                    <option value="{{ $account->id }}">{{ $account->code }} - {{ $account->name }}
+                                    </option>
                                 @endforeach
                             </select>
                         </td>
                         <td>
-                            <input type="text" name="qty[]" class="form-control form-control-sm currency-input">
-                            <small class="text-muted unit-label text-end"></small>
+                            <label class="form-label">Jumlah Dibayar</label>
+                            <input type="text" name="payment_amount" id="payment_amount"
+                                class="form-control currency-input">
                         </td>
-                        <td><input type="text" name="price[]" class="form-control form-control-sm currency-input"></td>
-                        <td><input type="text" name="discount_percent[]"
-                                class="form-control form-control-sm currency-input"></td>
-                        <td><input type="text" name="discount[]" class="form-control form-control-sm currency-input"
-                                readonly></td>
-                        <td><input type="text" name="total[]" class="form-control form-control-sm currency-input"
-                                readonly></td>
-                        <td><button type="button" class="btn btn-danger btn-sm removeRow">X</button></td>
                     </tr>
-                </tbody>
-            </table>
-            <button type="button" id="addRow" class="btn btn-secondary btn-sm">Tambah Baris</button>
-            <hr>
-
-            <table class="table table-borderless align-middle">
-                <tr>
-                    <td>
-                        <label class="form-label">Subtotal</label>
-                        <input type="text" name="subtotal" id="subtotal" class="form-control currency-input" readonly>
-                    </td>
-                    <td>
-                        <label class="form-label">Pajak (%)</label>
-                        <input type="text" name="tax_percent" id="tax_percent" class="form-control currency-input">
-                    </td>
-                    <td>
-                        <label class="form-label">Pajak (Rp)</label>
-                        <input type="text" name="tax" id="tax" class="form-control currency-input" readonly>
-                    </td>
-                    <td>
-                        <label class="form-label">Ongkir</label>
-                        <input type="text" name="freight" id="freight" class="form-control currency-input">
-                    </td>
-                    <td>
-                        <label class="form-label">Biaya Lain</label>
-                        <input type="text" name="expense" id="expense" class="form-control currency-input">
-                    </td>
-                    <td style="display: none;">
-                        <label class="form-label">Diskon Faktur</label>
-                        <input type="text" name="discount_header" id="discount_header"
-                            class="form-control currency-input">
-                    </td>
-                    <td>
-                        <label class="form-label">Grand Total</label>
-                        <input type="text" name="grand_total" id="grand_total" class="form-control currency-input"
-                            readonly>
-                    </td>
-                </tr>
-            </table>
-
-            <hr>
-            <h4>Pembayaran</h4>
-            <table class="table table-borderless align-middle">
-                <tr>
-                    <td>
-                        <label class="form-label">Akun Kas/Bank</label>
-                        <select name="account_id" class="form-select select2">
-                            <option value="">-- Pilih Akun --</option>
-                            @foreach ($payment_gateways as $account)
-                                <option value="{{ $account->id }}">{{ $account->code }} - {{ $account->name }}</option>
-                            @endforeach
-                        </select>
-                    </td>
-                    <td>
-                        <label class="form-label">Jumlah Dibayar</label>
-                        <input type="text" name="payment_amount" id="payment_amount"
-                            class="form-control currency-input">
-                    </td>
-                </tr>
-            </table>
+                </table>
+            </div>
 
             <button type="submit" class="btn btn-primary">Simpan</button>
         </form>

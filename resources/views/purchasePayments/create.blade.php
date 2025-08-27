@@ -36,52 +36,54 @@
                 </div>
             </div>
 
-            <table class="table table-bordered">
-                <thead class="table-light">
-                    <tr>
-                        <th>Kode Faktur</th>
-                        {{-- <th>Tanggal</th> --}}
-                        <th>Tagihan</th>
-                        <th>Terbayar</th>
-                        <th>Sisa</th>
-                        <th>Pelunasan</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-                <tbody id="payment-rows">
-                    @foreach ($purchases as $purchase)
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead class="table-light">
                         <tr>
-                            <td>
-                                {{ $purchase->code }}
-                                <input type="hidden" name="details[{{ $loop->index }}][purchase_id]" value="{{ $purchase->id }}">
-                            </td>
-                            {{-- <td>{{ $purchase->date }}</td> --}}
-                            <td class="text-end">{{ number_format($purchase->grand_total, 0, ',', '.') }}</td>
-                            <td class="text-end">{{ number_format($purchase->paid, 0, ',', '.') }}</td>
-                            <td class="text-end">{{ number_format($purchase->remaining, 0, ',', '.') }}</td>
-                            <td>
-                                <input type="text" name="details[{{ $loop->index }}][total]" class="form-control form-control-sm currency-input"
-                                    placeholder="0">
-                            </td>
-                            <td>
-                                <button type="button" class="btn btn-sm btn-danger remove-row">
-                                    Hapus
-                                </button>
-                            </td>
+                            <th>Kode Faktur</th>
+                            {{-- <th>Tanggal</th> --}}
+                            <th>Tagihan</th>
+                            <th>Terbayar</th>
+                            <th>Sisa</th>
+                            <th>Pelunasan</th>
+                            <th>Aksi</th>
                         </tr>
-                    @endforeach
-                </tbody>
-                <tfoot>
-                    <tr class="table-secondary">
-                        <th colspan="5" class="text-end">Total Pelunasan</th>
-                        <th>
-                            <input type="text" name="grand_total" id="grand_total" class="form-control currency-input"
-                                readonly>
-                        </th>
-                    </tr>
-                </tfoot>
-            </table>
-
+                    </thead>
+                    <tbody id="payment-rows">
+                        @foreach ($purchases as $purchase)
+                            <tr>
+                                <td>
+                                    {{ $purchase->code }}
+                                    <input type="hidden" name="details[{{ $loop->index }}][purchase_id]"
+                                        value="{{ $purchase->id }}">
+                                </td>
+                                {{-- <td>{{ $purchase->date }}</td> --}}
+                                <td class="text-end">{{ number_format($purchase->grand_total, 0, ',', '.') }}</td>
+                                <td class="text-end">{{ number_format($purchase->paid, 0, ',', '.') }}</td>
+                                <td class="text-end">{{ number_format($purchase->remaining, 0, ',', '.') }}</td>
+                                <td>
+                                    <input type="text" name="details[{{ $loop->index }}][total]"
+                                        class="form-control form-control-sm currency-input" placeholder="0">
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-sm btn-danger remove-row">
+                                        Hapus
+                                    </button>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                    <tfoot>
+                        <tr class="table-secondary">
+                            <th colspan="5" class="text-end">Total Pelunasan</th>
+                            <th>
+                                <input type="text" name="grand_total" id="grand_total"
+                                    class="form-control currency-input" readonly>
+                            </th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
 
             <button type="submit" class="btn btn-primary">Simpan</button>
             <a href="{{ route('purchasePayments.index') }}" class="btn btn-secondary">Batal</a>

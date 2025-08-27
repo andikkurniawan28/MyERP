@@ -24,6 +24,7 @@
                 </div>
             </div>
 
+            <div class="table-responsive">
             <table class="table table-bordered">
                 <thead>
                     <tr>
@@ -55,6 +56,8 @@
                     </tr>
                 </tbody>
             </table>
+            </div>
+
             <button type="button" id="addRow" class="btn btn-secondary btn-sm">Tambah Baris</button>
             <hr>
             <button type="submit" class="btn btn-primary">Simpan</button>

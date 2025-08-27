@@ -55,39 +55,41 @@
                 </div>
             </div>
 
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Barang</th>
+                            <th>Masuk</th>
+                            <th>Keluar</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="transactionDetails">
+                        <tr>
+                            <td>
+                                <select name="item_id[]" class="form-select select2" required>
+                                    <option value="">-- Pilih Barang --</option>
+                                    @foreach ($items as $item)
+                                        <option value="{{ $item->id }}">{{ $item->code }} - {{ $item->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </td>
+                            <td>
+                                <input type="text" name="in[]" class="form-control form-control-sm currency-input">
+                            </td>
+                            <td>
+                                <input type="text" name="out[]" class="form-control form-control-sm currency-input">
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-danger btn-sm removeRow">X</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>Barang</th>
-                        <th>Masuk</th>
-                        <th>Keluar</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody id="transactionDetails">
-                    <tr>
-                        <td>
-                            <select name="item_id[]" class="form-select select2" required>
-                                <option value="">-- Pilih Barang --</option>
-                                @foreach ($items as $item)
-                                    <option value="{{ $item->id }}">{{ $item->code }} - {{ $item->name }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </td>
-                        <td>
-                            <input type="text" name="in[]" class="form-control form-control-sm currency-input">
-                        </td>
-                        <td>
-                            <input type="text" name="out[]" class="form-control form-control-sm currency-input">
-                        </td>
-                        <td>
-                            <button type="button" class="btn btn-danger btn-sm removeRow">X</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
             <button type="button" id="addRow" class="btn btn-secondary btn-sm">Tambah Baris</button>
             <hr>
             <button type="submit" class="btn btn-primary">Simpan</button>
