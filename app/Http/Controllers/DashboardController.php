@@ -56,23 +56,22 @@ class DashboardController extends Controller
 
     public static function hutangUsaha($startOfMonth, $endOfMonth)
     {
-        return Purchase::whereBetween('date', [$startOfMonth, $endOfMonth])
-            ->sum('remaining');
+        return Purchase::sum('remaining');
     }
 
     public static function piutangUsaha($startOfMonth, $endOfMonth)
     {
-        return Sales::whereBetween('date', [$startOfMonth, $endOfMonth])
-            ->sum('remaining');
+        return Sales::sum('remaining');
     }
 
     public static function topSellingProducts($startOfMonth, $endOfMonth)
     {
         return SalesDetail::join('sales', 'sales.id', '=', 'sales_details.sales_id')
             ->join('items', 'items.id', '=', 'sales_details.item_id')
+            ->join('units', 'units.id', '=', 'items.main_unit_id')
             ->whereBetween('sales.date', [$startOfMonth, $endOfMonth])
-            ->select('items.id', 'items.name', DB::raw('SUM(sales_details.qty) as total_qty'))
-            ->groupBy('items.id', 'items.name')
+            ->select('items.id', 'items.name as name', 'units.name as unit_name', DB::raw('SUM(sales_details.qty) as total_qty'))
+            ->groupBy('items.id', 'items.name', 'units.name')
             ->orderByDesc('total_qty')
             ->take(5)
             ->get();

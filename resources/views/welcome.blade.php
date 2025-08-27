@@ -33,7 +33,7 @@
 
     {{-- Card Dashboard --}}
     <div class="row">
-        <div class="col-xl-7 col-xxl-7 d-flex">
+        <div class="col-xl-8 col-xxl-8 d-flex">
             <div class="w-100">
                 <div class="row">
                     <div class="col-sm-6">
@@ -41,7 +41,7 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col mt-0">
-                                        <h5 class="card-title">Penjualan</h5>
+                                        <h5 class="card-title">Penjualan Bulan Ini</h5>
                                     </div>
                                     <div class="col-auto">
                                         <div class="stat text-primary">
@@ -56,7 +56,7 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col mt-0">
-                                        <h5 class="card-title">Piutang Usaha</h5>
+                                        <h5 class="card-title">Piutang Usaha s/d Saat Ini</h5>
                                     </div>
                                     <div class="col-auto">
                                         <div class="stat text-primary">
@@ -73,7 +73,7 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col mt-0">
-                                        <h5 class="card-title">Pembelian</h5>
+                                        <h5 class="card-title">Pembelian Bulan Ini</h5>
                                     </div>
                                     <div class="col-auto">
                                         <div class="stat text-primary">
@@ -88,7 +88,7 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col mt-0">
-                                        <h5 class="card-title">Hutang Usaha</h5>
+                                        <h5 class="card-title">Hutang Usaha s/d Saat Ini</h5>
                                     </div>
                                     <div class="col-auto">
                                         <div class="stat text-primary">
@@ -105,10 +105,10 @@
         </div>
 
         {{-- Top 5 Produk Terlaris --}}
-        <div class="col-xl-5 col-xxl-5 d-flex">
+        <div class="col-xl-4 col-xxl-4 d-flex">
             <div class="card flex-fill w-100">
                 <div class="card-header">
-                    <h5 class="card-title mb-0">Produk Terlaris</h5>
+                    <h5 class="card-title mb-0">Produk Terlaris <i class="bi bi-tags align-middle"></i></h5>
                 </div>
                 <div class="card-body py-3">
                     <div class="table-responsive">
@@ -116,7 +116,8 @@
                             <thead class="table-primary">
                                 <tr>
                                     <th>Produk</th>
-                                    <th class="text-end">Jumlah</th>
+                                    <th>Satuan</th>
+                                    <th>Jumlah</th>
                                 </tr>
                             </thead>
                             <tbody id="top-products">
@@ -164,7 +165,8 @@ $(document).ready(function() {
                     topProductsRows += `
                     <tr>
                         <td>${item.name}</td>
-                        <td class="text-end">${new Intl.NumberFormat('id-ID').format(item.total_qty ?? 0)}</td>
+                        <td>${item.unit_name}</td>
+                        <td>${new Intl.NumberFormat('id-ID').format(item.total_qty ?? 0)}</td>
                     </tr>
                     `;
                 });
