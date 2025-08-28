@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Account;
 use App\Models\Setting;
+use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 
 class SettingController extends Controller
@@ -27,24 +28,16 @@ class SettingController extends Controller
             return $response;
         }
 
-        $request->validate([
-            'inventory_account_id' => 'required|exists:accounts,id',
-            'stock_in_account_id' => 'required|exists:accounts,id',
-            'stock_out_account_id' => 'required|exists:accounts,id',
-        ]);
-
         $setting = Setting::first(); // ambil record pertama
-
         if (!$setting) {
-            abort(404, 'Setting record not found'); // pastikan tidak create baru
+            abort(404, 'Setting record not found');
         }
 
-        $setting->update([
-            'inventory_account_id' => $request->inventory_account_id,
-            'stock_in_account_id' => $request->stock_in_account_id,
-            'stock_out_account_id' => $request->stock_out_account_id,
-        ]);
+        // update semua field yang ada di fillable
+        // $setting->update($request->all()->except(['_token', '_method']));
+        $setting->update(Arr::except($request->all(), ['_token', '_method']));
 
         return redirect()->back()->with('success', 'Setting berhasil diupdate');
     }
+
 }

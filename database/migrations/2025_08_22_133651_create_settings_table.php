@@ -33,6 +33,8 @@ return new class extends Migration
             $table->foreignId('sales_grand_total_account_id')->constrained('accounts');
             $table->foreignId('sales_cogs_account_id')->constrained('accounts');
 
+            $table->foreignId('retained_earning_account_id')->constrained('accounts');
+
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });

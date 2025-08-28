@@ -36,3 +36,4 @@ Route::post('report/balanceSheetData', [ReportController::class, 'balanceSheetDa
     ->name('report.balanceSheetData.data');
 Route::post('report/incomeStatementData', [ReportController::class, 'incomeStatementData'])
     ->name('report.incomeStatementData.data');
+// Route::post('report/closeIncomeStatement', [ReportController::class, 'closeIncomeStatement'])->name('api.report.closeIncomeStatement');

@@ -136,6 +136,7 @@ class DatabaseSeeder extends Seeder
                 'sales_discount_account_id' => Account::where('code', 6500)->get()->last()->id,
                 'sales_grand_total_account_id' => Account::where('code', 1100)->get()->last()->id,
                 'sales_cogs_account_id' => Account::where('code', 5000)->get()->last()->id,
+                'retained_earning_account_id' => Account::where('code', 3100)->get()->last()->id,
             ],
         ]);
 

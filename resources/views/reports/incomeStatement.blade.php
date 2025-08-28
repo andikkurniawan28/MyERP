@@ -15,7 +15,9 @@
             </div>
             <div class="col-md-3 d-flex align-items-end gap-2">
                 <button type="submit" name="action" value="apply" class="btn btn-primary w-100">Terapkan</button>
+                @if (Auth::user()->role->akses_tutupan_laporan_laba_rugi)
                 <button type="submit" name="action" value="close" class="btn btn-success w-100">Tutupan</button>
+                @endif
             </div>
         </form>
 

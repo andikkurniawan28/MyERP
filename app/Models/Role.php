@@ -72,9 +72,14 @@ class Role extends Model
             // 'akses_edit_pelunasan_piutang' => 'Akses Edit Pelunasan Piutang',
             'akses_hapus_pelunasan_piutang' => 'Akses Hapus Pelunasan Piutang',
             'akses_laporan_pembelian' => 'Akses Laporan Pembelian',
+            // 'akses_laporan_pelunasan_hutang' => 'Akses Laporan Pelunasan Hutang',
             'akses_laporan_penjualan' => 'Akses Laporan Penjualan',
+            // 'akses_laporan_pelunasan_piutang' => 'Akses Laporan Pelunasan Piutang',
             'akses_laporan_mutasi_barang' => 'Akses Laporan Mutasi Barang',
             'akses_buku_besar' => 'Akses Buku Besar',
+            'akses_neraca' => 'Akses Neraca',
+            'akses_laporan_laba_rugi' => 'Akses Laporan Laba Rugi',
+            'akses_tutupan_laporan_laba_rugi' => 'Akses Tutupan Laporan Laba Rugi',
         ];
         return $data;
     }
@@ -139,9 +144,14 @@ class Role extends Model
             // 'akses_edit_pelunasan_piutang',
             'akses_hapus_pelunasan_piutang',
             'akses_laporan_pembelian',
+            // 'akses_laporan_pelunasan_hutang',
             'akses_laporan_penjualan',
+            // 'akses_laporan_pelunasan_piutang',
             'akses_laporan_mutasi_barang',
             'akses_buku_besar',
+            'akses_neraca',
+            'akses_laporan_laba_rugi',
+            'akses_tutupan_laporan_laba_rugi',
         ];
         return $data;
     }

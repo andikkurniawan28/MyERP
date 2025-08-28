@@ -333,6 +333,28 @@
                                         @enderror
                                     </td>
                                 </tr>
+                                <tr>
+                                    <td colspan="2" class="table-dark">Tutupan Laba Rugi</td>
+                                </tr>
+                                <tr>
+                                    <td>Akun Laba Ditahan</td>
+                                    <td>
+                                        <select name="retained_earning_account_id" id="retained_earning_account_id"
+                                            class="form-select select2 @error('retained_earning_account_id') is-invalid @enderror"
+                                            required>
+                                            <option value="">-- Pilih Akun --</option>
+                                            @foreach ($accounts as $account)
+                                                <option value="{{ $account->id }}"
+                                                    {{ old('retained_earning_account_id', $setting->retained_earning_account_id) == $account->id ? 'selected' : '' }}>
+                                                    {{ $account->code }} - {{ $account->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        @error('retained_earning_account_id')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>

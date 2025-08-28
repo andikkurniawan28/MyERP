@@ -122,19 +122,23 @@
                 </li>
             @endif
 
+            @if (Auth::user()->role->akses_neraca)
                 <li class="sidebar-item @yield('balanceSheet-active')">
                     <a class="sidebar-link" href="{{ route('report.balanceSheet.index') }}">
                         <i class="bi bi-diagram-3 align-middle"></i>
                         <span class="align-middle">Neraca</span>
                     </a>
                 </li>
+            @endif
 
+            @if (Auth::user()->role->akses_laporan_laba_rugi)
                 <li class="sidebar-item @yield('incomeStatement-active')">
                     <a class="sidebar-link" href="{{ route('report.incomeStatement.index') }}">
                         <i class="bi bi-graph-up align-middle"></i>
                         <span class="align-middle">Laporan Laba Rugi</span>
                     </a>
                 </li>
+            @endif
 
             <li class="sidebar-header">
                 Master

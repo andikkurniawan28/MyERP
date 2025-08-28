@@ -53,103 +53,111 @@
                         let liabilityRows = '';
                         let equityRows = '';
 
-                        // asset
+                        // Asset
                         (res.balances.asset ?? []).forEach(acc => {
                             assetRows += `<tr>
-                                <td>${acc.code}</td>
-                                <td>${acc.name}</td>
-                                <td class="text-end">${formatBalance(acc.balance)}</td>
-                            </tr>`;
+                        <td>${acc.code}</td>
+                        <td>${acc.name}</td>
+                        <td class="text-end">${formatBalance(acc.balance)}</td>
+                    </tr>`;
                         });
-                        if (!assetRows) {
-                            assetRows =
-                                `<tr><td colspan="3" class="text-center">Tidak ada data</td></tr>`;
-                        }
+                        if (!assetRows) assetRows =
+                            `<tr><td colspan="3" class="text-center">Tidak ada data</td></tr>`;
                         assetRows += `<tr class="table-light fw-bold">
-                            <td colspan="2">Total Asset</td>
-                            <td class="text-end">${formatBalance(res.totals.asset ?? 0)}</td>
-                        </tr>`;
+                    <td colspan="2">Total Asset</td>
+                    <td class="text-end">${formatBalance(res.totals.asset ?? 0)}</td>
+                </tr>`;
 
-                        // liability
+                        // Liability
                         (res.balances.liability ?? []).forEach(acc => {
                             liabilityRows += `<tr>
-                                <td>${acc.code}</td>
-                                <td>${acc.name}</td>
-                                <td class="text-end">${formatBalance(acc.balance)}</td>
-                            </tr>`;
+                        <td>${acc.code}</td>
+                        <td>${acc.name}</td>
+                        <td class="text-end">${formatBalance(acc.balance)}</td>
+                    </tr>`;
                         });
-                        if (!liabilityRows) {
-                            liabilityRows =
-                                `<tr><td colspan="3" class="text-center">Tidak ada data</td></tr>`;
-                        }
+                        if (!liabilityRows) liabilityRows =
+                            `<tr><td colspan="3" class="text-center">Tidak ada data</td></tr>`;
                         liabilityRows += `<tr class="table-light fw-bold">
-                            <td colspan="2">Total Kewajiban</td>
-                            <td class="text-end">${formatBalance(res.totals.liability ?? 0)}</td>
-                        </tr>`;
+                    <td colspan="2">Total Kewajiban</td>
+                    <td class="text-end">${formatBalance(res.totals.liability ?? 0)}</td>
+                </tr>`;
 
-                        // equity
+                        // Equity
                         (res.balances.equity ?? []).forEach(acc => {
                             equityRows += `<tr>
-                                <td>${acc.code}</td>
-                                <td>${acc.name}</td>
-                                <td class="text-end">${formatBalance(acc.balance)}</td>
-                            </tr>`;
+                        <td>${acc.code}</td>
+                        <td>${acc.name}</td>
+                        <td class="text-end">${formatBalance(acc.balance)}</td>
+                    </tr>`;
                         });
-                        if (!equityRows) {
-                            equityRows =
-                                `<tr><td colspan="3" class="text-center">Tidak ada data</td></tr>`;
-                        }
+                        if (!equityRows) equityRows =
+                            `<tr><td colspan="3" class="text-center">Tidak ada data</td></tr>`;
                         equityRows += `<tr class="table-light fw-bold">
-                            <td colspan="2">Total Modal</td>
-                            <td class="text-end">${formatBalance(res.totals.equity ?? 0)}</td>
-                        </tr>`;
+                    <td colspan="2">Total Modal</td>
+                    <td class="text-end">${formatBalance(res.totals.equity ?? 0)}</td>
+                </tr>`;
+
+                        // Hitung total Kewajiban + Modal
+                        let totalLiabilityEquity = (res.totals.liability ?? 0) + (res.totals
+                            .equity ?? 0);
+                        let balanceSummary = `
+                    <div class="col-12 mt-3">
+                        <div class="alert ${ (res.totals.asset ?? 0) === totalLiabilityEquity ? 'alert-success' : 'alert-danger' }">
+                            <strong>Total Asset:</strong> ${formatBalance(res.totals.asset ?? 0)} &nbsp;&nbsp;
+                            <strong>Total Kewajiban + Modal:</strong> ${formatBalance(totalLiabilityEquity)} &nbsp;&nbsp;
+                            <strong>Status:</strong> ${(res.totals.asset ?? 0) === totalLiabilityEquity ? 'Balance' : 'Tidak Balance'}
+                        </div>
+                    </div>
+                `;
 
                         let html = `
-                            <div class="col-md-6">
-                                <h5 class="fw-bold">Asset</h5>
-                                <div class="table-responsive">
-                                    <table class="table table-sm">
-                                        <thead class="table-light">
-                                            <tr>
-                                                <th>Kode</th>
-                                                <th>Akun</th>
-                                                <th class="text-end">Saldo</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>${assetRows}</tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <h5 class="fw-bold">Kewajiban</h5>
-                                <div class="table-responsive mb-3">
-                                    <table class="table table-sm">
-                                        <thead class="table-light">
-                                            <tr>
-                                                <th>Kode</th>
-                                                <th>Akun</th>
-                                                <th class="text-end">Saldo</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>${liabilityRows}</tbody>
-                                    </table>
-                                </div>
+                    <div class="col-md-6">
+                        <h5 class="fw-bold">Asset</h5>
+                        <div class="table-responsive">
+                            <table class="table table-sm">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Kode</th>
+                                        <th>Akun</th>
+                                        <th class="text-end">Saldo</th>
+                                    </tr>
+                                </thead>
+                                <tbody>${assetRows}</tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <h5 class="fw-bold">Kewajiban</h5>
+                        <div class="table-responsive mb-3">
+                            <table class="table table-sm">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Kode</th>
+                                        <th>Akun</th>
+                                        <th class="text-end">Saldo</th>
+                                    </tr>
+                                </thead>
+                                <tbody>${liabilityRows}</tbody>
+                            </table>
+                        </div>
 
-                                <h5 class="fw-bold">Modal</h5>
-                                <div class="table-responsive">
-                                    <table class="table table-sm">
-                                        <thead class="table-light">
-                                            <tr>
-                                                <th>Kode</th>
-                                                <th>Akun</th>
-                                                <th class="text-end">Saldo</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>${equityRows}</tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        `;
+                        <h5 class="fw-bold">Modal</h5>
+                        <div class="table-responsive">
+                            <table class="table table-sm">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Kode</th>
+                                        <th>Akun</th>
+                                        <th class="text-end">Saldo</th>
+                                    </tr>
+                                </thead>
+                                <tbody>${equityRows}</tbody>
+                            </table>
+                        </div>
+                    </div>
+                    ${balanceSummary} <!-- summary di bawah tabel -->
+                `;
 
                         $('#balanceSheetContainer').html(html);
                     },

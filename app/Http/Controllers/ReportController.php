@@ -9,19 +9,24 @@ use App\Models\Sales;
 use App\Models\Account;
 use App\Models\Contact;
 use App\Models\Journal;
+use App\Models\Setting;
 use App\Models\Purchase;
 use App\Models\Warehouse;
 use App\Models\ItemCategory;
 use Illuminate\Http\Request;
 use App\Models\JournalDetail;
 use App\Models\ItemTransaction;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class ReportController extends Controller
 {
     public function purchaseReport()
     {
+        if ($response = $this->checkIzin('akses_laporan_pembelian')) {
+            return $response;
+        }
+
         $users = User::all();
         $suppliers = Contact::where('type', 'supplier')->get();
         $warehouses = Warehouse::all();
@@ -76,6 +81,10 @@ class ReportController extends Controller
 
     public function salesReport()
     {
+        if ($response = $this->checkIzin('akses_laporan_penjualan')) {
+            return $response;
+        }
+
         $users = User::all();
         $customers = Contact::where('type', '!=', 'supplier')->get();
         $warehouses = Warehouse::all();
@@ -130,6 +139,10 @@ class ReportController extends Controller
 
     public function itemTransactionReport()
     {
+        if ($response = $this->checkIzin('akses_laporan_mutasi_barang')) {
+            return $response;
+        }
+
         $users = User::all();
         $warehouses = Warehouse::all();
         $items = Item::all();
@@ -243,6 +256,9 @@ class ReportController extends Controller
 
     public function generalLedger()
     {
+        if ($response = $this->checkIzin('akses_buku_besar')) {
+            return $response;
+        }
         $accounts = Account::all();
         return view('reports.generalLedger', compact('accounts'));
     }
@@ -329,6 +345,9 @@ class ReportController extends Controller
 
     public function balanceSheet()
     {
+        if ($response = $this->checkIzin('akses_neraca')) {
+            return $response;
+        }
         $accounts = Account::all();
         return view('reports.balanceSheet', compact('accounts'));
     }
@@ -403,6 +422,9 @@ class ReportController extends Controller
 
     public function incomeStatement()
     {
+        if ($response = $this->checkIzin('akses_laporan_laba_rugi')) {
+            return $response;
+        }
         $accounts = Account::all();
         return view('reports.incomeStatement', compact('accounts'));
     }
@@ -418,9 +440,15 @@ class ReportController extends Controller
             $startOfMonth = \Carbon\Carbon::createFromDate($year, $month, 1)->startOfMonth();
             $endOfMonth   = \Carbon\Carbon::createFromDate($year, $month, 1)->endOfMonth();
 
+            // $query->whereHas('journal', function ($q) use ($startOfMonth, $endOfMonth) {
+            //     $q->whereBetween('date', [$startOfMonth, $endOfMonth]);
+            // });
+
             $query->whereHas('journal', function ($q) use ($startOfMonth, $endOfMonth) {
-                $q->whereBetween('date', [$startOfMonth, $endOfMonth]);
+                $q->whereBetween('date', [$startOfMonth, $endOfMonth])
+                ->where('is_closing_entry', 0); // hanya jurnal biasa, bukan penutup
             });
+
         }
 
         $journalDetails = $query->get();
@@ -486,6 +514,13 @@ class ReportController extends Controller
 
     public function closeIncomeStatement(Request $request)
     {
+        if ($response = $this->checkIzin('akses_tutupan_laporan_laba_rugi')) {
+            return $response;
+        }
+
+        $setting = Setting::first();
+        $retainedEarningsAccountId = $setting->retained_earning_account_id;
+
         $month = $request->input('month'); // format: YYYY-MM
         $date = Carbon::createFromFormat('Y-m', $month)->endOfMonth();
 
@@ -500,16 +535,16 @@ class ReportController extends Controller
         }
 
         try {
-            DB::transaction(function () use ($request, $date) {
-                // ambil data income statement bulan tsb
-                $response = $this->incomeStatementData($request);
-                $balances = $response->getData(true); // pastikan ini array
-                // $balances['balances'] ada
-                // dd($balances); // debug kalau perlu
+            DB::transaction(function () use ($request, $date, $retainedEarningsAccountId) {
 
-                // buat jurnal penutup
+                // Ambil data Income Statement
+                $response = $this->incomeStatementData($request);
+                $balances = $response->getData(true); // ['balances' => [...], 'totals' => [...]]
+
+                $accountMapping = Account::pluck('id', 'code')->toArray();
+
                 $journal = Journal::create([
-                    'code' => Journal::generateCode(),
+                    'code' => Journal::generateCode('JRN'),
                     'date' => $date,
                     'description' => 'Jurnal Penutup Laba Rugi ' . $date->format('F Y'),
                     'debit' => 0,
@@ -521,43 +556,72 @@ class ReportController extends Controller
                 $totalDebit = 0;
                 $totalCredit = 0;
 
-                foreach (['revenue', 'cogs', 'expense'] as $group) {
-                    foreach ($balances['balances'][$group] ?? [] as $acc) {
-                        // akses balance sesuai key yang ada
-                        $amount = $acc['balance'] ?? 0;
-                        $accountId = $acc['id'] ?? null;
-                        if ($amount == 0 || !$accountId) continue;
+                // Revenue → didebit
+                foreach ($balances['balances']['revenue'] ?? [] as $acc) {
+                    $amount = floatval($acc['balance'] ?? 0);
+                    $accountId = $accountMapping[$acc['code']] ?? null;
+                    if (!$amount || !$accountId) continue;
 
-                        if ($amount > 0) {
-                            JournalDetail::create([
-                                'journal_id' => $journal->id,
-                                'account_id' => $accountId,
-                                'debit' => 0,
-                                'credit' => $amount,
-                            ]);
-                            $totalCredit += $amount;
-                        } else {
-                            JournalDetail::create([
-                                'journal_id' => $journal->id,
-                                'account_id' => $accountId,
-                                'debit' => abs($amount),
-                                'credit' => 0,
-                            ]);
-                            $totalDebit += abs($amount);
-                        }
+                    JournalDetail::create([
+                        'journal_id' => $journal->id,
+                        'account_id' => $accountId,
+                        'debit' => $amount,
+                        'credit' => 0,
+                    ]);
+                    $totalDebit += $amount;
+                }
+
+                // COGS & Expense → dikredit
+                foreach (['cogs','expense'] as $group) {
+                    foreach ($balances['balances'][$group] ?? [] as $acc) {
+                        $amount = floatval($acc['balance'] ?? 0);
+                        $accountId = $accountMapping[$acc['code']] ?? null;
+                        if (!$amount || !$accountId) continue;
+
+                        JournalDetail::create([
+                            'journal_id' => $journal->id,
+                            'account_id' => $accountId,
+                            'debit' => 0,
+                            'credit' => $amount,
+                        ]);
+                        $totalCredit += $amount;
                     }
                 }
 
-                // update total debit & credit di jurnal
+                // Tutup ke Retained Earnings
+                $netIncome = $balances['totals']['net_income'] ?? 0;
+                if ($netIncome > 0) {
+                    // Laba → kredit Retained Earnings
+                    JournalDetail::create([
+                        'journal_id' => $journal->id,
+                        'account_id' => $retainedEarningsAccountId,
+                        'debit' => 0,
+                        'credit' => $netIncome,
+                    ]);
+                    $totalCredit += $netIncome;
+                } elseif ($netIncome < 0) {
+                    // Rugi → debit Retained Earnings
+                    JournalDetail::create([
+                        'journal_id' => $journal->id,
+                        'account_id' => $retainedEarningsAccountId,
+                        'debit' => abs($netIncome),
+                        'credit' => 0,
+                    ]);
+                    $totalDebit += abs($netIncome);
+                }
+
+                // Update total debit & credit di header jurnal
                 $journal->update([
                     'debit' => $totalDebit,
                     'credit' => $totalCredit,
                 ]);
             });
 
-            return redirect()->back()->with('success', 'Jurnal penutup berhasil dibuat');
+            return redirect()->back()->with('success', 'Jurnal penutup berhasil dibuat.');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
     }
+
+
 }
