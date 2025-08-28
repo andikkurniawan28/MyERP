@@ -2,18 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Item;
 use App\Models\User;
 use App\Models\Sales;
 use App\Models\Account;
 use App\Models\Contact;
-use App\Models\ItemCategory;
 use App\Models\Journal;
 use App\Models\Purchase;
 use App\Models\Warehouse;
+use App\Models\ItemCategory;
 use Illuminate\Http\Request;
 use App\Models\JournalDetail;
 use App\Models\ItemTransaction;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class ReportController extends Controller
@@ -257,7 +259,7 @@ class ReportController extends Controller
 
         // Hitung saldo awal (sebelum start_date)
         $saldoAwalQuery = JournalDetail::where('account_id', $accountId)
-            ->whereHas('journal', function($q) use ($startDate) {
+            ->whereHas('journal', function ($q) use ($startDate) {
                 $q->where('date', '<', $startDate);
             });
 
@@ -274,7 +276,7 @@ class ReportController extends Controller
         // Ambil transaksi periode berjalan
         $journals = JournalDetail::with('journal')
             ->where('account_id', $accountId)
-            ->whereHas('journal', function($q) use ($startDate, $endDate) {
+            ->whereHas('journal', function ($q) use ($startDate, $endDate) {
                 $q->whereBetween('date', [$startDate, $endDate]);
             })
             ->orderBy(Journal::select('date')->whereColumn('journals.id', 'journal_details.journal_id'))
@@ -482,5 +484,80 @@ class ReportController extends Controller
         ]);
     }
 
+    public function closeIncomeStatement(Request $request)
+    {
+        $month = $request->input('month'); // format: YYYY-MM
+        $date = Carbon::createFromFormat('Y-m', $month)->endOfMonth();
 
+        // cek apakah sudah ada jurnal penutup di bulan ini
+        $exists = Journal::where('is_closing_entry', 1)
+            ->whereYear('date', $date->year)
+            ->whereMonth('date', $date->month)
+            ->exists();
+
+        if ($exists) {
+            return redirect()->back()->with('error', 'Jurnal penutup bulan ini sudah dibuat.');
+        }
+
+        try {
+            DB::transaction(function () use ($request, $date) {
+                // ambil data income statement bulan tsb
+                $response = $this->incomeStatementData($request);
+                $balances = $response->getData(true); // pastikan ini array
+                // $balances['balances'] ada
+                // dd($balances); // debug kalau perlu
+
+                // buat jurnal penutup
+                $journal = Journal::create([
+                    'code' => Journal::generateCode(),
+                    'date' => $date,
+                    'description' => 'Jurnal Penutup Laba Rugi ' . $date->format('F Y'),
+                    'debit' => 0,
+                    'credit' => 0,
+                    'user_id' => Auth::id(),
+                    'is_closing_entry' => 1,
+                ]);
+
+                $totalDebit = 0;
+                $totalCredit = 0;
+
+                foreach (['revenue', 'cogs', 'expense'] as $group) {
+                    foreach ($balances['balances'][$group] ?? [] as $acc) {
+                        // akses balance sesuai key yang ada
+                        $amount = $acc['balance'] ?? 0;
+                        $accountId = $acc['id'] ?? null;
+                        if ($amount == 0 || !$accountId) continue;
+
+                        if ($amount > 0) {
+                            JournalDetail::create([
+                                'journal_id' => $journal->id,
+                                'account_id' => $accountId,
+                                'debit' => 0,
+                                'credit' => $amount,
+                            ]);
+                            $totalCredit += $amount;
+                        } else {
+                            JournalDetail::create([
+                                'journal_id' => $journal->id,
+                                'account_id' => $accountId,
+                                'debit' => abs($amount),
+                                'credit' => 0,
+                            ]);
+                            $totalDebit += abs($amount);
+                        }
+                    }
+                }
+
+                // update total debit & credit di jurnal
+                $journal->update([
+                    'debit' => $totalDebit,
+                    'credit' => $totalCredit,
+                ]);
+            });
+
+            return redirect()->back()->with('success', 'Jurnal penutup berhasil dibuat');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
+    }
 }

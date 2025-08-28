@@ -54,6 +54,7 @@ class DatabaseSeeder extends Seeder
             ['code'=>'6600','name'=>'Biaya Lain-lain','category'=>'expense','description'=>'Biaya lain dari pembelian/penjualan','normal_balance'=>'debit','is_payment_gateway'=>0],
             ['code'=>'4300','name'=>'Pendapatan Pengiriman','category'=>'revenue','description'=>'Pendapatan ongkir dari penjualan','normal_balance'=>'credit','is_payment_gateway'=>0],
             ['code'=>'4400','name'=>'Pendapatan Lain-lain','category'=>'revenue','description'=>'Pendapatan lain-lain','normal_balance'=>'credit','is_payment_gateway'=>0],
+            ['code'=>'3100','name'=>'Laba Ditahan','category'=>'equity','description'=>'Laba ditahan','normal_balance'=>'credit','is_payment_gateway'=>0],
         ]);
 
         Warehouse::insert([

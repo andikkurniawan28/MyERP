@@ -24,6 +24,7 @@ return new class extends Migration
             $table->decimal('debit', 15, 2)->default(0);
             $table->decimal('credit', 15, 2)->default(0);
             $table->foreignId('user_id')->constrained();
+            $table->boolean('is_closing_entry')->default(0);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });
