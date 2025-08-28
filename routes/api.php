@@ -32,3 +32,7 @@ Route::post('report/itemTransactionReportData', [ReportController::class, 'itemT
     ->name('report.itemTransactionReportData.data');
 Route::post('report/generalLedgerData', [ReportController::class, 'generalLedgerData'])
     ->name('report.generalLedgerData.data');
+Route::post('report/balanceSheetData', [ReportController::class, 'balanceSheetData'])
+    ->name('report.balanceSheetData.data');
+Route::post('report/incomeStatementData', [ReportController::class, 'incomeStatementData'])
+    ->name('report.incomeStatementData.data');

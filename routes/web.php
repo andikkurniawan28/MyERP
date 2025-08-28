@@ -76,6 +76,8 @@ Route::get('report/purchaseReport', [ReportController::class, 'purchaseReport'])
 Route::get('report/salesReport', [ReportController::class, 'salesReport'])->name('report.salesReport.index')->middleware(['auth']);
 Route::get('report/itemTransactionReport', [ReportController::class, 'itemTransactionReport'])->name('report.itemTransactionReport.index')->middleware(['auth']);
 Route::get('report/generalLedger', [ReportController::class, 'generalLedger'])->name('report.generalLedger.index')->middleware(['auth']);
+Route::get('report/balanceSheet', [ReportController::class, 'balanceSheet'])->name('report.balanceSheet.index')->middleware(['auth']);
+Route::get('report/incomeStatement', [ReportController::class, 'incomeStatement'])->name('report.incomeStatement.index')->middleware(['auth']);
 
 // Print
 Route::get('print/journal/{id}', [PrintController::class, 'journal'])->name('print.journal')->middleware(['auth']);

@@ -313,4 +313,162 @@ class ReportController extends Controller
         ]);
     }
 
+    public function balanceSheet()
+    {
+        $accounts = Account::all();
+        return view('reports.balanceSheet', compact('accounts'));
+    }
+
+    public function balanceSheetData(Request $request)
+    {
+        $query = JournalDetail::with('journal', 'account');
+
+        // filter sampai dengan akhir bulan (cumulative)
+        if ($request->filled('month') && $request->month != "0") {
+            [$year, $month] = explode('-', $request->month);
+            $endOfMonth = \Carbon\Carbon::createFromDate($year, $month, 1)->endOfMonth();
+
+            $query->whereHas('journal', function ($q) use ($endOfMonth) {
+                $q->whereDate('date', '<=', $endOfMonth);
+            });
+        }
+
+        $journalDetails = $query->get();
+
+        $balances = [
+            'asset' => [],
+            'liability' => [],
+            'equity' => [],
+        ];
+
+        $totals = [
+            'asset' => 0,
+            'liability' => 0,
+            'equity' => 0,
+        ];
+
+        foreach ($journalDetails as $detail) {
+            $account = $detail->account;
+
+            if (!$account) continue;
+
+            if (!in_array($account->category, ['asset', 'liability', 'equity'])) {
+                continue;
+            }
+
+            $category = $account->category;
+            $code     = $account->code;
+            $name     = $account->name;
+
+            // hitung saldo sesuai normal_balance
+            $balance = ($account->normal_balance === 'debit')
+                ? $detail->debit - $detail->credit
+                : $detail->credit - $detail->debit;
+
+            if (!isset($balances[$category][$code])) {
+                $balances[$category][$code] = [
+                    'code' => $code,
+                    'name' => $name,
+                    'balance' => 0,
+                ];
+            }
+
+            $balances[$category][$code]['balance'] += $balance;
+            $totals[$category] += $balance;
+        }
+
+        foreach ($balances as $category => $accounts) {
+            $balances[$category] = array_values($accounts);
+        }
+
+        return response()->json([
+            'balances' => $balances,
+            'totals' => $totals,
+        ]);
+    }
+
+    public function incomeStatement()
+    {
+        $accounts = Account::all();
+        return view('reports.incomeStatement', compact('accounts'));
+    }
+
+    public function incomeStatementData(Request $request)
+    {
+        $query = JournalDetail::with('journal', 'account');
+
+        // filter per bulan
+        if ($request->filled('month') && $request->month != "0") {
+            [$year, $month] = explode('-', $request->month);
+
+            $startOfMonth = \Carbon\Carbon::createFromDate($year, $month, 1)->startOfMonth();
+            $endOfMonth   = \Carbon\Carbon::createFromDate($year, $month, 1)->endOfMonth();
+
+            $query->whereHas('journal', function ($q) use ($startOfMonth, $endOfMonth) {
+                $q->whereBetween('date', [$startOfMonth, $endOfMonth]);
+            });
+        }
+
+        $journalDetails = $query->get();
+
+        $balances = [
+            'revenue' => [],
+            'cogs' => [],
+            'expense' => [],
+        ];
+
+        $totals = [
+            'revenue' => 0,
+            'cogs' => 0,
+            'expense' => 0,
+            'gross_profit' => 0,
+            'net_income' => 0,
+        ];
+
+        foreach ($journalDetails as $detail) {
+            $account = $detail->account;
+
+            if (!$account) continue;
+
+            // hanya kategori laporan laba rugi
+            if (!in_array($account->category, ['revenue', 'cogs', 'expense'])) {
+                continue;
+            }
+
+            $category = $account->category;
+            $code     = $account->code;
+            $name     = $account->name;
+
+            // hitung saldo sesuai normal_balance
+            $balance = ($account->normal_balance === 'debit')
+                ? $detail->debit - $detail->credit
+                : $detail->credit - $detail->debit;
+
+            if (!isset($balances[$category][$code])) {
+                $balances[$category][$code] = [
+                    'code' => $code,
+                    'name' => $name,
+                    'balance' => 0,
+                ];
+            }
+
+            $balances[$category][$code]['balance'] += $balance;
+            $totals[$category] += $balance;
+        }
+
+        // hitung gross profit & net income
+        $totals['gross_profit'] = $totals['revenue'] - $totals['cogs'];
+        $totals['net_income']   = $totals['gross_profit'] - $totals['expense'];
+
+        foreach ($balances as $category => $accounts) {
+            $balances[$category] = array_values($accounts);
+        }
+
+        return response()->json([
+            'balances' => $balances,
+            'totals' => $totals,
+        ]);
+    }
+
+
 }
