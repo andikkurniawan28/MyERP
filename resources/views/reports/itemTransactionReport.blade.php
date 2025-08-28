@@ -40,6 +40,15 @@
                     @endforeach
                 </select>
             </div>
+            {{-- <div class="col-md-2">
+                <label>Kategori</label>
+                <select class="form-control select2" name="item_id" data-placeholder="-- Semua --">
+                    <option value="0">-- Pilih Kategori --</option>
+                    @foreach ($categories as $category)
+                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                    @endforeach
+                </select>
+            </div> --}}
             <div class="col-md-2">
                 <label>Barang</label>
                 <select class="form-control select2" name="item_id" data-placeholder="-- Semua --" required>

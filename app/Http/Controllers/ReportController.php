@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Sales;
 use App\Models\Account;
 use App\Models\Contact;
+use App\Models\ItemCategory;
 use App\Models\Journal;
 use App\Models\Purchase;
 use App\Models\Warehouse;
@@ -130,8 +131,9 @@ class ReportController extends Controller
         $users = User::all();
         $warehouses = Warehouse::all();
         $items = Item::all();
+        $categories = ItemCategory::all();
 
-        return view('reports.itemTransactionReport', compact('users', 'warehouses', 'items'));
+        return view('reports.itemTransactionReport', compact('users', 'warehouses', 'items', 'categories'));
     }
 
     public function itemTransactionReportData(Request $request)
@@ -143,7 +145,7 @@ class ReportController extends Controller
         ]);
 
         // --- Hitung saldo awal ---
-        $saldoAwalQuery = ItemTransaction::with('details');
+        $saldoAwalQuery = ItemTransaction::with('details.item');
 
         // filter user
         if ($request->filled('user_id') && $request->user_id != "0") {
@@ -166,6 +168,16 @@ class ReportController extends Controller
                 $q->where('item_id', $request->item_id);
             });
         }
+
+        // 🔥 filter item_category
+        // if ($request->filled('item_category_id') && $request->item_category_id != "0") {
+        //     $query->whereHas('details.item', function ($q) use ($request) {
+        //         $q->where('item_category_id', $request->item_category_id);
+        //     });
+        //     $saldoAwalQuery->whereHas('details.item', function ($q) use ($request) {
+        //         $q->where('item_category_id', $request->item_category_id);
+        //     });
+        // }
 
         // filter tipe transaksi
         if ($request->filled('type') && $request->type != "0") {
