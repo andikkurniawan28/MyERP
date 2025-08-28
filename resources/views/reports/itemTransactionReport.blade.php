@@ -13,7 +13,7 @@
                 <input type="month" class="form-control" name="month"
                     value="{{ \Carbon\Carbon::now()->format('Y-m') }}">
             </div>
-            <div class="col-md-2">
+            {{-- <div class="col-md-2">
                 <label>Tipe</label>
                 <select class="form-control select2" name="type" data-placeholder="-- Semua --">
                     <option value="0">-- Semua --</option>
@@ -21,7 +21,7 @@
                     <option value="sales">Penjualan</option>
                     <option value="manual">Manual</option>
                 </select>
-            </div>
+            </div> --}}
             <div class="col-md-2">
                 <label>Gudang</label>
                 <select class="form-control select2" name="warehouse_id" data-placeholder="-- Semua --">
@@ -42,8 +42,8 @@
             </div>
             <div class="col-md-2">
                 <label>Barang</label>
-                <select class="form-control select2" name="item_id" data-placeholder="-- Semua --">
-                    <option value="0">-- Semua --</option>
+                <select class="form-control select2" name="item_id" data-placeholder="-- Semua --" required>
+                    <option value="">-- Pilih Barang --</option>
                     @foreach ($items as $item)
                         <option value="{{ $item->id }}">{{ $item->name }}</option>
                     @endforeach
@@ -94,6 +94,7 @@
         $(function() {
             $('#filterForm').on('submit', function(e) {
                 e.preventDefault();
+                let formData = $(this).serialize();
 
                 $.ajax({
                     url: "{{ route('report.itemTransactionReportData.data') }}",

@@ -82,7 +82,7 @@
                         'X-CSRF-TOKEN': '{{ csrf_token() }}'
                     },
                     success: function(res) {
-                        console.log(res); // Debug
+                        // console.log(res); // Debug
 
                         // Judul akun dan saldo awal
                         let saldoAwal = res.saldo_awal ?? 0;
@@ -94,9 +94,9 @@
 
                         // Baris saldo awal
                         rows += `<tr class="table-light fw-bold">
-                    <td colspan="5" class="text-end">Saldo Awal</td>
-                    <td class="text-end">${new Intl.NumberFormat('id-ID').format(saldoAwal)}</td>
-                </tr>`;
+                            <td colspan="5" class="text-end">Saldo Awal</td>
+                            <td class="text-end">${new Intl.NumberFormat('id-ID').format(saldoAwal)}</td>
+                        </tr>`;
 
                         // Baris transaksi
                         const transactions = res.data ?? [];
