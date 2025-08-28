@@ -93,7 +93,8 @@
                                         <td>{{ \Carbon\Carbon::parse($paymentDetail->salesPayment->date)->locale('id')->translatedFormat('l, d/m/Y') }}
                                         </td>
                                         <td>{{ $paymentDetail->salesPayment->code }}</td>
-                                        <td>{{ $paymentDetail->salesPayment->account->code }} - {{ $paymentDetail->salesPayment->account->name }}</td>
+                                        <td>{{ $paymentDetail->salesPayment->account->code }} -
+                                            {{ $paymentDetail->salesPayment->account->name }}</td>
                                         <td class="text-end">{{ number_format($paymentDetail->total, 0, ',', '.') }}</td>
                                     </tr>
                                 @endforeach
@@ -126,9 +127,9 @@
                 @endif
 
             </div>
-            <a href="{{ route('print.sales', $sale->id) }}" target="_blank" class="btn btn-primary mt-3">
-                <i class="bi bi-printer"></i> Print
-            </a>
-            <a href="{{ route('sales.index') }}" class="btn btn-secondary mt-3">Kembali</a>
         </div>
+        <a href="{{ route('print.sales', $sale->id) }}" target="_blank" class="btn btn-primary mt-3">
+            <i class="bi bi-printer"></i> Print
+        </a>
+        <a href="{{ route('sales.index') }}" class="btn btn-secondary mt-3">Kembali</a>
     @endsection

@@ -17,7 +17,8 @@
                     {{ $purchasePayment->contact->prefix }} {{ $purchasePayment->contact->name }}
                     ({{ $purchasePayment->contact->organization_name }})
                 </p>
-                <p><strong>Dibayarkan melalui:</strong> {{ $purchasePayment->account->code }} - {{ $purchasePayment->account->name }}</p>
+                <p><strong>Dibayarkan melalui:</strong> {{ $purchasePayment->account->code }} -
+                    {{ $purchasePayment->account->name }}</p>
                 <br>
 
                 <div class="table-responsive">
@@ -48,10 +49,10 @@
                 </div>
 
             </div>
-            <a href="{{ route('print.purchasePayment', $purchasePayment->id) }}" target="_blank" class="btn btn-primary mt-3">
-                <i class="bi bi-printer"></i> Print
-            </a>
-            <a href="{{ route('purchasePayments.index') }}" class="btn btn-secondary mt-3">Kembali</a>
         </div>
+        <a href="{{ route('print.purchasePayment', $purchasePayment->id) }}" target="_blank" class="btn btn-primary mt-3">
+            <i class="bi bi-printer"></i> Print
+        </a>
+        <a href="{{ route('purchasePayments.index') }}" class="btn btn-secondary mt-3">Kembali</a>
     </div>
 @endsection

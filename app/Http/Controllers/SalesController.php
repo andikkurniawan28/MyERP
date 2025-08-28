@@ -237,8 +237,8 @@ class SalesController extends Controller
             ]);
 
             $details = [
-                ['journal_id' => $journal->id, 'account_id' => $request->account_id, 'credit' => $request->payment_amount, 'debit' => 0],
-                ['journal_id' => $journal->id, 'account_id' => $setting->sales_grand_total_account_id, 'credit' => 0, 'debit' => $request->payment_amount],
+                ['journal_id' => $journal->id, 'account_id' => $request->account_id, 'debit' => $request->payment_amount, 'credit' => 0],
+                ['journal_id' => $journal->id, 'account_id' => $setting->sales_grand_total_account_id, 'debit' => 0, 'credit' => $request->payment_amount],
             ];
 
             // filter hanya yang ada debit/kredit > 0
