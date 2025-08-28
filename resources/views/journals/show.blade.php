@@ -48,7 +48,9 @@
                 </div>
             </div>
         </div>
-
+        <a href="{{ route('print.journal', $journal->id) }}" target="_blank" class="btn btn-primary mt-3">
+            <i class="bi bi-printer"></i> Print
+        </a>
         <a href="{{ route('journals.index') }}" class="btn btn-secondary mt-3">Kembali</a>
     </div>
 @endsection

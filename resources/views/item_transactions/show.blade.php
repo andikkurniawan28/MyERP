@@ -50,7 +50,9 @@
             </div>
         </div>
     </div>
-
+    <a href="{{ route('print.itemTransaction', $itemTransaction->id) }}" target="_blank" class="btn btn-primary mt-3">
+        <i class="bi bi-printer"></i> Print
+    </a>
     <a href="{{ route('item_transactions.index') }}" class="btn btn-secondary mt-3">Kembali</a>
 </div>
 @endsection

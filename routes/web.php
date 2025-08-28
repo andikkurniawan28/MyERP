@@ -19,6 +19,7 @@ use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\ItemCategoryController;
 use App\Http\Controllers\SalesPaymentController;
 use App\Http\Controllers\ItemTransactionController;
+use App\Http\Controllers\PrintController;
 use App\Http\Controllers\PurchasePaymentController;
 
 /*
@@ -75,6 +76,14 @@ Route::get('report/purchaseReport', [ReportController::class, 'purchaseReport'])
 Route::get('report/salesReport', [ReportController::class, 'salesReport'])->name('report.salesReport.index')->middleware(['auth']);
 Route::get('report/itemTransactionReport', [ReportController::class, 'itemTransactionReport'])->name('report.itemTransactionReport.index')->middleware(['auth']);
 Route::get('report/generalLedger', [ReportController::class, 'generalLedger'])->name('report.generalLedger.index')->middleware(['auth']);
+
+// Print
+Route::get('print/journal/{id}', [PrintController::class, 'journal'])->name('print.journal')->middleware(['auth']);
+Route::get('print/itemTransaction/{id}', [PrintController::class, 'itemTransaction'])->name('print.itemTransaction')->middleware(['auth']);
+Route::get('print/purchase/{id}', [PrintController::class, 'purchase'])->name('print.purchase')->middleware(['auth']);
+Route::get('print/purchasePayment/{id}', [PrintController::class, 'purchasePayment'])->name('print.purchasePayment')->middleware(['auth']);
+Route::get('print/sales/{id}', [PrintController::class, 'sales'])->name('print.sales')->middleware(['auth']);
+Route::get('print/salesPayment/{id}', [PrintController::class, 'salesPayment'])->name('print.salesPayment')->middleware(['auth']);
 
 // Test
 Route::get('test/{id}', TestController::class)->name('test');

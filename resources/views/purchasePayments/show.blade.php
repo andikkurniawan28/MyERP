@@ -48,7 +48,9 @@
                 </div>
 
             </div>
-
+            <a href="{{ route('print.purchasePayment', $purchasePayment->id) }}" target="_blank" class="btn btn-primary mt-3">
+                <i class="bi bi-printer"></i> Print
+            </a>
             <a href="{{ route('purchasePayments.index') }}" class="btn btn-secondary mt-3">Kembali</a>
         </div>
     </div>

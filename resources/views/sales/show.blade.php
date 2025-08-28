@@ -126,7 +126,9 @@
                 @endif
 
             </div>
-
+            <a href="{{ route('print.sales', $sale->id) }}" target="_blank" class="btn btn-primary mt-3">
+                <i class="bi bi-printer"></i> Print
+            </a>
             <a href="{{ route('sales.index') }}" class="btn btn-secondary mt-3">Kembali</a>
         </div>
     @endsection
