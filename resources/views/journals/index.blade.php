@@ -26,7 +26,7 @@
                             <th>Keterangan</th>
                             {{-- <th>Debit</th>
                             <th>Credit</th> --}}
-                            <th>User</th>
+                            <th>Admin</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>

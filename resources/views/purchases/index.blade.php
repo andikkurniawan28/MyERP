@@ -25,7 +25,7 @@
                             <th>Supplier</th>
                             <th>Total</th>
                             <th>Status</th>
-                            <th>User</th>
+                            <th>Admin</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>

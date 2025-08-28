@@ -25,7 +25,7 @@
                             <th>Tanggal</th>
                             <th>Keterangan</th>
                             <th>Gudang</th>
-                            <th>User</th>
+                            <th>Admin</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
