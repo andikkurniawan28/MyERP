@@ -3,6 +3,7 @@
     <div class="sidebar-content js-simplebar">
 
         <a class="sidebar-brand" href="{{ route('dashboard.index') }}">
+            <img src="/adminkit-main/static/img/icons/logo.png" />
             <span class="align-middle">MyERP</span>
         </a>
 
