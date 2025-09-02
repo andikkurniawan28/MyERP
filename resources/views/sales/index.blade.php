@@ -6,7 +6,7 @@
 <div class="container-fluid py-0 px-0">
     <h1 class="h3 mb-3"><strong>Daftar Penjualan</strong></h1>
 
-    @if(Auth()->user()->role->akses_tambah_pembelian ?? true)
+    @if(Auth()->user()->role->akses_tambah_penjualan ?? true)
     <div class="d-flex justify-content-between mb-3">
         <a href="{{ route('sales.create') }}" class="btn btn-primary">
             <i class="bi bi-plus-circle"></i> Tambah

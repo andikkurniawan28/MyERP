@@ -21,6 +21,7 @@ use App\Http\Controllers\SalesPaymentController;
 use App\Http\Controllers\ItemTransactionController;
 use App\Http\Controllers\PrintController;
 use App\Http\Controllers\PurchasePaymentController;
+use App\Http\Controllers\ServiceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -55,6 +56,7 @@ Route::resource('warehouses', WarehouseController::class)->middleware(['auth']);
 Route::resource('units', UnitController::class)->middleware(['auth']);
 Route::resource('item_categories', ItemCategoryController::class)->middleware(['auth']);
 Route::resource('items', ItemController::class)->middleware(['auth']);
+Route::resource('services', ServiceController::class)->middleware(['auth']);
 
 // Setting
 Route::resource('settings', SettingController::class)->middleware(['auth']);

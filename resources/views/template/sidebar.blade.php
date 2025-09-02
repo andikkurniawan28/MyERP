@@ -163,6 +163,15 @@
                 </li>
             @endif
 
+            @if (Auth()->user()->role->akses_daftar_jasa)
+                <li class="sidebar-item @yield('services-active')">
+                    <a class="sidebar-link" href="{{ route('services.index') }}">
+                        <i class="bi bi-life-preserver align-middle"></i>
+                        <span class="align-middle">Jasa</span>
+                    </a>
+                </li>
+            @endif
+
             @if (Auth()->user()->role->akses_daftar_akun)
                 <li class="sidebar-item @yield('accounts-active')">
                     <a class="sidebar-link" href="{{ route('accounts.index') }}">
