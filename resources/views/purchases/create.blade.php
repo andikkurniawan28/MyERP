@@ -63,7 +63,7 @@
                     </thead>
                     <tbody id="purchaseDetails">
                         <tr>
-                            <td>
+                            <td style="width: 35%;">
                                 <select name="item_id[]" class="form-select select2 item-select" required>
                                     <option value="">-- Pilih Barang --</option>
                                     @foreach ($items as $item)
