@@ -88,15 +88,15 @@ class ItemController extends Controller
             'name'                   => 'required|string|max:255',
             'description'            => 'nullable|string',
             'main_unit_id'           => 'required|exists:units,id',
-            // 'secondary_unit_id'      => 'required|exists:units,id',
-            // 'conversion_rate'        => 'required|numeric|min:0',
-            // 'purchase_price_secondary'=> 'required|numeric|min:0',
-            // 'selling_price_secondary' => 'nullable|numeric|min:0',
             'purchase_price_main'    => 'required|numeric|min:0',
             'selling_price_main'     => 'nullable|numeric|min:0',
         ]);
 
-        Item::create($request->all());
+        // Handle is_countable (default 0 jika tidak dicentang)
+        $data = $request->all();
+        $data['is_countable'] = $request->has('is_countable') ? 1 : 0;
+
+        Item::create($data);
 
         return redirect()->route('items.index')->with('success', 'Barang berhasil ditambahkan.');
     }
@@ -125,15 +125,15 @@ class ItemController extends Controller
             'name'                   => 'required|string|max:255',
             'description'            => 'nullable|string',
             'main_unit_id'           => 'required|exists:units,id',
-            // 'secondary_unit_id'      => 'required|exists:units,id',
-            // 'conversion_rate'        => 'required|numeric|min:0',
-            // 'purchase_price_secondary'=> 'required|numeric|min:0',
-            // 'selling_price_secondary' => 'nullable|numeric|min:0',
             'purchase_price_main'    => 'required|numeric|min:0',
             'selling_price_main'     => 'nullable|numeric|min:0',
         ]);
 
-        $item->update($request->all());
+        // Handle is_countable
+        $data = $request->all();
+        $data['is_countable'] = $request->has('is_countable') ? 1 : 0;
+
+        $item->update($data);
 
         return redirect()->route('items.index')->with('success', 'Barang berhasil diperbarui.');
     }

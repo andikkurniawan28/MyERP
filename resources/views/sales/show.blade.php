@@ -12,6 +12,7 @@
                 <p><strong>Kode:</strong> {{ $sale->code }}</p>
                 <p><strong>Tanggal:</strong>
                     {{ \Carbon\Carbon::parse($sale->date)->locale('id')->translatedFormat('l, d/m/Y') }}</p>
+                <p><strong>Cabang:</strong> {{ $purchase->branch->name }}</p>
                 <p><strong>Customer:</strong> {{ $sale->contact->prefix }} {{ $sale->contact->name }}
                     ({{ $sale->contact->organization_name }})</p>
                 <br>

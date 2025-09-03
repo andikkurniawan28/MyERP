@@ -7,6 +7,7 @@ use App\Models\Item;
 use App\Models\Role;
 use App\Models\Unit;
 use App\Models\User;
+use App\Models\Branch;
 use App\Models\Account;
 use App\Models\Contact;
 use App\Models\Setting;
@@ -21,6 +22,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        Branch::insert([
+            ['name' => 'Pusat'],
+        ]);
+
         Role::insert([
             ['name' => 'Direktur'],
             ['name' => 'Manajer'],
@@ -80,6 +85,7 @@ class DatabaseSeeder extends Seeder
             ['name' => 'Bahan Kemasan'],
             ['name' => 'Sparepart & Peralatan'],
             ['name' => 'Barang Dagang'],
+            ['name' => 'Produk Jasa'],
         ]);
 
         Item::insert([

@@ -147,6 +147,13 @@
                         @enderror
                     </div>
 
+                    {{-- Apakah bisa dihitung (is_countable) --}}
+                    <div class="form-check mb-3">
+                        <input type="checkbox" class="form-check-input" id="is_countable" name="is_countable"
+                            value="1" {{ old('is_countable', $item->is_countable ?? 1) ? 'checked' : '' }}>
+                        <label class="form-check-label" for="is_countable">Apa barang ini dapat dihitung ?</label>
+                    </div>
+
                     <div class="d-flex justify-content-between">
                         <a href="{{ route('items.index') }}" class="btn btn-secondary">Kembali</a>
                         <button type="submit" class="btn btn-primary">Simpan</button>

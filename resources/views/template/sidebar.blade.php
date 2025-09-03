@@ -125,18 +125,26 @@
 
             @if (Auth::user()->role->akses_neraca)
                 <li class="sidebar-item @yield('balanceSheet-active')">
-                    <a class="sidebar-link" href="{{ route('report.balanceSheet.index') }}">
-                        <i class="bi bi-diagram-3 align-middle"></i>
-                        <span class="align-middle">Neraca</span>
+                    <a class="sidebar-link d-flex justify-content-between align-items-center"
+                        href="{{ route('report.balanceSheet.index') }}">
+                        <span>
+                            <i class="bi bi-diagram-3 align-middle"></i>
+                            <span class="align-middle">Neraca</span>
+                        </span>
+                        <span class="badge bg-warning text-dark ms-2">Premium</span>
                     </a>
                 </li>
             @endif
 
             @if (Auth::user()->role->akses_laporan_laba_rugi)
                 <li class="sidebar-item @yield('incomeStatement-active')">
-                    <a class="sidebar-link" href="{{ route('report.incomeStatement.index') }}">
-                        <i class="bi bi-graph-up align-middle"></i>
-                        <span class="align-middle">Laporan Laba Rugi</span>
+                    <a class="sidebar-link d-flex justify-content-between align-items-center"
+                        href="{{ route('report.incomeStatement.index') }}">
+                        <span>
+                            <i class="bi bi-graph-up align-middle"></i>
+                            <span class="align-middle">Laba Rugi</span>
+                        </span>
+                        <span class="badge bg-warning text-dark ms-2">Premium</span>
                     </a>
                 </li>
             @endif
@@ -159,15 +167,6 @@
                     <a class="sidebar-link" href="{{ route('items.index') }}">
                         <i class="bi bi-box align-middle"></i>
                         <span class="align-middle">Barang</span>
-                    </a>
-                </li>
-            @endif
-
-            @if (Auth()->user()->role->akses_daftar_jasa)
-                <li class="sidebar-item @yield('services-active')">
-                    <a class="sidebar-link" href="{{ route('services.index') }}">
-                        <i class="bi bi-life-preserver align-middle"></i>
-                        <span class="align-middle">Jasa</span>
                     </a>
                 </li>
             @endif
@@ -199,11 +198,28 @@
                 </li>
             @endif
 
+            @if (Auth()->user()->role->akses_daftar_cabang)
+                <li class="sidebar-item @yield('branches-active')">
+                    <a class="sidebar-link d-flex justify-content-between align-items-center"
+                        href="{{ route('branches.index') }}">
+                        <span>
+                            <i class="bi bi-building align-middle"></i>
+                            <span class="align-middle">Cabang</span>
+                        </span>
+                        <span class="badge bg-warning text-dark ms-2">Premium</span>
+                    </a>
+                </li>
+            @endif
+
             @if (Auth()->user()->role->akses_daftar_gudang)
                 <li class="sidebar-item @yield('warehouses-active')">
-                    <a class="sidebar-link" href="{{ route('warehouses.index') }}">
-                        <i class="bi bi-box-seam align-middle"></i>
-                        <span class="align-middle">Gudang</span>
+                    <a class="sidebar-link d-flex justify-content-between align-items-center"
+                        href="{{ route('warehouses.index') }}">
+                        <span>
+                            <i class="bi bi-box-seam align-middle"></i>
+                            <span class="align-middle">Gudang</span>
+                        </span>
+                        <span class="badge bg-warning text-dark ms-2">Premium</span>
                     </a>
                 </li>
             @endif

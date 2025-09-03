@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\Item;
 use App\Models\User;
 use App\Models\Sales;
+use App\Models\Branch;
 use App\Models\Account;
 use App\Models\Contact;
 use App\Models\Journal;
@@ -30,12 +31,13 @@ class ReportController extends Controller
         $users = User::all();
         $suppliers = Contact::where('type', 'supplier')->get();
         $warehouses = Warehouse::all();
-        return view('reports.purchaseReport', compact('users', 'suppliers', 'warehouses'));
+        $branches = Branch::all();
+        return view('reports.purchaseReport', compact('users', 'suppliers', 'warehouses', 'branches'));
     }
 
     public function purchaseReportData(Request $request)
     {
-        $query = Purchase::with(['contact', 'warehouse', 'user']);
+        $query = Purchase::with(['contact', 'warehouse', 'branch']);
 
         // filter bulan
         if ($request->filled('month') && $request->month != "0") {
@@ -54,9 +56,9 @@ class ReportController extends Controller
             $query->where('contact_id', $request->contact_id);
         }
 
-        // filter user
-        if ($request->filled('user_id') && $request->user_id != "0") {
-            $query->where('user_id', $request->user_id);
+        // filter branch
+        if ($request->filled('branch_id') && $request->branch_id != "0") {
+            $query->where('branch_id', $request->branch_id);
         }
 
         // filter warehouse
@@ -88,7 +90,8 @@ class ReportController extends Controller
         $users = User::all();
         $customers = Contact::where('type', '!=', 'supplier')->get();
         $warehouses = Warehouse::all();
-        return view('reports.salesReport', compact('users', 'customers', 'warehouses'));
+        $branches = Branch::all();
+        return view('reports.salesReport', compact('users', 'customers', 'warehouses', 'branches'));
     }
 
     public function salesReportData(Request $request)
@@ -112,9 +115,9 @@ class ReportController extends Controller
             $query->where('contact_id', $request->contact_id);
         }
 
-        // filter user
-        if ($request->filled('user_id') && $request->user_id != "0") {
-            $query->where('user_id', $request->user_id);
+        // filter branch
+        if ($request->filled('branch_id') && $request->branch_id != "0") {
+            $query->where('branch_id', $request->branch_id);
         }
 
         // filter warehouse

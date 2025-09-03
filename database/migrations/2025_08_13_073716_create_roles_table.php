@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('roles', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
-            // Akses
+
+            // Fitur Gratis
             $table->boolean('akses_daftar_jabatan')->default(1);
             $table->boolean('akses_tambah_jabatan')->default(1);
             $table->boolean('akses_edit_jabatan')->default(1);
@@ -29,12 +30,7 @@ return new class extends Migration
             $table->boolean('akses_hapus_akun')->default(1);
             $table->boolean('akses_daftar_jurnal')->default(1);
             $table->boolean('akses_tambah_jurnal')->default(1);
-            // $table->boolean('akses_edit_jurnal')->default(1);
             $table->boolean('akses_hapus_jurnal')->default(1);
-            $table->boolean('akses_daftar_gudang')->default(1);
-            $table->boolean('akses_tambah_gudang')->default(1);
-            $table->boolean('akses_edit_gudang')->default(1);
-            $table->boolean('akses_hapus_gudang')->default(1);
             $table->boolean('akses_daftar_satuan')->default(1);
             $table->boolean('akses_tambah_satuan')->default(1);
             $table->boolean('akses_edit_satuan')->default(1);
@@ -60,10 +56,6 @@ return new class extends Migration
             $table->boolean('akses_tambah_kontak')->default(1);
             $table->boolean('akses_edit_kontak')->default(1);
             $table->boolean('akses_hapus_kontak')->default(1);
-            // $table->boolean('akses_daftar_pesanan')->default(1);
-            // $table->boolean('akses_tambah_pesanan')->default(1);
-            // $table->boolean('akses_edit_pesanan')->default(1);
-            // $table->boolean('akses_hapus_pesanan')->default(1);
             $table->boolean('akses_daftar_pembelian')->default(1);
             $table->boolean('akses_tambah_pembelian')->default(1);
             $table->boolean('akses_hapus_pembelian')->default(1);
@@ -77,14 +69,24 @@ return new class extends Migration
             $table->boolean('akses_tambah_pelunasan_piutang')->default(1);
             $table->boolean('akses_hapus_pelunasan_piutang')->default(1);
             $table->boolean('akses_laporan_pembelian')->default(1);
-            // $table->boolean('akses_laporan_pelunasan_hutang')->default(1);
             $table->boolean('akses_laporan_penjualan')->default(1);
-            // $table->boolean('akses_laporan_pelunasan_piutang')->default(1);
             $table->boolean('akses_laporan_mutasi_barang')->default(1);
             $table->boolean('akses_buku_besar')->default(1);
+
+            // Fitur Premium
+            $table->boolean('akses_daftar_cabang')->default(1);
+            $table->boolean('akses_tambah_cabang')->default(1);
+            $table->boolean('akses_edit_cabang')->default(1);
+            $table->boolean('akses_hapus_cabang')->default(1);
+            $table->boolean('akses_daftar_gudang')->default(1);
+            $table->boolean('akses_tambah_gudang')->default(1);
+            $table->boolean('akses_edit_gudang')->default(1);
+            $table->boolean('akses_hapus_gudang')->default(1);
             $table->boolean('akses_neraca')->default(1);
             $table->boolean('akses_laporan_laba_rugi')->default(1);
             $table->boolean('akses_tutupan_laporan_laba_rugi')->default(1);
+
+            // Timestamp
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });

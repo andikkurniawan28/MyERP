@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('code')->unique();
             $table->date('date')->index();
+            $table->foreignId('branch_id')->constrained();
             $table->foreignId('warehouse_id')->constrained();
             $table->foreignId('contact_id')->constrained();
             $table->decimal('subtotal', 15, 2)->default(0);

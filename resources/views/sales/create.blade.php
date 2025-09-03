@@ -9,15 +9,24 @@
         <form action="{{ route('sales.store') }}" method="POST">
             @csrf
 
-            <div class="row mb-3">
-                <div class="col-md-3">
+            <div class="row mb-2">
+                <div class="col-md-2">
                     <label>Kode</label>
                     <input type="text" name="code" class="form-control" value="{{ old('code', $code) }}" readonly>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <label>Tanggal</label>
                     <input type="date" name="date" class="form-control" value="{{ old('date', date('Y-m-d')) }}"
                         required>
+                </div>
+                <div class="col-md-2">
+                    <label>Cabang</label>
+                    <select name="branch_id" class="form-select select2" required>
+                        <option value="">-- Pilih Cabang --</option>
+                        @foreach ($branches as $branch)
+                            <option value="{{ $branch->id }}">{{ $branch->name }}</option>
+                        @endforeach
+                    </select>
                 </div>
                 <div class="col-md-3">
                     <label>Gudang</label>

@@ -11,15 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('services', function (Blueprint $table) {
+        Schema::create('branches', function (Blueprint $table) {
             $table->id();
-            $table->string('barcode')->nullable()->unique();
-            $table->string('code')->unique();
-            $table->string('name');
-            $table->text('description');
-            $table->foreignId('main_unit_id')->constrained('units');
-            $table->decimal('purchase_price_main', 15, 2);
-            $table->decimal('selling_price_main', 15, 2)->nullable();
+            $table->string('name')->unique();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });
@@ -30,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('services');
+        Schema::dropIfExists('branches');
     }
 };

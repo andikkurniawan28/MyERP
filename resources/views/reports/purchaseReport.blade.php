@@ -31,12 +31,13 @@
                     @endforeach
                 </select>
             </div>
+
             <div class="col-md-2">
-                <label>Admin</label>
-                <select class="form-control select2" name="user_id" data-placeholder="-- Semua --">
+                <label>Cabang</label>
+                <select class="form-control select2" name="branch_id" data-placeholder="-- Semua --">
                     <option value="0">-- Semua --</option>
-                    @foreach ($users as $user)
-                        <option value="{{ $user->id }}">{{ $user->name }}</option>
+                    @foreach ($branches as $branch)
+                        <option value="{{ $branch->id }}">{{ $branch->name }}</option>
                     @endforeach
                 </select>
             </div>

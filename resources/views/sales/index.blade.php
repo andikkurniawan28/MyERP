@@ -22,10 +22,10 @@
                         <tr>
                             <th>Kode</th>
                             <th>Tanggal</th>
+                            <th>Cabang</th>
                             <th>Customer</th>
                             <th>Total</th>
                             <th>Status</th>
-                            <th>Admin</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -47,10 +47,10 @@ $(function() {
         columns: [
             { data: 'code', name: 'code' },
             { data: 'date', name: 'date' },
+            { data: 'branch', name: 'branch.name' },
             { data: 'contact', name: 'contact.name' },
             { data: 'grand_total', name: 'grand_total'},
             { data: 'status', name: 'status' },
-            { data: 'user', name: 'user.name' },
             { data: 'action', name: 'action', orderable: false, searchable: false }
         ]
     });

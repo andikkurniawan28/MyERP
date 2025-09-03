@@ -25,6 +25,7 @@ return new class extends Migration
             // $table->decimal('selling_price_secondary', 15, 2)->nullable();
             $table->decimal('purchase_price_main', 15, 2);
             $table->decimal('selling_price_main', 15, 2)->nullable();
+            $table->boolean('is_countable')->default(1);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });

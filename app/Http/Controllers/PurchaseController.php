@@ -4,10 +4,9 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Item;
+use App\Models\Branch;
 use App\Models\Account;
 use App\Models\Contact;
-use App\Models\ItemTransaction;
-use App\Models\ItemTransactionDetail;
 use App\Models\Journal;
 use App\Models\Setting;
 use App\Models\Purchase;
@@ -15,10 +14,12 @@ use App\Models\Warehouse;
 use Illuminate\Http\Request;
 use App\Models\JournalDetail;
 use App\Models\PurchaseDetail;
+use App\Models\ItemTransaction;
 use App\Models\PurchasePayment;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use App\Models\ItemTransactionDetail;
 use App\Models\PurchasePaymentDetail;
 
 class PurchaseController extends Controller
@@ -30,11 +31,11 @@ class PurchaseController extends Controller
         }
 
         if ($request->ajax()) {
-            $data = Purchase::query()->with('contact', 'user');
+            $data = Purchase::query()->with('contact', 'branch');
 
             return DataTables::of($data)
                 ->addIndexColumn()
-                ->addColumn('user', fn($row) => $row->user ? $row->user->name : '-')
+                ->addColumn('branch', fn($row) => $row->branch ? $row->branch->name : '-')
                 ->addColumn('contact', fn($row) => $row->contact ? $row->contact->name : '-')
                 ->editColumn('grand_total', function ($row) {
                     return number_format($row->grand_total, 0, ',', '.'); // Format lokal Indonesia
@@ -82,11 +83,12 @@ class PurchaseController extends Controller
         }
 
         $code = Purchase::generateCode();
+        $branches = Branch::all();
         $warehouses = Warehouse::all();
         $contacts = Contact::where('type', 'supplier')->get();
         $items = Item::all();
         $payment_gateways = Account::where('is_payment_gateway', 1)->get();
-        return view('purchases.create', compact('contacts', 'items', 'warehouses', 'code', 'payment_gateways'));
+        return view('purchases.create', compact('contacts', 'items', 'branches', 'warehouses', 'code', 'payment_gateways'));
     }
 
     public function store(Request $request)
@@ -98,6 +100,7 @@ class PurchaseController extends Controller
         $request->validate([
             'code' => 'required|string|unique:purchases,code',
             'date' => 'required|date',
+            'branch_id' => 'required|exists:branches,id',
             'warehouse_id' => 'required|exists:warehouses,id',
             'contact_id' => 'required|exists:contacts,id',
             'item_id.*' => 'required|exists:items,id',
@@ -122,7 +125,7 @@ class PurchaseController extends Controller
         if ($response = $this->checkIzin('akses_daftar_pembelian')) {
             return $response;
         }
-        $purchase->load(['contact', 'details.item', 'payments.purchasePayment']);
+        $purchase->load(['contact', 'details.item', 'payments.purchasePayment', 'branch']);
         return view('purchases.show', compact('purchase'));
     }
 
@@ -152,6 +155,7 @@ class PurchaseController extends Controller
         $purchase = Purchase::create([
             'code' => $request->code,
             'date' => $request->date,
+            'branch_id' => $request->branch_id,
             'warehouse_id' => $request->warehouse_id,
             'contact_id' => $request->contact_id,
             'subtotal' => $subtotal,
@@ -179,12 +183,17 @@ class PurchaseController extends Controller
                 'discount' => $request->discount[$i] ?? 0,
                 'total' => $request->total[$i] ?? 0,
             ]);
-            ItemTransactionDetail::create([
-                'item_transaction_id' => $itemTransaction->id,
-                // 'warehouse_id' => $purchase->warehouse_id,
-                'item_id' => $itemId,
-                'in' => $request->qty[$i],
-            ]);
+
+            // hanya buat transaksi stok kalau barang countable
+            $item = Item::findOrFail($itemId);
+            if ($item && $item->is_countable) {
+                ItemTransactionDetail::create([
+                    'item_transaction_id' => $itemTransaction->id,
+                    'item_id' => $itemId,
+                    'in' => $request->qty[$i],
+                ]);
+            }
+
             Item::whereId($itemId)->update(['purchase_price_main' => $request->price[$i]]);
         }
     }

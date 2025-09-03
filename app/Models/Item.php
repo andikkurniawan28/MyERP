@@ -18,9 +18,13 @@ class Item extends Model
 
     public function saldo()
     {
-        $in = $this->itemTransactionDetails()->sum('in');
-        $out = $this->itemTransactionDetails()->sum('out');
-        return $in - $out;
+        if ($this->is_countable) {
+            $in = $this->itemTransactionDetails()->sum('in');
+            $out = $this->itemTransactionDetails()->sum('out');
+            return $in - $out;
+        }
+
+        return 0;
     }
 
     // Relasi ke kategori barang
